@@ -30,3 +30,7 @@ Available Commands:
 - vSphere
 - Azure
 - Google
+
+## ToDos:
+
+- Switch from straight CLI Usage of KinD to API
