@@ -1,7 +1,6 @@
-.PHONY: build-darwin-amd64
-build-darwin-amd64:
+.PHONY: build
+build:
 	go build -o argohub main.go
-
 
 #build-darwin-arm:
 #    GOOS=darwin

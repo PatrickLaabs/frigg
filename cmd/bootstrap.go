@@ -5,14 +5,14 @@ package cmd
 
 import (
 	"fmt"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/k3d"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/kind"
 	"github.com/spf13/cobra"
 )
 
 // bootstrapCmd represents the create command
 var bootstrapCmd = &cobra.Command{
 	Use:   "bootstrap",
-	Short: "A brief description of your command",
+	Short: "Commands to manage KinD LifeCycle",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 
@@ -20,15 +20,17 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("create called")
+		fmt.Println("bootrap called")
+		fmt.Println("To learn more about the bootstrap of kind for argohub, run:")
+		fmt.Println("  argohub bootstrap --help")
 	},
 }
 
 func init() {
 	bootstrapCmd.AddCommand(
-		k3d.CreateCmd,
-		k3d.DeleteCmd,
-		k3d.Test,
+		kind.CreateCmd,
+		kind.DeleteCmd,
+		kind.KindApiUsageCmd,
 	)
 
 	// Here you will define your flags and configuration settings.
