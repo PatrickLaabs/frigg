@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/argohub/app"
 )
 
 func main() {
-	cmd.Execute()
+	app.Main()
 }
