@@ -29,9 +29,9 @@ import (
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/fs"
 
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/loadbalancer"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/providers/common"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/apis/config"
 )
 
 // planCreation creates a slice of funcs that will create the containers

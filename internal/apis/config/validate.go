@@ -22,8 +22,8 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/sets"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/sets"
 )
 
 // similar to valid docker container names, but since we will prefix

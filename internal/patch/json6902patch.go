@@ -23,7 +23,7 @@ import (
 
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/apis/config"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
 )
 
 type json6902Patch struct {

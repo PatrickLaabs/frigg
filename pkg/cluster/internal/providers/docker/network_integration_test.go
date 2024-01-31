@@ -27,7 +27,7 @@ import (
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/integration"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/integration"
 )
 
 func TestIntegrationEnsureNetworkConcurrent(t *testing.T) {

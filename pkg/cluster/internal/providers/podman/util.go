@@ -24,7 +24,7 @@ import (
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/version"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/version"
 )
 
 // IsAvailable checks if podman is available in the system

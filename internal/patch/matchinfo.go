@@ -21,7 +21,7 @@ import (
 
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/apis/config"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
 )
 
 // we match resources and patches on their v1 TypeMeta

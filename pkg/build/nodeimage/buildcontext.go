@@ -28,10 +28,10 @@ import (
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
 
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/sets"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/version"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/build/nodeimage/internal/container/docker"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/build/nodeimage/internal/kube"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/sets"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/version"
 )
 
 // buildContext is used to build the kind node image, and contains

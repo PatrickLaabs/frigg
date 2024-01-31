@@ -20,7 +20,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/apis/config"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
 )
 
 const (

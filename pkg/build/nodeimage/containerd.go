@@ -22,7 +22,7 @@ import (
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/patch"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/patch"
 )
 
 const containerdConfigPath = "/etc/containerd/config.toml"

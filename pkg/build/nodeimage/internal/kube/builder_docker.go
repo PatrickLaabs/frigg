@@ -25,7 +25,7 @@ import (
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/version"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/version"
 )
 
 // TODO(bentheelder): plumb through arch

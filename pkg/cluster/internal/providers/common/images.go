@@ -17,8 +17,8 @@ limitations under the License.
 package common
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/apis/config"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/sets"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/sets"
 )
 
 // RequiredNodeImages returns the set of _node_ images specified by the config

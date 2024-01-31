@@ -27,12 +27,12 @@ import (
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodes"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/patch"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/create/actions"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/kubeadm"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/providers/common"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodeutils"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/apis/config"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/patch"
 )
 
 // Action implements action for creating the node config files

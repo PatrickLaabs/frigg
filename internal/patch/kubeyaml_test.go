@@ -19,8 +19,8 @@ package patch
 import (
 	"testing"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/apis/config"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/assert"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/assert"
 )
 
 func TestKubeYAML(t *testing.T) {

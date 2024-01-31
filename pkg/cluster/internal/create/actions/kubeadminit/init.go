@@ -25,9 +25,9 @@ import (
 
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodeutils"
 
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/version"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/create/actions"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/apis/config"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/version"
 )
 
 // kubeadmInitAction implements action for executing the kubeadm init

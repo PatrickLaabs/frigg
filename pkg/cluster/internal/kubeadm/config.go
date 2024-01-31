@@ -26,8 +26,8 @@ import (
 
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/apis/config"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/version"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/version"
 )
 
 // ConfigData is supplied to the kubeadm config template, with values populated

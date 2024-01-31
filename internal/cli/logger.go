@@ -27,7 +27,7 @@ import (
 
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/env"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/env"
 )
 
 // Logger is the kind cli's log.Logger implementation

@@ -19,8 +19,8 @@ package providers
 import (
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodes"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/apis/config"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/cli"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/cli"
 )
 
 // Provider represents a provider of cluster / node infrastructure

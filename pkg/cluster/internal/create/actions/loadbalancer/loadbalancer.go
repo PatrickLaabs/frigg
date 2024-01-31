@@ -20,9 +20,9 @@ package loadbalancer
 import (
 	"fmt"
 
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/constants"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/apis/config"
 
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/create/actions"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/loadbalancer"

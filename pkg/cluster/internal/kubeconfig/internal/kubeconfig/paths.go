@@ -22,7 +22,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/sets"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/sets"
 )
 
 const kubeconfigEnv = "KUBECONFIG"

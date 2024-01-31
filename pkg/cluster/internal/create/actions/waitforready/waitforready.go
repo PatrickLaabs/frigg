@@ -22,12 +22,12 @@ import (
 	"strings"
 	"time"
 
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/version"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/create/actions"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodes"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodeutils"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/version"
 )
 
 // Action implements an action for waiting for the cluster to be ready

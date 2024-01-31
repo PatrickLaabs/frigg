@@ -21,7 +21,7 @@ import (
 	"path/filepath"
 	"sort"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cmd/kind/version"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/version"
 
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/constants"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodes"

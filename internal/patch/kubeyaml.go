@@ -21,7 +21,7 @@ import (
 
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/apis/config"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
 )
 
 // KubeYAML takes a Kubernetes object YAML document stream to patch,

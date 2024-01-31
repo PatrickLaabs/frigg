@@ -20,8 +20,8 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/apis/config"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/internal/sets"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/sets"
 )
 
 func TestRequiredNodeImages(t *testing.T) {
