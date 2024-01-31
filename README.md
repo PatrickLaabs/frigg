@@ -10,16 +10,18 @@
 ## Getting started
 
 - docker
-- k3d
+- kind
 
 ```
-go run main.go -h
+Usage:
+  argohub [command]
 
 Available Commands:
-  bootstrap   A brief description of your command
-  completion  Generate the autocompletion script for the specified shell
-  help        Help about any command
-  version     A brief description of your command
+  build       Build one of [node-image]
+  completion  Output shell completion code for the specified shell (bash, zsh or fish)
+  create      Creates one of [cluster]
+  delete      Deletes one of [cluster]
+
 ```
 
 ## Supported Providers
@@ -30,7 +32,3 @@ Available Commands:
 - vSphere
 - Azure
 - Google
-
-## ToDos:
-
-- Switch from straight CLI Usage of KinD to API
