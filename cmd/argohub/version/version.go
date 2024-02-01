@@ -70,7 +70,7 @@ var gitCommit = ""
 
 // NewCommand returns a new cobra.Command for version
 func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
-	cmd := &cobra.Command{
+	c := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "version",
 		Short: "Prints the kind CLI version",
@@ -86,7 +86,7 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			return nil
 		},
 	}
-	return cmd
+	return c
 }
 
 func truncate(s string, maxLen int) string {

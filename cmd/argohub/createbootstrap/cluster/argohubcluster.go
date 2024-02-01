@@ -18,13 +18,13 @@ limitations under the License.
 package cluster
 
 import (
-	"fmt"
 	"io"
 	"time"
 
 	"github.com/spf13/cobra"
 
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
+	capi "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/createbootstrap/clusterapi"
 	e "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/createbootstrap/echo"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
@@ -41,10 +41,6 @@ type flagpole struct {
 	Retain     bool
 	Wait       time.Duration
 	Kubeconfig string
-}
-
-func greeting() {
-	fmt.Println("Hello!")
 }
 
 // NewCommand returns a new cobra.Command for cluster creation
@@ -94,7 +90,7 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c.Flags().StringVar(
 		&flags.Kubeconfig,
 		"kubeconfig",
-		"",
+		"test",
 		"sets kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config",
 	)
 	return c
@@ -125,10 +121,15 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 		return errors.Wrap(err, "failed to create cluster")
 	}
 
-	greeting()
 	e.Echo()
+	wait(10 * time.Second)
+	capi.ClusterAPI()
 
 	return nil
+}
+
+func wait(duration time.Duration) {
+	time.Sleep(duration)
 }
 
 // configOption converts the raw --config flag value to a cluster creation
