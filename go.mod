@@ -6,7 +6,7 @@ require (
 	github.com/BurntSushi/toml v1.0.0
 	github.com/alessio/shellescape v1.4.1
 	github.com/evanphx/json-patch/v5 v5.6.0
-	github.com/google/safetext v0.0.0-20220905092116-b49f7bc46da2
+	github.com/google/safetext v0.0.0-20240104143208-7a7d9b3d812f
 	github.com/mattn/go-isatty v0.0.14
 	github.com/pelletier/go-toml v1.9.4
 	github.com/pkg/errors v0.9.1
@@ -17,8 +17,9 @@ require (
 )
 
 require (
+	github.com/google/uuid v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
-	github.com/kr/text v0.1.0 // indirect
-	golang.org/x/sys v0.0.0-20210630005230-0f9fa26af87c // indirect
+	github.com/pborman/uuid v1.2.1 // indirect
+	golang.org/x/sys v0.16.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
 )
