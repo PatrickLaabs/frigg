@@ -2,7 +2,7 @@
 
 ## Goals
 
-- Enable a user to easily provision the ArgoHub instance on k3d
+- Enable a user to easily provision the ArgoHub instance on kind
 - Bootstrap the GitOps repository, with the given credentials
 - CLI Tool
 - Built-in Server to bootstrap everything
