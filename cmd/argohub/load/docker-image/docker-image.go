@@ -25,7 +25,6 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodes"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodeutils"
@@ -48,9 +47,9 @@ type flagpole struct {
 }
 
 // NewCommand returns a new cobra.Command for loading an image into a cluster
-func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
+func NewCommand(logger log.Logger) *cobra.Command {
 	flags := &flagpole{}
-	cmd := &cobra.Command{
+	c := &cobra.Command{
 		Args: func(cmd *cobra.Command, args []string) error {
 			if len(args) < 1 {
 				return errors.New("a list of image names is required")
@@ -65,20 +64,20 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			return runE(logger, flags, args)
 		},
 	}
-	cmd.Flags().StringVarP(
+	c.Flags().StringVarP(
 		&flags.Name,
 		"name",
 		"n",
 		cluster.DefaultName,
 		"the cluster context name",
 	)
-	cmd.Flags().StringSliceVar(
+	c.Flags().StringSliceVar(
 		&flags.Nodes,
 		"nodes",
 		nil,
 		"comma separated list of nodes to load images into",
 	)
-	return cmd
+	return c
 }
 
 func runE(logger log.Logger, flags *flagpole, args []string) error {
@@ -110,13 +109,12 @@ func runE(logger log.Logger, flags *flagpole, args []string) error {
 	// map cluster nodes by their name
 	nodesByName := map[string]nodes.Node{}
 	for _, node := range nodeList {
-		// TODO(bentheelder): this depends on the fact that ListByCluster()
 		// will have name for nameOrId.
 		nodesByName[node.String()] = node
 	}
 
-	// pick only the user selected nodes and ensure they exist
-	// the default is all nodes unless flags.Nodes is set
+	// pick only the user selected nodes and ensure they exist the default is all
+	// nodes unless flags.Nodes are set
 	candidateNodes := nodeList
 	if len(flags.Nodes) > 0 {
 		candidateNodes = []nodes.Node{}
@@ -131,7 +129,7 @@ func runE(logger log.Logger, flags *flagpole, args []string) error {
 
 	// pick only the nodes that don't have the image
 	selectedNodes := map[string]nodes.Node{}
-	fns := []func() error{}
+	var fns []func() error
 	for i, imageName := range imageNames {
 		imageID := imageIDs[i]
 		processed := false
@@ -170,12 +168,17 @@ func runE(logger log.Logger, flags *flagpole, args []string) error {
 		return nil
 	}
 
-	// Setup the tar path where the images will be saved
+	// Set up the tar path where the images will be saved
 	dir, err := fs.TempDir("", "images-tar")
 	if err != nil {
 		return errors.Wrap(err, "failed to create tempdir")
 	}
-	defer os.RemoveAll(dir)
+	defer func(path string) {
+		err := os.RemoveAll(path)
+		if err != nil {
+
+		}
+	}(dir)
 	imagesTarPath := filepath.Join(dir, "images.tar")
 	// Save the images into a tar
 	err = save(imageNames, imagesTarPath)
@@ -201,7 +204,12 @@ func loadImage(imageTarName string, node nodes.Node) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to open image")
 	}
-	defer f.Close()
+	defer func(f *os.File) {
+		err := f.Close()
+		if err != nil {
+
+		}
+	}(f)
 	return nodeutils.LoadImageArchive(node, f)
 }
 
@@ -211,7 +219,7 @@ func save(images []string, dest string) error {
 	return exec.Command("docker", commandArgs...).Run()
 }
 
-// imageID return the Id of the container image
+// imageID return the ID of the container image
 func imageID(containerNameOrID string) (string, error) {
 	cmd := exec.Command("docker", "image", "inspect",
 		"-f", "{{ .Id }}",
@@ -229,7 +237,7 @@ func imageID(containerNameOrID string) (string, error) {
 
 // removeDuplicates removes duplicates from a string slice
 func removeDuplicates(slice []string) []string {
-	result := []string{}
+	var result []string
 	seenKeys := make(map[string]struct{})
 	for _, k := range slice {
 		if _, seen := seenKeys[k]; !seen {
@@ -257,7 +265,7 @@ func checkIfImageReTagRequired(node nodes.Node, imageID, imageName string, tagFe
 	return
 }
 
-// sanitizeImage is a helper to return human readable image name
+// sanitizeImage is a helper to return human-readable image name
 // This is a modified version of the same function found under providers/podman/images.go
 func sanitizeImage(image string) (sanitizedName string) {
 	const (

@@ -22,16 +22,14 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/build/nodeimage"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
 )
 
 // NewCommand returns a new cobra.Command for building
-func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
-	cmd := &cobra.Command{
-		Args: cobra.NoArgs,
-		// TODO(bentheelder): more detailed usage
+func NewCommand(logger log.Logger) *cobra.Command {
+	c := &cobra.Command{
+		Args:  cobra.NoArgs,
 		Use:   "build",
 		Short: "Build one of [node-image]",
 		Long:  "Build one of [node-image]",
@@ -40,10 +38,10 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			if err != nil {
 				return err
 			}
-			return errors.New("Subcommand is required")
+			return errors.New("subcommand is required")
 		},
 	}
 	// add subcommands
-	cmd.AddCommand(nodeimage.NewCommand(logger, streams))
-	return cmd
+	c.AddCommand(nodeimage.NewCommand(logger))
+	return c
 }

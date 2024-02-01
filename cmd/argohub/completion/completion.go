@@ -26,12 +26,11 @@ import (
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/completion/bash"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/completion/fish"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/completion/zsh"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
 )
 
 // NewCommand returns a new cobra.Command for cluster creation
-func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
-	cmd := &cobra.Command{
+func NewCommand(streams cmd.IOStreams) *cobra.Command {
+	c := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "completion",
 		Short: "Output shell completion code for the specified shell (bash, zsh or fish)",
@@ -41,13 +40,13 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			if err != nil {
 				return err
 			}
-			return errors.New("Subcommand is required")
+			return errors.New("subcommand is required")
 		},
 	}
-	cmd.AddCommand(zsh.NewCommand(logger, streams))
-	cmd.AddCommand(bash.NewCommand(logger, streams))
-	cmd.AddCommand(fish.NewCommand(logger, streams))
-	return cmd
+	c.AddCommand(zsh.NewCommand(streams))
+	c.AddCommand(bash.NewCommand(streams))
+	c.AddCommand(fish.NewCommand(streams))
+	return c
 }
 
 const longDescription = `

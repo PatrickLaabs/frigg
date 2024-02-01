@@ -20,7 +20,6 @@ package cluster
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
@@ -35,11 +34,10 @@ type flagpole struct {
 }
 
 // NewCommand returns a new cobra.Command for cluster deletion
-func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
+func NewCommand(logger log.Logger) *cobra.Command {
 	flags := &flagpole{}
-	cmd := &cobra.Command{
-		Args: cobra.NoArgs,
-		// TODO(bentheelder): more detailed usage
+	c := &cobra.Command{
+		Args:  cobra.NoArgs,
 		Use:   "cluster",
 		Short: "Deletes a cluster",
 		Long:  "Deletes a resource",
@@ -48,20 +46,20 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			return deleteCluster(logger, flags)
 		},
 	}
-	cmd.Flags().StringVarP(
+	c.Flags().StringVarP(
 		&flags.Name,
 		"name",
 		"n",
 		cluster.DefaultName,
 		"the cluster name",
 	)
-	cmd.Flags().StringVar(
+	c.Flags().StringVar(
 		&flags.Kubeconfig,
 		"kubeconfig",
 		"",
 		"sets kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config",
 	)
-	return cmd
+	return c
 }
 
 func deleteCluster(logger log.Logger, flags *flagpole) error {

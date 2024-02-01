@@ -19,7 +19,6 @@ package nodeimage
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/build/nodeimage"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
@@ -35,11 +34,10 @@ type flagpole struct {
 }
 
 // NewCommand returns a new cobra.Command for building the node image
-func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
+func NewCommand(logger log.Logger) *cobra.Command {
 	flags := &flagpole{}
-	cmd := &cobra.Command{
-		Args: cobra.MaximumNArgs(1),
-		// TODO(bentheelder): more detailed usage
+	c := &cobra.Command{
+		Args:  cobra.MaximumNArgs(1),
 		Use:   "node-image [kubernetes-source]",
 		Short: "Build the node image",
 		Long:  "Build the node image which contains Kubernetes build artifacts and other kind requirements",
@@ -56,37 +54,37 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			return runE(logger, flags, args)
 		},
 	}
-	cmd.Flags().StringVar(
+	c.Flags().StringVar(
 		&flags.BuildType,
 		"type",
 		"docker",
 		"build type, default is docker",
 	)
-	cmd.Flags().StringVar(
+	c.Flags().StringVar(
 		&flags.Image,
 		"image",
 		nodeimage.DefaultImage,
 		"name:tag of the resulting image to be built",
 	)
-	cmd.Flags().StringVar(
+	c.Flags().StringVar(
 		&flags.KubeRoot,
 		"kube-root",
 		"",
 		"DEPRECATED: please switch to just the argument. Path to the Kubernetes source directory (if empty, the path is autodetected)",
 	)
-	cmd.Flags().StringVar(
+	c.Flags().StringVar(
 		&flags.BaseImage,
 		"base-image",
 		nodeimage.DefaultBaseImage,
 		"name:tag of the base image to use for the build",
 	)
-	cmd.Flags().StringVar(
+	c.Flags().StringVar(
 		&flags.Arch,
 		"arch",
 		"",
 		"architecture to build for, defaults to the host architecture",
 	)
-	return cmd
+	return c
 }
 
 func runE(logger log.Logger, flags *flagpole, args []string) error {

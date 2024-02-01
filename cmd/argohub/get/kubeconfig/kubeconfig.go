@@ -38,7 +38,7 @@ type flagpole struct {
 // NewCommand returns a new cobra.Command for getting the kubeconfig
 func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	flags := &flagpole{}
-	cmd := &cobra.Command{
+	c := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "kubeconfig",
 		Short: "Prints cluster kubeconfig",
@@ -48,20 +48,20 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			return runE(logger, streams, flags)
 		},
 	}
-	cmd.Flags().StringVarP(
+	c.Flags().StringVarP(
 		&flags.Name,
 		"name",
 		"n",
 		cluster.DefaultName,
 		"the cluster context name",
 	)
-	cmd.Flags().BoolVar(
+	c.Flags().BoolVar(
 		&flags.Internal,
 		"internal",
 		false,
 		"use internal address instead of external",
 	)
-	return cmd
+	return c
 }
 
 func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {

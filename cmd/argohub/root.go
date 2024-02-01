@@ -18,7 +18,7 @@ limitations under the License.
 package argohub
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/printtest"
+	createbootstrap "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/createbootstrap"
 	"io"
 
 	"github.com/spf13/cobra"
@@ -44,7 +44,7 @@ type flagpole struct {
 // NewCommand returns a new cobra.Command implementing the root command for argohub
 func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	flags := &flagpole{}
-	cmd := &cobra.Command{
+	c := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "argohub",
 		Short: "argohub is a tool for managing local Kubernetes clusters",
@@ -56,22 +56,22 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 		SilenceErrors: true,
 		Version:       version.Version(),
 	}
-	cmd.SetOut(streams.Out)
-	cmd.SetErr(streams.ErrOut)
-	cmd.PersistentFlags().StringVar(
+	c.SetOut(streams.Out)
+	c.SetErr(streams.ErrOut)
+	c.PersistentFlags().StringVar(
 		&flags.LogLevel,
 		"loglevel",
 		"",
 		"DEPRECATED: see -v instead",
 	)
-	cmd.PersistentFlags().Int32VarP(
+	c.PersistentFlags().Int32VarP(
 		&flags.Verbosity,
 		"verbosity",
 		"v",
 		0,
 		"info log verbosity, higher value produces more output",
 	)
-	cmd.PersistentFlags().BoolVarP(
+	c.PersistentFlags().BoolVarP(
 		&flags.Quiet,
 		"quiet",
 		"q",
@@ -79,16 +79,16 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 		"silence all stderr output",
 	)
 	// add all top level subcommands
-	cmd.AddCommand(build.NewCommand(logger, streams))
-	cmd.AddCommand(completion.NewCommand(logger, streams))
-	cmd.AddCommand(create.NewCommand(logger, streams))
-	cmd.AddCommand(delete.NewCommand(logger, streams))
-	cmd.AddCommand(export.NewCommand(logger, streams))
-	cmd.AddCommand(get.NewCommand(logger, streams))
-	cmd.AddCommand(version.NewCommand(logger, streams))
-	cmd.AddCommand(load.NewCommand(logger, streams))
-	cmd.AddCommand(printtest.NewCommand(logger, streams))
-	return cmd
+	c.AddCommand(build.NewCommand(logger))
+	c.AddCommand(completion.NewCommand(streams))
+	c.AddCommand(create.NewCommand(logger, streams))
+	c.AddCommand(delete.NewCommand(logger))
+	c.AddCommand(export.NewCommand(logger, streams))
+	c.AddCommand(get.NewCommand(logger, streams))
+	c.AddCommand(version.NewCommand(logger, streams))
+	c.AddCommand(load.NewCommand(logger))
+	c.AddCommand(createbootstrap.NewCommand(logger, streams))
+	return c
 }
 
 func runE(logger log.Logger, flags *flagpole, command *cobra.Command) error {

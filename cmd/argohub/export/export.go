@@ -30,9 +30,8 @@ import (
 
 // NewCommand returns a new cobra.Command for export
 func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
-	cmd := &cobra.Command{
-		Args: cobra.NoArgs,
-		// TODO(bentheelder): more detailed usage
+	c := &cobra.Command{
+		Args:  cobra.NoArgs,
 		Use:   "export",
 		Short: "Exports one of [kubeconfig, logs]",
 		Long:  "Exports one of [kubeconfig, logs]",
@@ -41,11 +40,11 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			if err != nil {
 				return err
 			}
-			return errors.New("Subcommand is required")
+			return errors.New("subcommand is required")
 		},
 	}
 	// add subcommands
-	cmd.AddCommand(logs.NewCommand(logger, streams))
-	cmd.AddCommand(kubeconfig.NewCommand(logger, streams))
-	return cmd
+	c.AddCommand(logs.NewCommand(logger, streams))
+	c.AddCommand(kubeconfig.NewCommand(logger))
+	return c
 }

@@ -20,7 +20,6 @@ package kubeconfig
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
 
@@ -35,9 +34,9 @@ type flagpole struct {
 }
 
 // NewCommand returns a new cobra.Command for exporting the kubeconfig
-func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
+func NewCommand(logger log.Logger) *cobra.Command {
 	flags := &flagpole{}
-	cmd := &cobra.Command{
+	c := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "kubeconfig",
 		Short: "Exports cluster kubeconfig",
@@ -47,26 +46,26 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			return runE(logger, flags)
 		},
 	}
-	cmd.Flags().StringVarP(
+	c.Flags().StringVarP(
 		&flags.Name,
 		"name",
 		"n",
 		cluster.DefaultName,
 		"the cluster context name",
 	)
-	cmd.Flags().StringVar(
+	c.Flags().StringVar(
 		&flags.Kubeconfig,
 		"kubeconfig",
 		"",
 		"sets kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config",
 	)
-	cmd.Flags().BoolVar(
+	c.Flags().BoolVar(
 		&flags.Internal,
 		"internal",
 		false,
 		"use internal address instead of external",
 	)
-	return cmd
+	return c
 }
 
 func runE(logger log.Logger, flags *flagpole) error {

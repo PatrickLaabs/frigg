@@ -22,15 +22,14 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
 	dockerimage "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/load/docker-image"
 	imagearchive "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/load/image-archive"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
 )
 
 // NewCommand returns a new cobra.Command for get
-func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
-	cmd := &cobra.Command{
+func NewCommand(logger log.Logger) *cobra.Command {
+	c := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "load",
 		Short: "Loads images into nodes",
@@ -40,11 +39,11 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			if err != nil {
 				return err
 			}
-			return errors.New("Subcommand is required")
+			return errors.New("subcommand is required")
 		},
 	}
 	// add subcommands
-	cmd.AddCommand(dockerimage.NewCommand(logger, streams))
-	cmd.AddCommand(imagearchive.NewCommand(logger, streams))
-	return cmd
+	c.AddCommand(dockerimage.NewCommand(logger))
+	c.AddCommand(imagearchive.NewCommand(logger))
+	return c
 }

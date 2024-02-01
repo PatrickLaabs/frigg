@@ -24,6 +24,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/createbootstrap/postprocess"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
@@ -58,7 +59,7 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 		&flags.Name,
 		"name",
 		"n",
-		"",
+		"argohub-cluster",
 		"cluster name, overrides KIND_CLUSTER_NAME, config (default kind)",
 	)
 	c.Flags().StringVar(
@@ -121,6 +122,8 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	}
 
 	return nil
+
+	postprocess.PostProcess()
 }
 
 // configOption converts the raw --config flag value to a cluster creation

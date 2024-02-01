@@ -21,17 +21,16 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
 )
 
 // NewCommand returns a new cobra.Command for cluster creation
-func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
-	cmd := &cobra.Command{
+func NewCommand(streams cmd.IOStreams) *cobra.Command {
+	c := &cobra.Command{
 		Use:   "fish",
 		Short: "Output shell completions for fish",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			return cmd.Parent().Parent().GenFishCompletion(streams.Out, true)
 		},
 	}
-	return cmd
+	return c
 }

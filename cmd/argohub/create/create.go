@@ -29,7 +29,7 @@ import (
 
 // NewCommand returns a new cobra.Command for cluster creation
 func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
-	cmd := &cobra.Command{
+	c := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "create",
 		Short: "Creates one of [cluster]",
@@ -39,9 +39,9 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			if err != nil {
 				return err
 			}
-			return errors.New("Subcommand is required")
+			return errors.New("subcommand is required")
 		},
 	}
-	cmd.AddCommand(createcluster.NewCommand(logger, streams))
-	return cmd
+	c.AddCommand(createcluster.NewCommand(logger, streams))
+	return c
 }

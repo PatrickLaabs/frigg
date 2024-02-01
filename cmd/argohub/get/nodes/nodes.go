@@ -39,7 +39,7 @@ type flagpole struct {
 // NewCommand returns a new cobra.Command for getting the list of nodes for a given cluster
 func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	flags := &flagpole{}
-	cmd := &cobra.Command{
+	c := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "nodes",
 		Short: "Lists existing kind nodes by their name",
@@ -49,21 +49,21 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			return runE(logger, streams, flags)
 		},
 	}
-	cmd.Flags().StringVarP(
+	c.Flags().StringVarP(
 		&flags.Name,
 		"name",
 		"n",
 		cluster.DefaultName,
 		"the cluster context name",
 	)
-	cmd.Flags().BoolVarP(
+	c.Flags().BoolVarP(
 		&flags.AllClusters,
 		"all-clusters",
 		"A",
 		false,
 		"If present, list all the available nodes across all cluster contexts. Current context is ignored even if specified with --name.",
 	)
-	return cmd
+	return c
 }
 
 func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {

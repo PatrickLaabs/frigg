@@ -31,9 +31,8 @@ import (
 
 // NewCommand returns a new cobra.Command for getting the list of clusters
 func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
-	cmd := &cobra.Command{
-		Args: cobra.NoArgs,
-		// TODO(bentheelder): more detailed usage
+	c := &cobra.Command{
+		Args:  cobra.NoArgs,
 		Use:   "clusters",
 		Short: "Lists existing kind clusters by their name",
 		Long:  "Lists existing kind clusters by their name",
@@ -41,7 +40,7 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			return runE(logger, streams)
 		},
 	}
-	return cmd
+	return c
 }
 
 func runE(logger log.Logger, streams cmd.IOStreams) error {
@@ -57,8 +56,8 @@ func runE(logger log.Logger, streams cmd.IOStreams) error {
 		logger.V(0).Info("No kind clusters found.")
 		return nil
 	}
-	for _, cluster := range clusters {
-		fmt.Fprintln(streams.Out, cluster)
+	for _, c := range clusters {
+		fmt.Fprintln(streams.Out, c)
 	}
 	return nil
 }

@@ -20,7 +20,6 @@ package clusters
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
@@ -34,11 +33,10 @@ type flagpole struct {
 }
 
 // NewCommand returns a new cobra.Command for cluster deletion
-func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
+func NewCommand(logger log.Logger) *cobra.Command {
 	flags := &flagpole{}
-	cmd := &cobra.Command{
-		Args: cobra.MinimumNArgs(0),
-		// TODO(bentheelder): more detailed usage
+	c := &cobra.Command{
+		Args:  cobra.MinimumNArgs(0),
 		Use:   "clusters",
 		Short: "Deletes one or more clusters",
 		Long:  "Deletes a resource",
@@ -50,20 +48,20 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			return deleteClusters(logger, flags, args)
 		},
 	}
-	cmd.Flags().StringVar(
+	c.Flags().StringVar(
 		&flags.Kubeconfig,
 		"kubeconfig",
 		"",
 		"sets kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config",
 	)
-	cmd.Flags().BoolVarP(
+	c.Flags().BoolVarP(
 		&flags.All,
 		"all",
 		"A",
 		false,
 		"delete all clusters",
 	)
-	return cmd
+	return c
 }
 
 func deleteClusters(logger log.Logger, flags *flagpole, clusters []string) error {
@@ -79,12 +77,12 @@ func deleteClusters(logger log.Logger, flags *flagpole, clusters []string) error
 		}
 	}
 	var success []string
-	for _, cluster := range clusters {
-		if err = provider.Delete(cluster, flags.Kubeconfig); err != nil {
-			logger.V(0).Infof("%s\n", errors.Wrapf(err, "failed to delete cluster %q", cluster))
+	for _, c := range clusters {
+		if err = provider.Delete(c, flags.Kubeconfig); err != nil {
+			logger.V(0).Infof("%s\n", errors.Wrapf(err, "failed to delete c %q", c))
 			continue
 		}
-		success = append(success, cluster)
+		success = append(success, c)
 	}
 	logger.V(0).Infof("Deleted clusters: %q", success)
 	return nil

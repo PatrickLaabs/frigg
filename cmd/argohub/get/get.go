@@ -31,9 +31,8 @@ import (
 
 // NewCommand returns a new cobra.Command for get
 func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
-	cmd := &cobra.Command{
-		Args: cobra.NoArgs,
-		// TODO(bentheelder): more detailed usage
+	c := &cobra.Command{
+		Args:  cobra.NoArgs,
 		Use:   "get",
 		Short: "Gets one of [clusters, nodes, kubeconfig]",
 		Long:  "Gets one of [clusters, nodes, kubeconfig]",
@@ -42,12 +41,12 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			if err != nil {
 				return err
 			}
-			return errors.New("Subcommand is required")
+			return errors.New("subcommand is required")
 		},
 	}
 	// add subcommands
-	cmd.AddCommand(clusters.NewCommand(logger, streams))
-	cmd.AddCommand(nodes.NewCommand(logger, streams))
-	cmd.AddCommand(kubeconfig.NewCommand(logger, streams))
-	return cmd
+	c.AddCommand(clusters.NewCommand(logger, streams))
+	c.AddCommand(nodes.NewCommand(logger, streams))
+	c.AddCommand(kubeconfig.NewCommand(logger, streams))
+	return c
 }

@@ -22,17 +22,15 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
 	deletecluster "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/delete/cluster"
 	deleteclusters "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/delete/clusters"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
 )
 
 // NewCommand returns a new cobra.Command for cluster deletion
-func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
-	cmd := &cobra.Command{
-		Args: cobra.NoArgs,
-		// TODO(bentheelder): more detailed usage
+func NewCommand(logger log.Logger) *cobra.Command {
+	c := &cobra.Command{
+		Args:  cobra.NoArgs,
 		Use:   "delete",
 		Short: "Deletes one of [cluster]",
 		Long:  "Deletes one of [cluster]",
@@ -41,10 +39,10 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			if err != nil {
 				return err
 			}
-			return errors.New("Subcommand is required")
+			return errors.New("subcommand is required")
 		},
 	}
-	cmd.AddCommand(deletecluster.NewCommand(logger, streams))
-	cmd.AddCommand(deleteclusters.NewCommand(logger, streams))
-	return cmd
+	c.AddCommand(deletecluster.NewCommand(logger))
+	c.AddCommand(deleteclusters.NewCommand(logger))
+	return c
 }

@@ -21,12 +21,11 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
 )
 
 // NewCommand returns a new cobra.Command for cluster creation
-func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
-	cmd := &cobra.Command{
+func NewCommand(streams cmd.IOStreams) *cobra.Command {
+	c := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "zsh",
 		Short: "Output shell completions for zsh",
@@ -34,5 +33,5 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			return cmd.Parent().Parent().GenZshCompletion(streams.Out)
 		},
 	}
-	return cmd
+	return c
 }
