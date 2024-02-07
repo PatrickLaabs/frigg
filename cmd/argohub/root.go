@@ -18,7 +18,7 @@ limitations under the License.
 package argohub
 
 import (
-	createbootstrap "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/createbootstrap"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap"
 	"io"
 
 	"github.com/spf13/cobra"
@@ -87,7 +87,7 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c.AddCommand(get.NewCommand(logger, streams))
 	c.AddCommand(version.NewCommand(logger, streams))
 	c.AddCommand(load.NewCommand(logger))
-	c.AddCommand(createbootstrap.NewCommand(logger, streams))
+	c.AddCommand(bootstrap.NewCommand(logger, streams))
 	return c
 }
 

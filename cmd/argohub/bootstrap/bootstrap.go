@@ -1,8 +1,10 @@
-package createbootstrap
+package bootstrap
 
 import (
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	argohubcluster "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/createbootstrap/cluster"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap/capd"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap/capv"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap/capz"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
 	"github.com/spf13/cobra"
@@ -12,9 +14,9 @@ import (
 func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c := &cobra.Command{
 		Args:  cobra.NoArgs,
-		Use:   "createbootstrap",
-		Short: "Creates a clusters with gitops onboard",
-		Long:  "Creates a local kind clusters, and deploys the argohub gitops platform on it",
+		Use:   "bootstrap",
+		Short: "bootstrap",
+		Long:  "bootstrap",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			err := cmd.Help()
 			if err != nil {
@@ -23,6 +25,8 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			return errors.New("Subcommand is required")
 		},
 	}
-	c.AddCommand(argohubcluster.NewCommand(logger, streams))
+	c.AddCommand(capd.NewCommand(logger, streams))
+	c.AddCommand(capv.NewCommand(logger, streams))
+	c.AddCommand(capz.NewCommand(logger, streams))
 	return c
 }

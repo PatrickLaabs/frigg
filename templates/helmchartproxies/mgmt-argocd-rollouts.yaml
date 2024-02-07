@@ -1,0 +1,46 @@
+---
+apiVersion: addons.cluster.x-k8s.io/v1alpha1
+kind: HelmChartProxy
+metadata:
+  name: argo-rollouts
+spec:
+  clusterSelector:
+    matchLabels:
+      argo-rollouts-Enabled: default
+  repoURL: https://argoproj.github.io/argo-helm
+  chartName: argo-rollouts
+  namespace: argo-rollouts
+  releaseName: argo-rollouts
+  version: 2.34.1
+  options:
+    waitForJobs: true
+    wait: true
+    timeout: 5m
+    install:
+      createNamespace: true
+  valuesTemplate: |
+    dashboard:
+      enabled: false
+      service:
+        type: ClusterIP
+        portName: dashboard
+        port: 3100
+        portTarget: 3100
+      serviceAccount:
+        create: true
+      ingress:
+        enabled: false
+        annotations:
+          traefik.ingress.kubernetes.io/router.entrypoints: websecure
+          cert-manager.io/cluster-issuer: smallstep-acme-http01
+          traefik.ingress.kubernetes.io/router.tls: "true"
+        ingressclassName: "traefik"
+        hosts:
+          - argo-rollouts-mgmt-000.projekte.eitco.de
+        paths:
+          - /
+        pathType: Prefix
+        tls:
+          - secretName: argo-rollouts-tls
+            hosts:
+              - argo-rollouts-mgmt-000.projekte.eitco.de

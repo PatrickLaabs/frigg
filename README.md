@@ -33,6 +33,7 @@ Available Commands:
 ## Supported Providers
 
 - vCluster
+- CAPD
 
 ### Under Development
 - vSphere

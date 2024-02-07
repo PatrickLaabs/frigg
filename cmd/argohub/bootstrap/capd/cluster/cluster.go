@@ -1,37 +1,24 @@
-/*
-Copyright 2018 The Kubernetes Authors.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
-*/
-
-// Package cluster implements the `create cluster` command
 package cluster
 
 import (
+	"fmt"
+	capi "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap/capd/clusterapi"
+	hc "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap/capd/helmchartproxies"
+	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/runtime"
+	w "github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/common/wait"
 	"io"
+	"os"
 	"time"
 
 	"github.com/spf13/cobra"
 
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	capi "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/createbootstrap/clusterapi"
-	e "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/createbootstrap/echo"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster"
+	d "github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/common/workdir"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
 
 	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/cli"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/runtime"
 )
 
 type flagpole struct {
@@ -45,6 +32,15 @@ type flagpole struct {
 
 // NewCommand returns a new cobra.Command for cluster creation
 func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
+	homedir, _ := os.UserHomeDir()
+
+	argohubDirName := ".argohub"
+	kubeconfigName := "bootstrapcluster.kubeconfig"
+
+	// /home/patricklaabs/.argohub/argohub-cluster.kubeconfig
+	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
+	fmt.Println("Path to Kubeconfig File:", kubeconfigFlagPath)
+
 	flags := &flagpole{}
 	c := &cobra.Command{
 		Args:  cobra.NoArgs,
@@ -60,13 +56,13 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 		&flags.Name,
 		"name",
 		"n",
-		"argohub-cluster",
+		"bootstrapcluster",
 		"cluster name, overrides KIND_CLUSTER_NAME, config (default kind)",
 	)
 	c.Flags().StringVar(
 		&flags.Config,
 		"config",
-		"",
+		"templates/kind-config.yaml",
 		"path to a kind config file",
 	)
 	c.Flags().StringVar(
@@ -90,13 +86,14 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c.Flags().StringVar(
 		&flags.Kubeconfig,
 		"kubeconfig",
-		"test",
+		kubeconfigFlagPath,
 		"sets kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config",
 	)
 	return c
 }
 
 func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
+	d.CreateDir()
 	provider := cluster.NewProvider(
 		cluster.ProviderWithLogger(logger),
 		runtime.GetDefault(logger),
@@ -107,6 +104,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	if err != nil {
 		return err
 	}
+
 	// create the cluster
 	if err = provider.Create(
 		flags.Name,
@@ -121,15 +119,56 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 		return errors.Wrap(err, "failed to create cluster")
 	}
 
-	e.Echo()
-	wait(10 * time.Second)
+	// 1. Create a kind cluster, install capi components, clustername is = bootstrapcluster
+	w.Wait(10 * time.Second)
 	capi.ClusterAPI()
 
-	return nil
-}
+	// 2. install cni helm chart proxy to the bootstrapcluster
+	w.Wait(5 * time.Second)
+	hc.InstallBootstrapHelmCharts()
 
-func wait(duration time.Duration) {
-	time.Sleep(duration)
+	// 3. generate a manifest, named argohub-mgmt-cluster
+	//w.Wait(10 * time.Second)
+	//manifestgenerator.ManifestGeneratorMgmt()
+
+	// 4. modify the manifest of mgmt, to add the helmchart labels to it
+	//manifestmodifier.ModifyMgmt()
+
+	// 5. apply the argohub-mgmt-cluster manifest to the bootstrap cluster
+	capi.KubectlApplyMgmt()
+
+	// 6. retrieve kubeconfig for the argphub-mgmt-cluster from the bootstrap cluster
+	//	  => clusterctl --kubeconfig bootstrapcluster.kubeconfig get kubeconfig argohubmgmtcluster > argohubmgmtcluster.kubeconfig
+	// 7. store the kubeconfig of the argohub-mgmt-cluster to the .argohub folder
+	// 8. modify the kubeconfig, to continue working with it
+	//    => sed -i -e "s/server:.*/server: https:\/\/$(docker port argohubmgmtcluster-lb 6443/tcp | sed "s/0.0.0.0/127.0.0.1/")/g" ./argohubmgmtcluster.kubebeconfig
+	// 9. install capi components (like on step 1.) to the argohub-mgmt-cluster
+	// 10. move components from bootstrap cluster to the argohub-mgmt-cluster
+	// 11. delete the bootstrap cluster
+	// 12. generate a workload-cluster manifest
+	// 13. modify the generated manifest with the needed helmchartproxy labels
+	// 14. apply the manifest to the argohub-mgmt-cluster
+	// 15. retrieve the kubeconfig
+	// 16. modify the kubeconfig
+
+	// Installs the HelmChartProxies onto the mgmt-cluster
+	//w.Wait(10 * time.Second)
+	//hc.InstallMgmtHelmCharts()
+
+	//w.Wait(5 * time.Second)
+	//manifestmodifier.Modifyworkload()
+
+	// Applies the prev. generated Manifest of the workload cluster
+	//w.Wait(10 * time.Second)
+	//capi.KubectlApplyWorkload()
+
+	// ToDo:
+	// Retrieve kubeconfig of workload cluster and write it to the .argohub folder
+
+	// ToDo:
+	// Modify the retrieved and stored kubeconfig, so it works with CAPD
+
+	return nil
 }
 
 // configOption converts the raw --config flag value to a cluster creation

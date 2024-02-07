@@ -1,0 +1,40 @@
+---
+apiVersion: addons.cluster.x-k8s.io/v1alpha1
+kind: HelmChartProxy
+metadata:
+  name: argocd-hub-apps
+spec:
+  clusterSelector:
+    matchLabels:
+      argocd-hub-appsEnabled: default
+  repoURL: https://argoproj.github.io/argo-helm
+  chartName: argocd-apps
+  namespace: argocd-apps
+  releaseName: argocd-apps
+  version: 1.4.1
+  options:
+    waitForJobs: true
+    wait: true
+    timeout: 5m
+    install:
+      createNamespace: true
+  valuesTemplate: |
+    applications:
+      - name: argocd-hub
+        namespace: argocd
+        annotations:
+          argocd.argoproj.io/sync-wave: '0'
+        finalizers:
+        - resources-finalizer.argocd.argoproj.io
+        project: default
+        source:
+           repoURL: ssh://git@git.eitco.de:7999/cstd/mgmt-000.git
+           path: argocd
+           targetRevision: main
+        destination:
+          server: https://kubernetes.default.svc
+          namespace: argocd
+        syncPolicy:
+          automated:
+            prune: true
+            selfHeal: true
