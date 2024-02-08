@@ -19,14 +19,15 @@
 - kind
 
 ```
+
 Usage:
-  argohub [command]
+  argohub bootstrap [flags]
+  argohub bootstrap [command]
 
 Available Commands:
-  build       Build one of [node-image]
-  completion  Output shell completion code for the specified shell (bash, zsh or fish)
-  create      Creates one of [cluster]
-  delete      Deletes one of [cluster]
+  capd        capd
+  capv        capv
+  capz        capz
 
 ```
 
