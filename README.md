@@ -1,4 +1,7 @@
 # Frigg
+
+Meaning of Frigg: Goddess of wisdom and crafts
+
 ## GitOps with batteries included
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/PatrickLaabs/frigg.svg)](https://pkg.go.dev/github.com/PatrickLaabs/frigg)
