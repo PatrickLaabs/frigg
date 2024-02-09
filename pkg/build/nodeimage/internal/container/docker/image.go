@@ -20,8 +20,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 )
 
 // SplitImage splits an image into (registry,tag) following these cases:

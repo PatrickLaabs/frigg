@@ -20,7 +20,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/assert"
+	"github.com/PatrickLaabs/frigg/internal/assert"
 )
 
 func TestUntilErrorConcurrent(t *testing.T) {

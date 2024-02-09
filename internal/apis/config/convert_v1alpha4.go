@@ -17,7 +17,7 @@ limitations under the License.
 package config
 
 import (
-	v1alpha4 "github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/apis/config/v1alpha4"
+	v1alpha4 "github.com/PatrickLaabs/frigg/pkg/apis/config/v1alpha4"
 )
 
 // Convertv1alpha4 converts a v1alpha4 cluster to a cluster at the internal API version

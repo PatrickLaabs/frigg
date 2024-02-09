@@ -19,13 +19,13 @@ package nodes
 import (
 	"io"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 )
 
 // Node represents a kind cluster node
 type Node interface {
 	// The node should implement exec.Cmder for running commands against the node
-	// see: github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec
+	// see: github.com/PatrickLaabs/frigg/pkg/exec
 	exec.Cmder
 	// String should return the node name
 	String() string // see also: fmt.Stringer

@@ -19,7 +19,7 @@ package common
 import (
 	"testing"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/assert"
+	"github.com/PatrickLaabs/frigg/internal/assert"
 )
 
 func TestMakeNodeNamer(t *testing.T) {

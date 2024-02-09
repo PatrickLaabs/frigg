@@ -20,7 +20,7 @@ import (
 	"context"
 	"io"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 )
 
 // containerCmder implements exec.Cmder for docker containers

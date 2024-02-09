@@ -18,21 +18,21 @@ limitations under the License.
 package argohub
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/bootstrap"
 	"io"
 
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/build"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/completion"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/create"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/delete"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/export"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/get"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/load"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/version"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/cmd"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/build"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/completion"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/create"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/delete"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/export"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/get"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/load"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/version"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
 type flagpole struct {

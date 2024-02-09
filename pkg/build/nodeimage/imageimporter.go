@@ -19,7 +19,7 @@ package nodeimage
 import (
 	"io"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 )
 
 type containerdImporter struct {

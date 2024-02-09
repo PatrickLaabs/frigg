@@ -24,10 +24,10 @@ import (
 	"regexp"
 	"testing"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/integration"
+	"github.com/PatrickLaabs/frigg/internal/integration"
 )
 
 func TestIntegrationEnsureNetworkConcurrent(t *testing.T) {

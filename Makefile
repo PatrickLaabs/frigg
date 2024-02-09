@@ -1,6 +1,6 @@
 .PHONY: build
 build:
-	go build -o argohub main.go
+	go build -o frigg main.go
 
 .PHONY: gen-docs
 gen-docs:

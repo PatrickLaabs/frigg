@@ -20,10 +20,10 @@ import (
 	"io"
 	"os"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/cli"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/env"
+	"github.com/PatrickLaabs/frigg/internal/cli"
+	"github.com/PatrickLaabs/frigg/internal/env"
 )
 
 // NewLogger returns the standard logger used by the kind CLI

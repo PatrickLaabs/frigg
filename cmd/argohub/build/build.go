@@ -22,8 +22,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/build/nodeimage"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/build/nodeimage"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
 // NewCommand returns a new cobra.Command for building

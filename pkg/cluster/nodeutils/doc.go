@@ -15,5 +15,5 @@ limitations under the License.
 */
 
 // Package nodeutils contains functionality for Kubernetes-in-Docker nodes
-// It mostly exists to break up functionality from github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster
+// It mostly exists to break up functionality from github.com/PatrickLaabs/frigg/pkg/cluster
 package nodeutils

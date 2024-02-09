@@ -17,7 +17,7 @@ limitations under the License.
 package nodeimage
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
 // Option is a configuration option supplied to Build

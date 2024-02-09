@@ -23,11 +23,9 @@ import (
 	"path"
 	"strings"
 
-	"github.com/pelletier/go-toml"
-
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodes"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/nodes"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 )
 
 // KubeVersion returns the Kubernetes version installed on the node

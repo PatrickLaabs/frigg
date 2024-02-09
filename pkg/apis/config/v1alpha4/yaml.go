@@ -19,7 +19,7 @@ package v1alpha4
 import (
 	"strings"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 )
 
 /*

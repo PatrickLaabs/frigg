@@ -19,7 +19,7 @@ package app
 import (
 	"testing"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
+	"github.com/PatrickLaabs/frigg/cmd"
 )
 
 func TestCheckQuiet(t *testing.T) {

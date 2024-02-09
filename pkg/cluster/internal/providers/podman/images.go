@@ -21,13 +21,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/cli"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/providers/common"
+	"github.com/PatrickLaabs/frigg/internal/apis/config"
+	"github.com/PatrickLaabs/frigg/internal/cli"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/internal/providers/common"
 )
 
 // ensureNodeImages ensures that the node images used by the create

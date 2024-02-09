@@ -1,9 +1,9 @@
 package helmchartproxies
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap/capd/helmchartproxies/cni"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap/capd/helmchartproxies/cnibootstrap"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap/capd/helmchartproxies/mgmtVault"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/bootstrap/capd/helmchartproxies/cni"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/bootstrap/capd/helmchartproxies/cnibootstrap"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/bootstrap/capd/helmchartproxies/mgmtVault"
 )
 
 func InstallMgmtHelmCharts() {

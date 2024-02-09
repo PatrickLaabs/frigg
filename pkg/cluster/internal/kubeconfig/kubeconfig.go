@@ -21,13 +21,13 @@ package kubeconfig
 import (
 	"bytes"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodeutils"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/nodeutils"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 
 	// this package has slightly more generic kubeconfig helpers
 	// and minimal dependencies on the rest of kind
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/kubeconfig/internal/kubeconfig"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/providers"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/internal/kubeconfig/internal/kubeconfig"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/internal/providers"
 )
 
 // Export exports the kubeconfig given the cluster context and a path to write it to

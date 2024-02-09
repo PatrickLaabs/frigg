@@ -1,9 +1,9 @@
 package capz
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap/capz/cluster"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/cmd"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/bootstrap/capz/cluster"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )

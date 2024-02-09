@@ -19,7 +19,7 @@ package cli
 import (
 	"fmt"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
 // Status is used to track ongoing status in a CLI, with a nice loading spinner

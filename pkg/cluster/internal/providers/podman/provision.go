@@ -25,13 +25,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/constants"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/constants"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/loadbalancer"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/providers/common"
+	"github.com/PatrickLaabs/frigg/internal/apis/config"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/internal/loadbalancer"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/internal/providers/common"
 )
 
 // planCreation creates a slice of funcs that will create the containers

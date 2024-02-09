@@ -18,6 +18,6 @@ limitations under the License.
 // along with some common abstractions
 //
 // +k8s:deepcopy-gen=package
-// +k8s:conversion-gen=github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config
+// +k8s:conversion-gen=github.com/PatrickLaabs/frigg/internal/apis/config
 // +k8s:defaulter-gen=TypeMeta
 package config

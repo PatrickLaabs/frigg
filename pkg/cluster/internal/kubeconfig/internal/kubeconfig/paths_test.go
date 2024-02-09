@@ -23,9 +23,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/fs"
+	"github.com/PatrickLaabs/frigg/pkg/fs"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/assert"
+	"github.com/PatrickLaabs/frigg/internal/assert"
 )
 
 func TestPaths(t *testing.T) {

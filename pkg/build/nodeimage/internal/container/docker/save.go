@@ -17,7 +17,7 @@ limitations under the License.
 package docker
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 )
 
 // Save saves image to dest, as in `docker save`

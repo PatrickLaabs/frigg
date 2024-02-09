@@ -21,8 +21,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 )
 
 // createFile creates the file at filePath in the container,

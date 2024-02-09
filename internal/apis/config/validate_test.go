@@ -18,10 +18,10 @@ package config
 
 import (
 	"fmt"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/assert"
+	"github.com/PatrickLaabs/frigg/internal/assert"
 	"testing"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 )
 
 func TestClusterValidate(t *testing.T) {

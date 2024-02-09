@@ -22,9 +22,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	deletecluster "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/delete/cluster"
-	deleteclusters "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/delete/clusters"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	deletecluster "github.com/PatrickLaabs/frigg/cmd/argohub/delete/cluster"
+	deleteclusters "github.com/PatrickLaabs/frigg/cmd/argohub/delete/clusters"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
 // NewCommand returns a new cobra.Command for cluster deletion

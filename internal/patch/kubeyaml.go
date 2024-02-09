@@ -19,9 +19,9 @@ package patch
 import (
 	"strings"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
+	"github.com/PatrickLaabs/frigg/internal/apis/config"
 )
 
 // KubeYAML takes a Kubernetes object YAML document stream to patch,

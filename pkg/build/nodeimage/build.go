@@ -19,9 +19,9 @@ package nodeimage
 import (
 	"runtime"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/build/nodeimage/internal/kube"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/pkg/build/nodeimage/internal/kube"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
 // Build builds a node image using the supplied options

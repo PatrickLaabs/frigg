@@ -17,16 +17,16 @@ limitations under the License.
 package app
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub"
+	"github.com/PatrickLaabs/frigg/cmd/argohub"
 	"io"
 	"os"
 
 	"github.com/spf13/pflag"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/cmd"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
 // Main is the kind main(), it will invoke Run(), if an error is returned

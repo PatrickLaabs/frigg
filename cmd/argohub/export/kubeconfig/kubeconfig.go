@@ -20,11 +20,11 @@ package kubeconfig
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/pkg/cluster"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/cli"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/runtime"
+	"github.com/PatrickLaabs/frigg/internal/cli"
+	"github.com/PatrickLaabs/frigg/internal/runtime"
 )
 
 type flagpole struct {

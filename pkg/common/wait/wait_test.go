@@ -1,7 +1,7 @@
 package wait_test
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/common/wait"
+	"github.com/PatrickLaabs/frigg/pkg/common/wait"
 	"testing"
 	"time"
 )

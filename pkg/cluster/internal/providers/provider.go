@@ -17,10 +17,10 @@ limitations under the License.
 package providers
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodes"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/nodes"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/cli"
+	"github.com/PatrickLaabs/frigg/internal/apis/config"
+	"github.com/PatrickLaabs/frigg/internal/cli"
 )
 
 // Provider represents a provider of cluster / node infrastructure

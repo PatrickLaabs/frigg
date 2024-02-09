@@ -19,7 +19,7 @@ package config
 import (
 	"testing"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/assert"
+	"github.com/PatrickLaabs/frigg/internal/assert"
 )
 
 func TestClusterHasIPv6(t *testing.T) {

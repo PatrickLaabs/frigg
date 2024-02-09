@@ -19,7 +19,7 @@ package kubeconfig
 import (
 	"os"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 )
 
 // RemoveKIND removes the kind cluster kindClusterName from the KUBECONFIG

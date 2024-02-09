@@ -23,8 +23,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/cmd"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
 // Version returns the kind CLI Semantic Version

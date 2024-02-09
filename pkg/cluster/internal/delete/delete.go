@@ -17,11 +17,11 @@ limitations under the License.
 package delete
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/kubeconfig"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/providers"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/internal/kubeconfig"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/internal/providers"
 )
 
 // Cluster deletes the cluster identified by ctx

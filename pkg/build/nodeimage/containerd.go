@@ -19,10 +19,10 @@ package nodeimage
 import (
 	"strings"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/patch"
+	"github.com/PatrickLaabs/frigg/internal/patch"
 )
 
 const containerdConfigPath = "/etc/containerd/config.toml"

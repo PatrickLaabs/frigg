@@ -22,7 +22,7 @@ import (
 
 	yaml "gopkg.in/yaml.v3"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 )
 
 // KINDFromRawKubeadm returns a kind kubeconfig derived from the raw kubeadm kubeconfig,

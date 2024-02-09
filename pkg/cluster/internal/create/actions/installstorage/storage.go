@@ -22,12 +22,12 @@ import (
 	"bytes"
 	"strings"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodes"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/nodes"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/create/actions"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodeutils"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/internal/create/actions"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/nodeutils"
 )
 
 type action struct{}

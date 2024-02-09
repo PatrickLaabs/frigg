@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/argohub/app"
+	"github.com/PatrickLaabs/frigg/argohub/app"
 )
 
 func main() {

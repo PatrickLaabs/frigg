@@ -22,10 +22,10 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/completion/bash"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/completion/fish"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/completion/zsh"
+	"github.com/PatrickLaabs/frigg/cmd"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/completion/bash"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/completion/fish"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/completion/zsh"
 )
 
 // NewCommand returns a new cobra.Command for cluster creation

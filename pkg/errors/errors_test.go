@@ -21,7 +21,7 @@ import (
 
 	pkgerrors "github.com/pkg/errors"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/assert"
+	"github.com/PatrickLaabs/frigg/internal/assert"
 )
 
 func TestStackTrace(t *testing.T) {

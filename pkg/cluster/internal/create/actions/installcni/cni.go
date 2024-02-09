@@ -23,12 +23,12 @@ import (
 
 	"github.com/google/safetext/yamltemplate"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/internal/apis/config"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/patch"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/create/actions"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodeutils"
+	"github.com/PatrickLaabs/frigg/internal/patch"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/internal/create/actions"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/nodeutils"
 )
 
 type action struct{}

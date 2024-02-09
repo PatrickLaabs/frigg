@@ -22,7 +22,7 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodes"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/nodes"
 )
 
 func Test_removeDuplicates(t *testing.T) {

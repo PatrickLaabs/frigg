@@ -21,20 +21,20 @@ import (
 	"path/filepath"
 	"sort"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/version"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/version"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/constants"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodes"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodeutils"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/constants"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/nodes"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/nodeutils"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 
-	internalcreate "github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/create"
-	internaldelete "github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/delete"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/kubeconfig"
-	internalproviders "github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/providers"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/providers/docker"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/providers/podman"
+	internalcreate "github.com/PatrickLaabs/frigg/pkg/cluster/internal/create"
+	internaldelete "github.com/PatrickLaabs/frigg/pkg/cluster/internal/delete"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/internal/kubeconfig"
+	internalproviders "github.com/PatrickLaabs/frigg/pkg/cluster/internal/providers"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/internal/providers/docker"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/internal/providers/podman"
 )
 
 // DefaultName is the default cluster name

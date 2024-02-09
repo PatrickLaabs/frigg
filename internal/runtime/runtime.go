@@ -3,8 +3,8 @@ package runtime
 import (
 	"os"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/pkg/cluster"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
 // GetDefault selected the default runtime from the environment override

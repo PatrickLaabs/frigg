@@ -17,7 +17,7 @@ limitations under the License.
 package kubeconfig
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 )
 
 // KINDClusterKey identifies kind clusters in kubeconfig files

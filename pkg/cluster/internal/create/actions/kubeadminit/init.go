@@ -20,14 +20,14 @@ package kubeadminit
 import (
 	"strings"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodeutils"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/nodeutils"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/version"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/create/actions"
+	"github.com/PatrickLaabs/frigg/internal/apis/config"
+	"github.com/PatrickLaabs/frigg/internal/version"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/internal/create/actions"
 )
 
 // kubeadmInitAction implements action for executing the kubeadm init

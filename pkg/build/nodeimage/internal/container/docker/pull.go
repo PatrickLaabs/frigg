@@ -19,8 +19,8 @@ package docker
 import (
 	"time"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
 // Pull pulls an image, retrying up to retries times

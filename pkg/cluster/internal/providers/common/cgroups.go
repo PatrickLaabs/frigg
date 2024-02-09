@@ -23,8 +23,8 @@ import (
 	"regexp"
 	"sync"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 )
 
 var nodeReachedCgroupsReadyRegexp *regexp.Regexp

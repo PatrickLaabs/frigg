@@ -22,7 +22,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/assert"
+	"github.com/PatrickLaabs/frigg/internal/assert"
 )
 
 func TestIsTerminal(t *testing.T) {

@@ -20,7 +20,7 @@ import (
 	"bytes"
 	"text/template"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 )
 
 // ConfigData is supplied to the loadbalancer config template

@@ -21,10 +21,10 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/version"
+	"github.com/PatrickLaabs/frigg/internal/version"
 )
 
 // IsAvailable checks if podman is available in the system

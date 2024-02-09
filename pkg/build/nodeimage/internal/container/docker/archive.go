@@ -25,7 +25,7 @@ import (
 	"io"
 	"os"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 )
 
 // GetArchiveTags obtains a list of "repo:tag" docker image tags from a

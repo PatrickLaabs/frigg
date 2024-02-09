@@ -20,15 +20,15 @@ package kubeadmjoin
 import (
 	"strings"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/constants"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodes"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/constants"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/nodes"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodeutils"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/nodeutils"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/create/actions"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/internal/create/actions"
 )
 
 // Action implements action for creating the kubeadm join

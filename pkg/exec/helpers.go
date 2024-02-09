@@ -25,7 +25,7 @@ import (
 
 	"github.com/alessio/shellescape"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 )
 
 // PrettyCommand takes arguments identical to Cmder.Command,

@@ -23,7 +23,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/assert"
+	"github.com/PatrickLaabs/frigg/internal/assert"
 )
 
 func TestMerge(t *testing.T) {

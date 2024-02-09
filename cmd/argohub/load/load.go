@@ -22,9 +22,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	dockerimage "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/load/docker-image"
-	imagearchive "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/load/image-archive"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	dockerimage "github.com/PatrickLaabs/frigg/cmd/argohub/load/docker-image"
+	imagearchive "github.com/PatrickLaabs/frigg/cmd/argohub/load/image-archive"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
 // NewCommand returns a new cobra.Command for get

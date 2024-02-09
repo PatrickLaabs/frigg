@@ -23,8 +23,8 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 )
 
 // This may be overridden by KIND_EXPERIMENTAL_PODMAN_NETWORK env,

@@ -2,23 +2,23 @@ package cluster
 
 import (
 	"fmt"
-	capi "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap/capd/clusterapi"
-	hc "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap/capd/helmchartproxies"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/runtime"
-	w "github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/common/wait"
+	capi "github.com/PatrickLaabs/frigg/cmd/argohub/bootstrap/capd/clusterapi"
+	hc "github.com/PatrickLaabs/frigg/cmd/argohub/bootstrap/capd/helmchartproxies"
+	"github.com/PatrickLaabs/frigg/internal/runtime"
+	w "github.com/PatrickLaabs/frigg/pkg/common/wait"
 	"io"
 	"os"
 	"time"
 
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster"
-	d "github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/common/workdir"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/cmd"
+	"github.com/PatrickLaabs/frigg/pkg/cluster"
+	d "github.com/PatrickLaabs/frigg/pkg/common/workdir"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/cli"
+	"github.com/PatrickLaabs/frigg/internal/cli"
 )
 
 type flagpole struct {

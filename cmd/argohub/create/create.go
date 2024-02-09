@@ -22,9 +22,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	createcluster "github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/create/cluster"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/cmd"
+	createcluster "github.com/PatrickLaabs/frigg/cmd/argohub/create/cluster"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
 // NewCommand returns a new cobra.Command for cluster creation

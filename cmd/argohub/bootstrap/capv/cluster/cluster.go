@@ -2,8 +2,8 @@ package cluster
 
 import (
 	"fmt"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/cmd"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 	"github.com/spf13/cobra"
 )
 

@@ -24,10 +24,10 @@ import (
 
 	"github.com/google/safetext/yamltemplate"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/version"
+	"github.com/PatrickLaabs/frigg/internal/apis/config"
+	"github.com/PatrickLaabs/frigg/internal/version"
 )
 
 // ConfigData is supplied to the kubeadm config template, with values populated

@@ -22,10 +22,10 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/export/kubeconfig"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/export/logs"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/cmd"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/export/kubeconfig"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/export/logs"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
 // NewCommand returns a new cobra.Command for export

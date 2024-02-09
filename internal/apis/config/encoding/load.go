@@ -22,10 +22,10 @@ import (
 
 	yaml "gopkg.in/yaml.v3"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/apis/config/v1alpha4"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/apis/config/v1alpha4"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
+	"github.com/PatrickLaabs/frigg/internal/apis/config"
 )
 
 // Load reads the file at path and attempts to convert into a `kind` Config; the file

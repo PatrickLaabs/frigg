@@ -20,7 +20,7 @@ package fish
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
+	"github.com/PatrickLaabs/frigg/cmd"
 )
 
 // NewCommand returns a new cobra.Command for cluster creation

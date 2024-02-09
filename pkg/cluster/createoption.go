@@ -19,9 +19,9 @@ package cluster
 import (
 	"time"
 
-	internalencoding "github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config/encoding"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/apis/config/v1alpha4"
-	internalcreate "github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/internal/create"
+	internalencoding "github.com/PatrickLaabs/frigg/internal/apis/config/encoding"
+	"github.com/PatrickLaabs/frigg/pkg/apis/config/v1alpha4"
+	internalcreate "github.com/PatrickLaabs/frigg/pkg/cluster/internal/create"
 )
 
 // CreateOption is a Provider.Create option

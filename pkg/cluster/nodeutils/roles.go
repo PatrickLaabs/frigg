@@ -20,9 +20,9 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/constants"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/nodes"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/constants"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/nodes"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 )
 
 // SelectNodesByRole returns a list of nodes with the matching role

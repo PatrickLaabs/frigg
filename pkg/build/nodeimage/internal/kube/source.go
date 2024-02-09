@@ -25,8 +25,8 @@ import (
 
 	"github.com/alessio/shellescape"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/exec"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/exec"
 )
 
 // FindSource attempts to locate a kubernetes checkout using go's build package

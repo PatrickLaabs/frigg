@@ -1,12 +1,12 @@
 package bootstrap
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap/capd"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap/capv"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/bootstrap/capz"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/cmd"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/bootstrap/capd"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/bootstrap/capv"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/bootstrap/capz"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 	"github.com/spf13/cobra"
 )
 

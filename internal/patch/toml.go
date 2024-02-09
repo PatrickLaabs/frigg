@@ -25,7 +25,7 @@ import (
 	toml "github.com/pelletier/go-toml"
 	yaml "gopkg.in/yaml.v3"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 )
 
 // TOML patches toPatch with the patches (should be TOML merge patches) and patches6902 (should be JSON 6902 patches)

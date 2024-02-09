@@ -17,9 +17,9 @@ limitations under the License.
 package encoding
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/apis/config/v1alpha4"
+	"github.com/PatrickLaabs/frigg/pkg/apis/config/v1alpha4"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/apis/config"
+	"github.com/PatrickLaabs/frigg/internal/apis/config"
 )
 
 // V1Alpha4ToInternal converts to the internal API version

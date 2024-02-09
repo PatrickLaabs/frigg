@@ -19,7 +19,7 @@ package patch
 import (
 	"sigs.k8s.io/yaml"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/errors"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 )
 
 type mergePatch struct {

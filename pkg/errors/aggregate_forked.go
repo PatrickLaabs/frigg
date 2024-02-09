@@ -19,7 +19,7 @@ package errors
 import (
 	"errors"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/internal/sets"
+	"github.com/PatrickLaabs/frigg/internal/sets"
 )
 
 /*

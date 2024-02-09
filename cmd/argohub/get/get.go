@@ -22,11 +22,11 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/get/clusters"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/get/kubeconfig"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/cmd/argohub/get/nodes"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/log"
+	"github.com/PatrickLaabs/frigg/cmd"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/get/clusters"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/get/kubeconfig"
+	"github.com/PatrickLaabs/frigg/cmd/argohub/get/nodes"
+	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
 // NewCommand returns a new cobra.Command for get

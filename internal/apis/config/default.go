@@ -21,8 +21,8 @@ limitations under the License.
 package config
 
 import (
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/apis/config/defaults"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/pkg/cluster/constants"
+	"github.com/PatrickLaabs/frigg/pkg/apis/config/defaults"
+	"github.com/PatrickLaabs/frigg/pkg/cluster/constants"
 )
 
 // SetDefaultsCluster sets uninitialized fields to their default value.

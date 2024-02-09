@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/docs/capd"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/docs/capv"
-	"github.com/PatrickLaabs/cli_clusterapi-argohub/docs/capz"
+	"github.com/PatrickLaabs/frigg/docs/capd"
+	"github.com/PatrickLaabs/frigg/docs/capv"
+	"github.com/PatrickLaabs/frigg/docs/capz"
 )
 
 func CreateDocs() {
