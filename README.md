@@ -1,11 +1,30 @@
 # Frigg
 
-Meaning of Frigg: Goddess of wisdom and crafts
-
-## GitOps with batteries included
-
 [![Go Reference](https://pkg.go.dev/badge/github.com/PatrickLaabs/frigg.svg)](https://pkg.go.dev/github.com/PatrickLaabs/frigg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/PatrickLaabs/frigg)](https://goreportcard.com/badge/github.com/PatrickLaabs/frigg)
+
+[![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
+
+## What is Frigg
+
+***Meaning of Frigg**:* Goddess of wisdom and crafts
+
+### **TL;DR**:
+With Frigg, you provision **N-Kubernets** Clusters, which are **GitOps**-enabled and have **batteries included**.
+
+Frigg is a cli project, to easily create one to one hundred 
+of Kubernetes clusters on different hyperscalers.
+
+[Check the supported Hyperscalers]
+
+No matter which hyperscaler you choose, your kubernetes clusters will be
+attached to one another, and are also GitOps enabled.
+
+At the end, you will have N-amount of clusters, with a Github
+repository for each of them, where you are able to add more applications deployments.
+
+#### TODO:
+Adding a high-level overview image
 
 ## Support
 
@@ -16,17 +35,7 @@ Glad to hear!
 
 Thank you very much, for supporting me 🚀
 
-## License
-[![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
-
-## Goals
-
-- Enable a user to easily provision the ArgoHub instance on kind
-- Bootstrap the GitOps repository, with the given credentials
-- CLI Tool
-- Built-in Server to bootstrap everything
-
-## Getting started
+## Get started
 
 - docker
 - kind
@@ -44,12 +53,17 @@ Available Commands:
 
 ```
 
-## Supported Providers
+## Features
 
+### Supported Providers
 - vCluster
-- CAPD
+- CAPD (Docker)
 
-### Under Development
+### Providers under development
 - vSphere
 - Azure
 - Google
+
+## Documentation
+
+Further documentation is available in the `/docs` directory.
