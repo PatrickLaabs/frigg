@@ -28,7 +28,7 @@ spec:
         - resources-finalizer.argocd.argoproj.io
         project: default
         source:
-           repoURL: 'git@github.com:eitco/argo-hub.git'
+           repoURL: ''
            path: clusters/management-cluster/argocd
            targetRevision: main
         destination:

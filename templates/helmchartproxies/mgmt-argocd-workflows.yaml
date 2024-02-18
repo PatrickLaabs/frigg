@@ -88,18 +88,18 @@ spec:
         enabled: false
       secure: false
       ingress:
-        enabled: true
+        enabled: false
         annotations:
           traefik.ingress.kubernetes.io/router.entrypoints: websecure
           cert-manager.io/cluster-issuer: smallstep-acme-http01
           traefik.ingress.kubernetes.io/router.tls: "true"
         ingressclassName: "traefik"
         hosts:
-          - argo-workflows-mgmt-000.projekte.eitco.de
+          - argo-workflows-mgmt.localho.st
         paths:
           - /
         pathType: Prefix
         tls:
           - secretName: argo-workflows-tls
             hosts:
-              - argo-workflows-mgmt-000.projekte.eitco.de
+              - argo-workflows-mgmt.localho.st

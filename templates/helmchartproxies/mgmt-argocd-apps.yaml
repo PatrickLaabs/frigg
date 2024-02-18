@@ -28,7 +28,7 @@ spec:
         - resources-finalizer.argocd.argoproj.io
         project: default
         source:
-           repoURL: ssh://git@git.eitco.de:7999/cstd/mgmt-000.git
+           repoURL: ''
            path: argocd
            targetRevision: main
         destination:

@@ -36,11 +36,11 @@ spec:
           traefik.ingress.kubernetes.io/router.tls: "true"
         ingressclassName: "traefik"
         hosts:
-          - argo-rollouts-mgmt-000.projekte.eitco.de
+          - argo-rollouts-mgmt.localho.st
         paths:
           - /
         pathType: Prefix
         tls:
           - secretName: argo-rollouts-tls
             hosts:
-              - argo-rollouts-mgmt-000.projekte.eitco.de
+              - argo-rollouts-mgmt.localho.st

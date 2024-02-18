@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/PatrickLaabs/frigg/argohub/app"
+	"github.com/PatrickLaabs/frigg/frigg/app"
 )
 
 func main() {

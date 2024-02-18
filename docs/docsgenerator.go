@@ -5,6 +5,7 @@ import (
 	"github.com/PatrickLaabs/frigg/docs/capd"
 	"github.com/PatrickLaabs/frigg/docs/capv"
 	"github.com/PatrickLaabs/frigg/docs/capz"
+	"github.com/PatrickLaabs/frigg/docs/harvester"
 )
 
 func CreateDocs() {
@@ -12,6 +13,7 @@ func CreateDocs() {
 	capd.Docsgenerator()
 	capv.Docsgenerator()
 	capz.Docsgenerator()
+	harvester.Docsgenerator()
 }
 
 func main() {

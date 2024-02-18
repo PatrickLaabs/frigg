@@ -21,7 +21,7 @@ import (
 	"path/filepath"
 	"sort"
 
-	"github.com/PatrickLaabs/frigg/cmd/argohub/version"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/version"
 
 	"github.com/PatrickLaabs/frigg/pkg/cluster/constants"
 	"github.com/PatrickLaabs/frigg/pkg/cluster/nodes"

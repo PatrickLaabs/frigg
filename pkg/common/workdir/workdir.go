@@ -11,8 +11,8 @@ func CreateDir() {
 		return
 	}
 
-	err = os.Mkdir(dir+"/.argohub", 0750)
+	err = os.Mkdir(dir+"/.frigg", 0750)
 	if err != nil {
-		fmt.Printf("Error Creating .argohub Directory %v\n", err)
+		fmt.Printf("Error Creating .frigg Directory %v\n", err)
 	}
 }

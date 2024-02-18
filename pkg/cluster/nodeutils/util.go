@@ -19,6 +19,7 @@ package nodeutils
 import (
 	"bytes"
 	"encoding/json"
+	"github.com/pelletier/go-toml"
 	"io"
 	"path"
 	"strings"
