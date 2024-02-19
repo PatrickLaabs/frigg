@@ -142,7 +142,7 @@ func (p *provider) DeleteNodes(n []nodes.Node) error {
 	args := make([]string, 0, len(n)+3) // allocate once
 	args = append(args,
 		"rm",
-		"-f", // force the container to be delete now
+		"-f", // force the container to be deleted now
 		"-v", // delete volumes
 	)
 	for _, node := range n {
@@ -223,7 +223,7 @@ func (p *provider) GetAPIServerInternalEndpoint(cluster string) (string, error) 
 	if err != nil {
 		return "", errors.Wrap(err, "failed to get api server endpoint")
 	}
-	// NOTE: we're using the nodes's hostnames which are their names
+	// NOTE: we're using the node's hostnames which are their names
 	return net.JoinHostPort(n.String(), fmt.Sprintf("%d", common.APIServerInternalPort)), nil
 }
 
@@ -242,7 +242,12 @@ func (p *provider) CollectLogs(dir string, nodes []nodes.Node) error {
 			if err != nil {
 				return err
 			}
-			defer f.Close()
+			defer func(f *os.File) {
+				err := f.Close()
+				if err != nil {
+
+				}
+			}(f)
 			return cmd.SetStdout(f).SetStderr(f).Run()
 		}
 	}
@@ -273,7 +278,12 @@ func (p *provider) CollectLogs(dir string, nodes []nodes.Node) error {
 				if err != nil {
 					return err
 				}
-				defer f.Close()
+				defer func(f *os.File) {
+					err := f.Close()
+					if err != nil {
+
+					}
+				}(f)
 				return node.SerialLogs(f)
 			},
 		)
