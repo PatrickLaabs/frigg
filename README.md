@@ -23,8 +23,7 @@ attached to one another, and are also GitOps enabled.
 At the end, you will have N-amount of clusters, with a Github
 repository for each of them, where you are able to add more applications deployments.
 
-#### TODO:
-Adding a high-level overview image
+![Frigg Architecture Overview](assets/frigg_overview.png "Frigg Architecture Overview")
 
 ## Support
 
