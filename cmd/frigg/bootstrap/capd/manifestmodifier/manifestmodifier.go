@@ -17,7 +17,6 @@ func ModifyMgmt() {
 
 	// /home/patricklaabs/.frigg/frigg-cluster.kubeconfig
 	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
-	fmt.Println("Path to Kubeconfig File:", kubeconfigFlagPath)
 
 	mgmtClusterManifestPath := homedir + "/" + argohubDirName + "/" + "argohubmgmtclusterManifest.yaml"
 
@@ -74,7 +73,6 @@ func Modifyworkload() {
 
 	// /home/patricklaabs/.frigg/frigg-cluster.kubeconfig
 	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
-	fmt.Println("Path to Kubeconfig File:", kubeconfigFlagPath)
 
 	workloadClusterManifestPath := homedir + "/" + argohubDirName + "/" + "gened-Manifest.yaml"
 

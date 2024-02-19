@@ -19,18 +19,14 @@ package frigg
 
 import (
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/functests"
 	"io"
 
 	"github.com/spf13/cobra"
 
 	"github.com/PatrickLaabs/frigg/cmd"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/build"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/completion"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/create"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/delete"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/export"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/get"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/load"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/version"
 	"github.com/PatrickLaabs/frigg/pkg/log"
 )
@@ -47,8 +43,8 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "frigg",
-		Short: "frigg is a tool for managing local Kubernetes clusters",
-		Long:  "frigg creates and manages local Kubernetes clusters using Docker container 'nodes'",
+		Short: "frigg provisions kubernetes cluster with capi and gitops in no-time",
+		Long:  "frigg provisions kubernetes cluster with capi and gitops in no-time",
 		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
 			return runE(logger, flags, cmd)
 		},
@@ -79,15 +75,16 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 		"silence all stderr output",
 	)
 	// add all top level subcommands
-	c.AddCommand(build.NewCommand(logger))
-	c.AddCommand(completion.NewCommand(streams))
+	//c.AddCommand(build.NewCommand(logger))
+	//c.AddCommand(completion.NewCommand(streams))
 	c.AddCommand(create.NewCommand(logger, streams))
 	c.AddCommand(delete.NewCommand(logger))
-	c.AddCommand(export.NewCommand(logger, streams))
-	c.AddCommand(get.NewCommand(logger, streams))
+	//c.AddCommand(export.NewCommand(logger, streams))
+	//c.AddCommand(get.NewCommand(logger, streams))
 	c.AddCommand(version.NewCommand(logger, streams))
-	c.AddCommand(load.NewCommand(logger))
+	//c.AddCommand(load.NewCommand(logger))
 	c.AddCommand(bootstrap.NewCommand(logger, streams))
+	c.AddCommand(functests.NewCommand(logger, streams))
 	return c
 }
 

@@ -50,11 +50,11 @@ func Version() string {
 // DisplayVersion is Version() display formatted, this is what the version
 // subcommand prints
 func DisplayVersion() string {
-	return "kind v" + Version() + " " + runtime.Version() + " " + runtime.GOOS + "/" + runtime.GOARCH
+	return "kind v" + Version() + "\n" + runtime.Version() + "\n" + runtime.GOOS + "/" + runtime.GOARCH
 }
 
-// versionCore is the core portion of the kind CLI version per Semantic Versioning 2.0.0
-const versionCore = "0.21.0"
+// versionCore is the core portion of the frigg CLI version per Semantic Versioning 2.0.0
+const versionCore = "0.1.0"
 
 // versionPreRelease is the base pre-release portion of the kind CLI version per
 // Semantic Versioning 2.0.0
@@ -73,8 +73,8 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "version",
-		Short: "Prints the kind CLI version",
-		Long:  "Prints the kind CLI version",
+		Short: "Prints the frigg CLI version",
+		Long:  "Prints the frigg CLI version",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			if logger.V(0).Enabled() {
 				// if not -q / --quiet, show lots of info

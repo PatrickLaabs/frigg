@@ -7,16 +7,15 @@ import (
 )
 
 func Installation() {
-	fmt.Println("Applying HelmChartProxies to the mgmt-cluster...")
+	fmt.Println("Applying CNI HelmChartProxies to the mgmt-cluster...")
 
 	homedir, _ := os.UserHomeDir()
 
 	argohubDirName := ".frigg"
-	kubeconfigName := "frigg-cluster.kubeconfig"
+	kubeconfigName := "argohubmgmtcluster.kubeconfig"
 
 	// /home/patricklaabs/.frigg/frigg-cluster.kubeconfig
 	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
-	fmt.Println("Path to Kubeconfig File:", kubeconfigFlagPath)
 
 	//workloadClusterManifestPath := homedir + "/" + argohubDirName + "/" + "gened-Manifest.yaml"
 	helmchartManifests := "templates/helmchartproxies/cni.yaml"

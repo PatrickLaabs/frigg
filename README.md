@@ -41,6 +41,23 @@ Thank you very much, for supporting me 🚀
 - kind
 
 ```
+frigg provisions kubernetes cluster with capi and gitops in no-time
+
+Usage:
+  frigg [command]
+
+Available Commands:
+  bootstrap   bootstrap
+  completion  Generate the autocompletion script for the specified shell
+  create      Creates one of [cluster]
+  delete      Deletes one of [cluster]
+  functests   functests
+  help        Help about any command
+  version     Prints the frigg CLI version
+```
+
+```
+bootstrap
 
 Usage:
   frigg bootstrap [flags]
@@ -50,6 +67,7 @@ Available Commands:
   capd        capd
   capv        capv
   capz        capz
+  harvester   harvester
 
 ```
 
@@ -63,6 +81,8 @@ Available Commands:
 - vSphere
 - Azure
 - Google
+- Harvester
+- Proxmox
 
 ## Documentation
 

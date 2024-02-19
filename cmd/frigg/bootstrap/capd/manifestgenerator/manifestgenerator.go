@@ -20,7 +20,6 @@ func ManifestGeneratorMgmt() {
 
 	// /home/patricklaabs/.frigg/frigg-cluster.kubeconfig
 	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
-	fmt.Println("Path to Kubeconfig File:", kubeconfigFlagPath)
 
 	//err = os.Setenv("HELM_VALUES", "")
 	//if err != nil {

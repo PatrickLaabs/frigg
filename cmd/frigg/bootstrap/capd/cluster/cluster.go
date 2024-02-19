@@ -1,10 +1,11 @@
 package cluster
 
 import (
-	"fmt"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/clusterapi"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies"
 	"github.com/PatrickLaabs/frigg/internal/runtime"
+	"github.com/PatrickLaabs/frigg/pkg/common/kubeconfig"
+	"github.com/PatrickLaabs/frigg/pkg/common/postbootstrap"
 	"github.com/PatrickLaabs/frigg/pkg/common/wait"
 	"io"
 	"os"
@@ -14,7 +15,6 @@ import (
 
 	"github.com/PatrickLaabs/frigg/cmd"
 	"github.com/PatrickLaabs/frigg/pkg/cluster"
-	"github.com/PatrickLaabs/frigg/pkg/common/kubeconfig"
 	"github.com/PatrickLaabs/frigg/pkg/common/workdir"
 	"github.com/PatrickLaabs/frigg/pkg/errors"
 	"github.com/PatrickLaabs/frigg/pkg/log"
@@ -40,7 +40,6 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 
 	// /home/patricklaabs/.frigg/frigg-cluster.kubeconfig
 	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
-	fmt.Println("Path to Kubeconfig File:", kubeconfigFlagPath)
 
 	flags := &flagpole{}
 	c := &cobra.Command{
@@ -144,33 +143,44 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
 	// 8. modify the kubeconfig, to continue working with it
 	wait.Wait(5 * time.Second)
-	kubeconfig.ModifyMgmtKubeconfig()
+	err = kubeconfig.ModifyMgmtKubeconfig()
+	if err != nil {
+		return err
+	}
 
 	// 9. install capi components (like on step 1.) to the frigg-mgmt-cluster
+	wait.Wait(5 * time.Second)
+	clusterapi.ClusterAPIMgmt()
+
 	// 10. move components from bootstrap cluster to the frigg-mgmt-cluster
+	wait.Wait(5 * time.Second)
+	clusterapi.Pivot()
+
 	// 11. delete the bootstrap cluster
-	// 12. generate a workload-cluster manifest
-	// 13. modify the generated manifest with the needed helmchartproxy labels
-	// 14. apply the manifest to the frigg-mgmt-cluster
-	// 15. retrieve the kubeconfig
-	// 16. modify the kubeconfig
+	postbootstrap.DeleteBootstrapcluster()
 
 	// Installs the HelmChartProxies onto the mgmt-cluster
-	//wait.Wait(10 * time.Second)
-	//hc.InstallMgmtHelmCharts()
+	wait.Wait(10 * time.Second)
+	helmchartproxies.InstallMgmtHelmCharts()
 
-	//wait.Wait(10 * time.Second)
-	//manifestmodifier.Modifyworkload()
+	// 12. generate a workload-cluster manifest
+	// => for the sake, we will provide a sample and only apply it onto the mgmt cluster
+	// 13. modify the generated manifest with the needed helmchartproxy labels
 
-	// Applies the prev. generated Manifest of the workload cluster
-	// wait.Wait(10 * time.Second)
-	// clusterapi.KubectlApplyWorkload()
+	// 14. apply the manifest to the frigg-mgmt-cluster
+	wait.Wait(5 * time.Second)
+	clusterapi.KubectlApplyWorkload()
 
-	// ToDo:
-	// Retrieve kubeconfig of workload cluster and write it to the .frigg folder
+	// 15. retrieve the kubeconfig
+	wait.Wait(10 * time.Second)
+	kubeconfig.RetrieveWorkloadKubeconfig()
 
-	// ToDo:
-	// Modify the retrieved and stored kubeconfig, so it works with CAPD
+	// 16. modify the kubeconfig
+	wait.Wait(5 * time.Second)
+	err = kubeconfig.ModifyWorkloadKubeconfig()
+	if err != nil {
+		return err
+	}
 
 	return nil
 }
