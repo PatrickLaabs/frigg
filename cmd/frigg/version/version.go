@@ -50,7 +50,7 @@ func Version() string {
 // DisplayVersion is Version() display formatted, this is what the version
 // subcommand prints
 func DisplayVersion() string {
-	return "kind v" + Version() + "\n" + runtime.Version() + "\n" + runtime.GOOS + "/" + runtime.GOARCH
+	return "frigg " + Version() + "\n" + runtime.Version() + "\n" + runtime.GOOS + "/" + runtime.GOARCH
 }
 
 // versionCore is the core portion of the frigg CLI version per Semantic Versioning 2.0.0
