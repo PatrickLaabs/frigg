@@ -8,6 +8,7 @@ import (
 	"github.com/PatrickLaabs/frigg/pkg/common/kubeconfig"
 	"github.com/PatrickLaabs/frigg/pkg/common/postbootstrap"
 	"github.com/PatrickLaabs/frigg/pkg/common/wait"
+	"github.com/PatrickLaabs/frigg/tmpl/mgmtmanifestgen"
 	"io"
 	"os"
 	"time"
@@ -140,8 +141,8 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	helmchartproxies.InstallBootstrapHelmCharts()
 
 	// 3. generate a manifest, named frigg-mgmt-cluster
-	//wait.Wait(10 * time.Second)
-	//manifestgenerator.ManifestGeneratorMgmt()
+	wait.Wait(10 * time.Second)
+	mgmtmanifestgen.Gen()
 
 	// 4. modify the manifest of mgmt, to add the helmchart labels to it
 	//manifestmodifier.ModifyMgmt()
@@ -159,6 +160,11 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	if err != nil {
 		return err
 	}
+
+	// Applying Secrets
+	wait.Wait(5 * time.Second)
+	clusterapi.ApplyGithubSecretMgmt()
+	clusterapi.ApplyArgoSecretMgmt()
 
 	// 9. install capi components (like on step 1.) to the frigg-mgmt-cluster
 	wait.Wait(5 * time.Second)

@@ -3,6 +3,7 @@ package functests
 import (
 	"github.com/PatrickLaabs/frigg/cmd"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/functests/getkubeconfig"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/functests/mgmtgen"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/functests/modifykubeconfig"
 
 	"github.com/PatrickLaabs/frigg/pkg/log"
@@ -27,5 +28,6 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	}
 	c.AddCommand(getkubeconfig.NewCommand(logger, streams))
 	c.AddCommand(modifykubeconfig.NewCommand())
+	c.AddCommand(mgmtgen.NewCommand(logger, streams))
 	return c
 }
