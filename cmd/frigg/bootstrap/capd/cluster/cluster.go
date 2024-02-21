@@ -1,6 +1,7 @@
 package cluster
 
 import (
+	"fmt"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/clusterapi"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies"
 	"github.com/PatrickLaabs/frigg/internal/runtime"
@@ -93,6 +94,17 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 }
 
 func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
+
+	// Get GITHUB_TOKEN environment var
+	if os.Getenv("GITHUB_TOKEN") == "" {
+		fmt.Println("Missing Github Token, please set it. Exiting now.")
+		os.Exit(1)
+	} else {
+		os.Getenv("GITHUB_TOKEN")
+		fmt.Printf("Github Token:%v\n", os.Getenv("GITHUB_TOKEN"))
+	}
+
+	// Create working directory for frigg $HOME/.frigg
 	workdir.CreateDir()
 	provider := cluster.NewProvider(
 		cluster.ProviderWithLogger(logger),
