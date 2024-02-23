@@ -37,11 +37,10 @@ type flagpole struct {
 func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	homedir, _ := os.UserHomeDir()
 
-	argohubDirName := ".frigg"
+	friggDirName := ".frigg"
 	kubeconfigName := "bootstrapcluster.kubeconfig"
 
-	// /home/patricklaabs/.frigg/frigg-cluster.kubeconfig
-	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + kubeconfigName
 
 	flags := &flagpole{}
 	c := &cobra.Command{
@@ -97,16 +96,19 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
 	// Get GITHUB_TOKEN environment var
+	// Will exit, if the Token is not set, since we need this Token for further configurations
+	// Like deploying the token as a kubernetes secret on your clusters, creating repositories.
 	if os.Getenv("GITHUB_TOKEN") == "" {
 		fmt.Println("Missing Github Token, please set it. Exiting now.")
 		os.Exit(1)
 	} else {
 		os.Getenv("GITHUB_TOKEN")
-		fmt.Printf("Github Token:%v\n", os.Getenv("GITHUB_TOKEN"))
+		fmt.Println("Found Github Token Environment variable. Continuing..")
 	}
 
-	// Create working directory for frigg $HOME/.frigg
+	// Create working directory named .frigg inside the users homedirectory.
 	workdir.CreateDir()
+	
 	provider := cluster.NewProvider(
 		cluster.ProviderWithLogger(logger),
 		runtime.GetDefault(logger),
@@ -132,68 +134,97 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 		return errors.Wrap(err, "failed to create cluster")
 	}
 
-	// 1. Create a kind cluster, install capi components, clustername is = bootstrapcluster
+	// Installs capi components on the bootstrap cluster. 
+	// clustername is bootstrapcluster
 	wait.Wait(10 * time.Second)
 	clusterapi.ClusterAPI()
 
-	// 2. install cni helm chart proxy to the bootstrapcluster
+	// Installs a CNI solution helm chart proxy to the bootstrapcluster
+	// This is needed, to make the worker nodes ready and complete the bootstrap deployment
 	wait.Wait(10 * time.Second)
 	helmchartproxies.InstallBootstrapHelmCharts()
 
-	// 3. generate a manifest, named frigg-mgmt-cluster
+	// Generates a manifest for the management cluster, named frigg-mgmt-cluster
 	wait.Wait(10 * time.Second)
 	mgmtmanifestgen.Gen()
 
-	// 4. modify the manifest of mgmt, to add the helmchart labels to it
+	// Modifies the manifest of mgmt, to add the helmchart labels to it
+	// ToDo
+	// This is still in development process, hence the fact that modification on YAMLs are not that easy..
 	//manifestmodifier.ModifyMgmt()
 
-	// 5. apply the frigg-mgmt-cluster manifest to the bootstrap cluster
+	// Applies the frigg-mgmt-cluster manifest to the bootstrap cluster
+	// to create the first 'real' management cluster
+	wait.Wait(5 * time.Second)
 	clusterapi.KubectlApplyMgmt()
 
-	// 6. retrieve kubeconfig for the argphub-mgmt-cluster from the bootstrap cluster
+	// Retrieves the kubeconfig for the frigg-mgmt-cluster from the bootstrap cluster
+	// so that we can later on use the kubeconfig to target the correct cluster for deployments.
 	wait.Wait(10 * time.Second)
 	kubeconfig.RetrieveMgmtKubeconfig()
 
-	// 8. modify the kubeconfig, to continue working with it
+	// Modifes the kubeconfig, to let us interact with the newly created kubernetes cluster.
+	// On MacOS, there is an issue, where you need to replace ip and the port address, in order to 
+	// successfully connect to the cluster.
+	// ToDo:
+	// We shall check, if the user is running on macOS, Linux and/or Windows.
+	// Depending on the OS, the modification, of the kubeconfig, may not be needed.
 	wait.Wait(5 * time.Second)
 	err = kubeconfig.ModifyMgmtKubeconfig()
 	if err != nil {
 		return err
 	}
 
-	// Applying Secrets
+	// Applies the Github Token and the default ArgoCD Login Credentials as a 
+	// kubernetes secret on the argo namespace.
+	// This is needed to let us interact with github, to clone, refactor and push the needed
+	// gitops repositories.
+	//
+	// On the deployment, of new workload kubernetes clusters - which will be attached to the management
+	// cluster - we run ArgoCD Workflows, which will create a pod, which runs a script. 
+	// This script logs in to the argocd instance, and adds the new kubernetes cluster to it, and 
+	// also adds a label to the cluster, with which we can proceed the automation steps.
 	wait.Wait(5 * time.Second)
+	// Github Token Secret deployment
 	clusterapi.ApplyGithubSecretMgmt()
+	// ArgoCD Default Login Secret deployment
 	clusterapi.ApplyArgoSecretMgmt()
 
-	// 9. install capi components (like on step 1.) to the frigg-mgmt-cluster
+	// Installs the capi components to the frigg-mgmt-cluster
+	// This part might take a while.
 	wait.Wait(5 * time.Second)
 	clusterapi.ClusterAPIMgmt()
 
-	// 10. move components from bootstrap cluster to the frigg-mgmt-cluster
+	// Moves the capi components from the bootstrap cluster to the frigg-mgmt-cluster
 	wait.Wait(5 * time.Second)
 	clusterapi.Pivot()
 
-	// 11. delete the bootstrap cluster
+	// Deletes the bootstrap cluster, since we don't need it any longer
+	// and to free up some hardware resources.
 	postbootstrap.DeleteBootstrapcluster()
 
 	// Installs the HelmChartProxies onto the mgmt-cluster
 	wait.Wait(10 * time.Second)
 	helmchartproxies.InstallMgmtHelmCharts()
 
-	// 12. generate a workload-cluster manifest
-	// => for the sake, we will provide a sample and only apply it onto the mgmt cluster
-	// 13. modify the generated manifest with the needed helmchartproxy labels
-
-	// 14. apply the manifest to the frigg-mgmt-cluster
+	// Generates a workload-cluster manifest
+	// Modifies the manifest of the workload cluster, to add the helmchart labels to it
+	// ToDo
+	// This is still in development process, hence the fact that modification on YAMLs are not that easy..
+	
+	// Modifies the generated manifest with the needed helmchartproxy labels
+	// This step can we "on hold", since we directly write a yaml file from the templates directory, to the
+	// .frigg working directory.
+	
+	// Applies the workload cluster manifest to the frigg-mgmt-cluster
 	wait.Wait(5 * time.Second)
 	clusterapi.KubectlApplyWorkload()
 
-	// 15. retrieve the kubeconfig
+	// Retrieves the kubeconfig, like we did for the management cluster previously.
 	wait.Wait(10 * time.Second)
 	kubeconfig.RetrieveWorkloadKubeconfig()
 
-	// 16. modify the kubeconfig
+	// Modifies the kubeconfig, same pattern applies like for the management cluster.
 	wait.Wait(5 * time.Second)
 	err = kubeconfig.ModifyWorkloadKubeconfig()
 	if err != nil {
