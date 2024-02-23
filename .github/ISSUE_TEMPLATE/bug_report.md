@@ -22,5 +22,8 @@ about: Tell us about a problem you are experiencing
 - Cluster-api-provider-vsphere version:
 - Cluster-api-provider-azure version:
 - Cluster-api-provider-docker version:
+- Cluster-api-provider-harvester version:
+- Cluster-api-provider-proxmox version:
+- cluster-api-provider-vcluster version:
 - Kubernetes version: (use `kubectl version`): 
 - OS (e.g. from `/etc/os-release`): 
