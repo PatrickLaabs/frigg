@@ -3,7 +3,7 @@ module github.com/PatrickLaabs/frigg
 go 1.22
 
 require (
-	github.com/BurntSushi/toml v1.0.0
+	github.com/BurntSushi/toml v1.3.2
 	github.com/alessio/shellescape v1.4.2
 	github.com/evanphx/json-patch/v5 v5.9.0
 	github.com/google/safetext v0.0.0-20240104143208-7a7d9b3d812f
