@@ -11,13 +11,11 @@ func Installation() {
 
 	homedir, _ := os.UserHomeDir()
 
-	argohubDirName := ".frigg"
+	friggDirName := ".frigg"
 	kubeconfigName := "bootstrapcluster.kubeconfig"
 
-	// /home/patricklaabs/.frigg/frigg-cluster.kubeconfig
-	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + kubeconfigName
 
-	//workloadClusterManifestPath := homedir + "/" + argohubDirName + "/" + "gened-Manifest.yaml"
 	helmchartManifests := "templates/helmchartproxies/cni.yaml"
 
 	cmd := exec.Command("kubectl", "--kubeconfig",

@@ -314,7 +314,7 @@ metadata:
   name: workloadcluster 
   namespace: default
   labels:
-    argocd-hub-workloadclusters-apps-Enabled: default
+    # argocd-hub-workloadclusters-apps-Enabled: default
     argocd-workloadclusters-clusters-Enabled: default
 spec:
   clusterNetwork:

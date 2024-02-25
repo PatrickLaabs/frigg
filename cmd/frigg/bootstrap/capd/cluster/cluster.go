@@ -9,6 +9,7 @@ import (
 	"github.com/PatrickLaabs/frigg/pkg/common/postbootstrap"
 	"github.com/PatrickLaabs/frigg/pkg/common/wait"
 	"github.com/PatrickLaabs/frigg/tmpl/mgmtmanifestgen"
+	"github.com/PatrickLaabs/frigg/tmpl/workloadmanifestgen"
 	"io"
 	"os"
 	"time"
@@ -172,7 +173,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	wait.Wait(5 * time.Second)
 	err = kubeconfig.ModifyMgmtKubeconfig()
 	if err != nil {
-		return err
+		fmt.Printf("Error on modification of mgmt clusters kubeconfig: %v\n", err)
 	}
 
 	// Applies the Github Token and the default ArgoCD Login Credentials as a
@@ -191,7 +192,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	clusterapi.ApplyArgoSecretMgmt()
 
 	// Installs the capi components to the frigg-mgmt-cluster
-	// This part might take a while.
+	// This part may take a while.
 	wait.Wait(5 * time.Second)
 	clusterapi.ClusterAPIMgmt()
 
@@ -209,8 +210,8 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
 	// Generates a workload-cluster manifest
 	// Modifies the manifest of the workload cluster, to add the helmchart labels to it
-	// ToDo
-	// This is still in development process, hence the fact that modification on YAMLs are not that easy..
+	wait.Wait(5 * time.Second)
+	workloadmanifestgen.Gen()
 
 	// Modifies the generated manifest with the needed helmchartproxy labels
 	// This step can we "on hold", since we directly write a yaml file from the templates directory, to the
@@ -228,7 +229,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	wait.Wait(5 * time.Second)
 	err = kubeconfig.ModifyWorkloadKubeconfig()
 	if err != nil {
-		return err
+		fmt.Printf("Error on modifications of the workload cluster kubeconfig: %v\n", err)
 	}
 
 	return nil
