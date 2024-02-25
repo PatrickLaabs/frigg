@@ -95,9 +95,9 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 
 func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
-	// Get GITHUB_TOKEN environment var
-	// Will exit, if the Token is not set, since we need this Token for further configurations
-	// Like deploying the token as a kubernetes secret on your clusters, creating repositories.
+	// docs:Get GITHUB_TOKEN environment var
+	// docs:Will exit, if the Token is not set, since we need this Token for further configurations
+	// docs:Like deploying the token as a kubernetes secret on your clusters, creating repositories.
 	if os.Getenv("GITHUB_TOKEN") == "" {
 		fmt.Println("Missing Github Token, please set it. Exiting now.")
 		os.Exit(1)
@@ -108,7 +108,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
 	// Create working directory named .frigg inside the users homedirectory.
 	workdir.CreateDir()
-	
+
 	provider := cluster.NewProvider(
 		cluster.ProviderWithLogger(logger),
 		runtime.GetDefault(logger),
@@ -134,7 +134,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 		return errors.Wrap(err, "failed to create cluster")
 	}
 
-	// Installs capi components on the bootstrap cluster. 
+	// Installs capi components on the bootstrap cluster.
 	// clustername is bootstrapcluster
 	wait.Wait(10 * time.Second)
 	clusterapi.ClusterAPI()
@@ -164,7 +164,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	kubeconfig.RetrieveMgmtKubeconfig()
 
 	// Modifes the kubeconfig, to let us interact with the newly created kubernetes cluster.
-	// On MacOS, there is an issue, where you need to replace ip and the port address, in order to 
+	// On MacOS, there is an issue, where you need to replace ip and the port address, in order to
 	// successfully connect to the cluster.
 	// ToDo:
 	// We shall check, if the user is running on macOS, Linux and/or Windows.
@@ -175,14 +175,14 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 		return err
 	}
 
-	// Applies the Github Token and the default ArgoCD Login Credentials as a 
+	// Applies the Github Token and the default ArgoCD Login Credentials as a
 	// kubernetes secret on the argo namespace.
 	// This is needed to let us interact with github, to clone, refactor and push the needed
 	// gitops repositories.
 	//
 	// On the deployment, of new workload kubernetes clusters - which will be attached to the management
-	// cluster - we run ArgoCD Workflows, which will create a pod, which runs a script. 
-	// This script logs in to the argocd instance, and adds the new kubernetes cluster to it, and 
+	// cluster - we run ArgoCD Workflows, which will create a pod, which runs a script.
+	// This script logs in to the argocd instance, and adds the new kubernetes cluster to it, and
 	// also adds a label to the cluster, with which we can proceed the automation steps.
 	wait.Wait(5 * time.Second)
 	// Github Token Secret deployment
@@ -211,11 +211,11 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	// Modifies the manifest of the workload cluster, to add the helmchart labels to it
 	// ToDo
 	// This is still in development process, hence the fact that modification on YAMLs are not that easy..
-	
+
 	// Modifies the generated manifest with the needed helmchartproxy labels
 	// This step can we "on hold", since we directly write a yaml file from the templates directory, to the
 	// .frigg working directory.
-	
+
 	// Applies the workload cluster manifest to the frigg-mgmt-cluster
 	wait.Wait(5 * time.Second)
 	clusterapi.KubectlApplyWorkload()
