@@ -43,6 +43,7 @@ func NewCommand() *cobra.Command {
 			wait.Wait(2 * time.Second)
 			clusterapi.CreateArgoNSWorkload()
 
+			fmt.Println("Workload Cluster has been successfully provisioned onto your management cluster!")
 			return nil
 		},
 	}
