@@ -40,7 +40,7 @@ func NewCommand() *cobra.Command {
 				fmt.Printf("Error on modifications of the workload cluster kubeconfig: %v\n", err)
 			}
 
-			wait.Wait(2 * time.Second)
+			wait.Wait(10 * time.Second)
 			clusterapi.CreateArgoNSWorkload()
 
 			fmt.Println("Workload Cluster has been successfully provisioned onto your management cluster!")
