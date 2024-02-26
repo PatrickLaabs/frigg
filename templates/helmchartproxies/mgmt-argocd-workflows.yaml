@@ -41,7 +41,7 @@ spec:
           resources: ["clusters"]
           verbs: ["get", "list", "watch"]
         - apiGroups: ["infrastructure.cluster.x-k8s.io"]
-          resources: ["vsphereclusters", "azureclusters"]
+          resources: ["vsphereclusters", "azureclusters", "dockerclusters"]
           verbs: ["get", "list", "watch"]
         - apiGroups: [""]
           resources: ["secrets"]

@@ -1,7 +1,6 @@
 package helmchartproxies
 
 import (
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies/argocdHubWorkload"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies/argocdWorkload"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies/cni"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies/cnibootstrap"
@@ -14,7 +13,7 @@ import (
 )
 
 func InstallMgmtHelmCharts() {
-	argocdHubWorkload.Installation()
+	//argocdHubWorkload.Installation()
 	argocdWorkload.Installation()
 	cni.Installation()
 	mgmtArgocdApps.Installation()

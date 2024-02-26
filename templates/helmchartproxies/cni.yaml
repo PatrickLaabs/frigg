@@ -5,11 +5,16 @@ metadata:
   name: calico-cni
 spec:
   clusterSelector:
+    # Target workload clusters with specific labels.
+    #  matchLabels:
+    #    calicoCNI: enabled
+    # Target all workload clusters.
     matchLabels: {}
   releaseName: calico
   repoURL: https://docs.tigera.io/calico/charts
   chartName: tigera-operator
   namespace: kube-system
-  valuesTemplate: |
+  version: 3.27.0
+  valuesTemplate: |-
     installation:
       registry: quay.io/

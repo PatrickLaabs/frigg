@@ -18,7 +18,7 @@ jobs:
           fetch-depth: 1
       - name: 🍳 Shake & bake README
         run:
-          go run docs/docsgenerator.go
+          make gen-docs
       - name: 🚀 Deploy
         run: |
           git config user.name "${GITHUB_ACTOR}"

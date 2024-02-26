@@ -90,14 +90,16 @@ func ApplyGithubSecretMgmt() {
 
 	friggDirname := ".frigg"
 	kubeconfigName := "argohubmgmtcluster.kubeconfig"
+	fromLiteralString := "--from-literal=token=" + token
 
 	kubeconfigFlagPath := homedir + "/" + friggDirname + "/" + kubeconfigName
 
 	// kubectl -n argocd create secret generic github-token --from-literal=
 	cmd := exec.Command("kubectl", "--kubeconfig",
-		kubeconfigFlagPath, "create", "secret", "generic",
-		"github-token", "--from-literal=", token, "-n", "argo",
+		kubeconfigFlagPath, "-n", "argo", "create", "secret", "generic",
+		"github-token", fromLiteralString,
 	)
+	fmt.Printf("github secret gen: %s", cmd)
 
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
@@ -121,10 +123,58 @@ func ApplyArgoSecretMgmt() {
 
 	// kubectl create secret generic argocd-login --from-literal=password=frigg --from-literal=username=admin -n argo
 	cmd := exec.Command("kubectl", "--kubeconfig",
-		kubeconfigFlagPath, "create", "secret", "generic",
+		kubeconfigFlagPath, "-n", "argo", "create", "secret", "generic",
 		"argocd-login",
 		"--from-literal=password=$2a$10$UfHxzEstRBKFAiTH0ZlI8u95SOaRBcXDCxBTBxfmOz14FHC6Vv3de",
-		"--from-literal=username=admin", "-n", "argo",
+		"--from-literal=username=admin",
+	)
+
+	// Capture the output of the command
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Error running clusterctl: %s\n", err)
+		fmt.Println(string(output))
+		return
+	}
+	fmt.Println(string(output))
+}
+
+func CreateArgoNSMgmt() {
+	fmt.Println("Creating Argo Namespace to the mgmt cluster")
+
+	homedir, _ := os.UserHomeDir()
+
+	friggDirname := ".frigg"
+	kubeconfigName := "argohubmgmtcluster.kubeconfig"
+
+	kubeconfigFlagPath := homedir + "/" + friggDirname + "/" + kubeconfigName
+
+	cmd := exec.Command("kubectl", "--kubeconfig",
+		kubeconfigFlagPath, "create", "namespace", "argo",
+	)
+
+	// Capture the output of the command
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Printf("Error running clusterctl: %s\n", err)
+		fmt.Println(string(output))
+		return
+	}
+	fmt.Println(string(output))
+}
+
+func CreateArgoNSWorkload() {
+	fmt.Println("Creating Argo Namespace to the mgmt cluster")
+
+	homedir, _ := os.UserHomeDir()
+
+	friggDirname := ".frigg"
+	kubeconfigName := "workloadcluster.kubeconfig"
+
+	kubeconfigFlagPath := homedir + "/" + friggDirname + "/" + kubeconfigName
+
+	cmd := exec.Command("kubectl", "--kubeconfig",
+		kubeconfigFlagPath, "create", "namespace", "argo",
 	)
 
 	// Capture the output of the command

@@ -1,6 +1,6 @@
-CAPD (ClusterAPI Provider for Docker) Documentation
+# CAPD (ClusterAPI Provider for Docker) Documentation
 
 
-Placeholder
+## Placeholder
 
-25 Feb 2024
+26 Feb 2024
