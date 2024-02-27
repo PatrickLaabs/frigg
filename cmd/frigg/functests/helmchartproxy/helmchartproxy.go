@@ -16,7 +16,7 @@ func NewCommand() *cobra.Command {
 		RunE: func(cmd *cobra.Command, args []string) error {
 			fmt.Println("modify hc func")
 
-			helmchartsproxies.MgmtArgoCD()
+			helmchartsproxies.MgmtArgoApps()
 
 			return nil
 		},

@@ -12,11 +12,14 @@ func Installation() {
 	homedir, _ := os.UserHomeDir()
 
 	friggDirName := ".frigg"
+	friggDir := homedir + "/" + friggDirName
 	kubeconfigName := "argohubmgmtcluster.kubeconfig"
 
 	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + kubeconfigName
 
-	helmchartManifests := "templates/helmchartproxies/mgmt-argocd-apps.yaml"
+	//helmchartManifests := "templates/helmchartproxies/mgmt-argocd-apps.yaml"
+	newFile := "mgmt-argocd-apps.yaml"
+	helmchartManifests := friggDir + "/" + newFile
 
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "apply",

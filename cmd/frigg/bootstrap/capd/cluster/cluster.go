@@ -214,6 +214,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	helmchartsproxies.MgmtArgoApps()
 
 	// Installs the HelmChartProxies onto the mgmt-cluster
+	wait.Wait(5 * time.Second)
 	helmchartproxies.InstallMgmtHelmCharts()
 
 	fmt.Println("Successfully provisioned your management cluster ontop of capd.")
