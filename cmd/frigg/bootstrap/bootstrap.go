@@ -16,8 +16,8 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "bootstrap",
-		Short: "bootstrap",
-		Long:  "bootstrap",
+		Short: "bootstrap various clusters on different providers",
+		Long:  "bootstrap various clusters on different providers",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			err := cmd.Help()
 			if err != nil {

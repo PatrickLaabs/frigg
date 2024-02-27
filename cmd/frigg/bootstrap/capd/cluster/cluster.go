@@ -112,6 +112,14 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 		fmt.Println("Found Github Username Environment variable. Continuing..")
 	}
 
+	if os.Getenv("GITHUB_USERNAME_EMAIL") == "" {
+		fmt.Println("Missing Github Username, please set it. Exiting now.")
+		os.Exit(1)
+	} else {
+		os.Getenv("GITHUB_USERNAME_EMAIL")
+		fmt.Println("Found Github Username Environment variable. Continuing..")
+	}
+
 	// Create working directory named .frigg inside the users homedirectory.
 	workdir.CreateDir()
 

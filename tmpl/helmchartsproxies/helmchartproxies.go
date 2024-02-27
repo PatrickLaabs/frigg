@@ -109,7 +109,7 @@ func MgmtArgoCD() {
 
 	username, err := retrieveUsername()
 	if err != nil {
-		fmt.Println("Error retrieving token:", err)
+		fmt.Println("Error retrieving github username:", err)
 		os.Exit(1)
 	}
 
@@ -150,7 +150,7 @@ func retrieveUsername() (string, error) {
 	var username string
 
 	if os.Getenv("GITHUB_USERNAME") == "" {
-		fmt.Println("Missing Github Token, please set it. Exiting now.")
+		fmt.Println("Missing Github Username, please set it. Exiting now.")
 		os.Exit(1)
 	} else {
 		username = os.Getenv("GITHUB_USERNAME")

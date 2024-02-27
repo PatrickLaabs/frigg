@@ -46,28 +46,37 @@ Usage:
   frigg [command]
 
 Available Commands:
-  bootstrap   bootstrap
+  bootstrap   bootstrap various clusters on different providers
   completion  Generate the autocompletion script for the specified shell
-  create      Creates one of [cluster]
   delete      Deletes one of [cluster]
-  functests   functests
   help        Help about any command
   version     Prints the frigg CLI version
 ```
 
 ```
-bootstrap
+bootstrap various clusters on different providers
 
 Usage:
   frigg bootstrap [flags]
   frigg bootstrap [command]
 
 Available Commands:
-  capd        capd
+  capd        clusterapi provider docker
   capv        capv
   capz        capz
   harvester   harvester
+```
 
+```
+Creates local Kubernetes clusters using clusterapi's provider capd (docker)
+
+Usage:
+  frigg bootstrap capd [flags]
+  frigg bootstrap capd [command]
+
+Available Commands:
+  cluster         Creates a local Kubernetes cluster
+  workloadcluster deploy workload cluster
 ```
 
 ## Features

@@ -14,8 +14,8 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c := &cobra.Command{
 		Args:  cobra.NoArgs,
 		Use:   "capd",
-		Short: "capd",
-		Long:  "capd",
+		Short: "clusterapi provider docker",
+		Long:  "Creates local Kubernetes clusters using clusterapi's provider capd (docker)",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			err := cmd.Help()
 			if err != nil {

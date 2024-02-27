@@ -14,7 +14,8 @@ func MakeReadme(filename string) {
 	body := "## Get started \n\n" +
 		"You will need to pass two Environment variables: \n" +
 		"- GITHUB_TOKEN\n" +
-		"- GITHUB_USERNAME"
+		"- GITHUB_USERNAME\n" +
+		"- GITHUB_USERNAME_EMAIL"
 	footer := "Updated on: " + date
 	data := fmt.Sprintf("%s\n\n%s\n\n%s", header, body, footer)
 
