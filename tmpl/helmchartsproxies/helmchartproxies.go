@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v3"
 	"os"
+	"regexp"
+	"strings"
 )
 
 // Cni generates the CNI Helmchartproxy YAML file to the .frigg directory
@@ -47,10 +49,114 @@ func ArgoEvents() {
 
 func MgmtArgoApps() {
 	fmt.Println("Generating Mgmts Argo Apps Helmchartproxy")
+
+	homedir, _ := os.UserHomeDir()
+	friggDirName := ".frigg"
+	friggDir := homedir + "/" + friggDirName
+
+	filePath := "templates/helmchartproxies/mgmt-argocd-apps.yaml"
+	newFile := "mgmt-argocd-apps.yaml"
+	newfilePath := friggDir + "/" + newFile
+
+	username, err := retrieveUsername()
+	if err != nil {
+		fmt.Println("Error retrieving token:", err)
+		os.Exit(1)
+	}
+
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return
+	}
+
+	lines := strings.Split(string(data), "\n")
+	modifiedLines := make([]string, 0, len(lines))
+
+	// URL should be formated like this: https://github.com/<USERNAME>/argo-hub.git
+	re := regexp.MustCompile(`PLACEHOLDER`)
+
+	url := "https://github.com/" + username + "/argo-hub.git"
+
+	for _, line := range lines {
+		if match := re.FindStringSubmatch(line); match != nil {
+			fmt.Println("inside match statement")
+
+			newUrl := fmt.Sprintf(url)
+
+			modifiedLine := re.ReplaceAllString(line, fmt.Sprintf(newUrl))
+			modifiedLines = append(modifiedLines, modifiedLine)
+		} else {
+			modifiedLines = append(modifiedLines, line)
+		}
+	}
+
+	err = os.WriteFile(newfilePath, []byte(strings.Join(modifiedLines, "\n")), 0755)
+	if err != nil {
+		return
+	}
 }
 
 func MgmtArgoCD() {
 	fmt.Println("Generating Mgmts ArgoCD Helmchartproxy")
+
+	homedir, _ := os.UserHomeDir()
+	friggDirName := ".frigg"
+	friggDir := homedir + "/" + friggDirName
+
+	filePath := "templates/helmchartproxies/mgmt-argocd.yaml"
+	newFile := "mgmt-argocd.yaml"
+	newfilePath := friggDir + "/" + newFile
+
+	username, err := retrieveUsername()
+	if err != nil {
+		fmt.Println("Error retrieving token:", err)
+		os.Exit(1)
+	}
+
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return
+	}
+
+	lines := strings.Split(string(data), "\n")
+	modifiedLines := make([]string, 0, len(lines))
+
+	// URL should be formated like this: https://github.com/<USERNAME>/argo-hub.git
+	re := regexp.MustCompile(`PLACEHOLDER`)
+
+	url := "https://github.com/" + username + "/argo-hub.git"
+
+	for _, line := range lines {
+		if match := re.FindStringSubmatch(line); match != nil {
+			fmt.Println("inside match statement")
+
+			newUrl := fmt.Sprintf(url)
+
+			modifiedLine := re.ReplaceAllString(line, fmt.Sprintf(newUrl))
+			modifiedLines = append(modifiedLines, modifiedLine)
+		} else {
+			modifiedLines = append(modifiedLines, line)
+		}
+	}
+
+	err = os.WriteFile(newfilePath, []byte(strings.Join(modifiedLines, "\n")), 0755)
+	if err != nil {
+		return
+	}
+}
+
+func retrieveUsername() (string, error) {
+	// Get GITHUB_USERNAME environment var
+	var username string
+
+	if os.Getenv("GITHUB_USERNAME") == "" {
+		fmt.Println("Missing Github Token, please set it. Exiting now.")
+		os.Exit(1)
+	} else {
+		username = os.Getenv("GITHUB_USERNAME")
+	}
+
+	return username, nil
 }
 
 // AppendNewLineToFile appends a new line with the given message to a YAML file and saves it as a new file.

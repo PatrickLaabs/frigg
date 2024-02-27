@@ -8,6 +8,7 @@ import (
 	"github.com/PatrickLaabs/frigg/pkg/common/kubeconfig"
 	"github.com/PatrickLaabs/frigg/pkg/common/postbootstrap"
 	"github.com/PatrickLaabs/frigg/pkg/common/wait"
+	"github.com/PatrickLaabs/frigg/tmpl/helmchartsproxies"
 	"github.com/PatrickLaabs/frigg/tmpl/mgmtmanifestgen"
 	"io"
 	"os"
@@ -95,15 +96,20 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 
 func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
-	// docs:Get GITHUB_TOKEN environment var
-	// docs:Will exit, if the Token is not set, since we need this Token for further configurations
-	// docs:Like deploying the token as a kubernetes secret on your clusters, creating repositories.
 	if os.Getenv("GITHUB_TOKEN") == "" {
 		fmt.Println("Missing Github Token, please set it. Exiting now.")
 		os.Exit(1)
 	} else {
 		os.Getenv("GITHUB_TOKEN")
 		fmt.Println("Found Github Token Environment variable. Continuing..")
+	}
+
+	if os.Getenv("GITHUB_USERNAME") == "" {
+		fmt.Println("Missing Github Username, please set it. Exiting now.")
+		os.Exit(1)
+	} else {
+		os.Getenv("GITHUB_USERNAME")
+		fmt.Println("Found Github Username Environment variable. Continuing..")
 	}
 
 	// Create working directory named .frigg inside the users homedirectory.
@@ -203,8 +209,11 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	// and to free up some hardware resources.
 	postbootstrap.DeleteBootstrapcluster()
 
+	// Generating HelmChartProxies
+	helmchartsproxies.MgmtArgoCD()
+	helmchartsproxies.MgmtArgoApps()
+
 	// Installs the HelmChartProxies onto the mgmt-cluster
-	wait.Wait(10 * time.Second)
 	helmchartproxies.InstallMgmtHelmCharts()
 
 	fmt.Println("Successfully provisioned your management cluster ontop of capd.")

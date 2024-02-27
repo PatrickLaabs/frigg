@@ -94,9 +94,6 @@ func ModifyMgmtKubeconfig() error {
 	lines := strings.Split(string(data), "\n")
 	modifiedLines := make([]string, 0, len(lines))
 
-	// re := regexp.MustCompile(`^server:\s+(?P<url>.*)$`) // Matches "server:" line with URL capture group
-	// re := regexp.MustCompile(`^server:\s+(https?://[^:]+:\d+)/tcp`)
-	// re := regexp.MustCompile(` {4}server:`)
 	re := regexp.MustCompile(`^ {4}server: (https?://[^:]+:\d+)`) // Capture the URL
 
 	var port string

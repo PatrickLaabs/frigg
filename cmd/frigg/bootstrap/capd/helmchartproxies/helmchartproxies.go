@@ -13,7 +13,6 @@ import (
 )
 
 func InstallMgmtHelmCharts() {
-	//argocdHubWorkload.Installation()
 	argocdWorkload.Installation()
 	cni.Installation()
 	mgmtArgocdApps.Installation()
