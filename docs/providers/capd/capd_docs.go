@@ -22,7 +22,7 @@ func MakeReadme(filename string) {
 		"```" + newLine +
 		"export GITHUB_TOKEN=" + newLine +
 		"export GITHUB_USERNAME=" + newLine +
-		"export GITHUB_MAIL" + newLine +
+		"export GITHUB_MAIL=" + newLine +
 		"```"
 	footer := "Updated on: " + date
 	data := fmt.Sprintf("%s\n\n%s\n\n%s", header, body, footer)
