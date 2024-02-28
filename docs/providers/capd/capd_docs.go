@@ -10,12 +10,20 @@ import (
 func MakeReadme(filename string) {
 	date := time.Now().Format("2 Jan 2006")
 
+	newLine := "\n"
+	doubleNewLine := "\n\n"
+
 	header := "# CAPD (ClusterAPI Provider for Docker) Documentation"
-	body := "## Get started \n\n" +
-		"You will need to pass two Environment variables: \n" +
-		"- GITHUB_TOKEN\n" +
-		"- GITHUB_USERNAME\n" +
-		"- GITHUB_USERNAME_EMAIL"
+	body := "## Get started" + doubleNewLine +
+		"You will need to pass two Environment variables:" + newLine +
+		"- GITHUB_TOKEN" + newLine +
+		"- GITHUB_USERNAME" + newLine +
+		"- GITHUB_MAIL" + doubleNewLine +
+		"```" + newLine +
+		"export GITHUB_TOKEN=" + newLine +
+		"export GITHUB_USERNAME=" + newLine +
+		"export GITHUB_MAIL" + newLine +
+		"```"
 	footer := "Updated on: " + date
 	data := fmt.Sprintf("%s\n\n%s\n\n%s", header, body, footer)
 

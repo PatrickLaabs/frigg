@@ -112,11 +112,11 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 		fmt.Println("Found Github Username Environment variable. Continuing..")
 	}
 
-	if os.Getenv("GITHUB_USERNAME_EMAIL") == "" {
+	if os.Getenv("GITHUB_MAIL") == "" {
 		fmt.Println("Missing Github Username, please set it. Exiting now.")
 		os.Exit(1)
 	} else {
-		os.Getenv("GITHUB_USERNAME_EMAIL")
+		os.Getenv("GITHUB_MAIL")
 		fmt.Println("Found Github Username Environment variable. Continuing..")
 	}
 

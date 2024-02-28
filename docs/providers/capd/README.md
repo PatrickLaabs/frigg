@@ -1,10 +1,16 @@
 # CAPD (ClusterAPI Provider for Docker) Documentation
 
-## Get started 
+## Get started
 
-You will need to pass two Environment variables: 
+You will need to pass two Environment variables:
 - GITHUB_TOKEN
 - GITHUB_USERNAME
-- GITHUB_USERNAME_EMAIL
+- GITHUB_MAIL
 
-Updated on: 27 Feb 2024
+```
+export GITHUB_TOKEN=
+export GITHUB_USERNAME=
+export GITHUB_MAIL
+```
+
+Updated on: 28 Feb 2024

@@ -3,6 +3,7 @@ package reporender
 import (
 	"fmt"
 	"github.com/PatrickLaabs/frigg/pkg/common/wait"
+	"github.com/fatih/color"
 	"github.com/go-git/go-git/v5"
 	"github.com/go-git/go-git/v5/plumbing/object"
 	"os"
@@ -17,11 +18,12 @@ import (
 // This Repo contains some placeholder strings.
 // To be more precise:
 // - GITHUB_USER
-// - GITHUB_USER_EMAIL
+// - GITHUB_MAIL
 
 // FullStage combines everything, that is needed, to fully prepare the gitops repo for the end-user
 func FullStage() {
-	fmt.Println("Rendering the gitops template repo")
+	println(color.GreenString("Rendering the gitops template repo"))
+
 	username, err := retrieveGithubUserEnv()
 	if err != nil {
 		fmt.Printf("Error retrieving username: %v", err)
@@ -57,7 +59,7 @@ func retrieveGithubUserEnv() (string, error) {
 	var username string
 
 	if os.Getenv("GITHUB_USERNAME") == "" {
-		fmt.Println("Missing Github Username, please set it. Exiting now.")
+		println(color.RedString("Missing Github Username, please set it. Exiting now."))
 		os.Exit(1)
 	} else {
 		username = os.Getenv("GITHUB_USERNAME")
@@ -67,15 +69,15 @@ func retrieveGithubUserEnv() (string, error) {
 }
 
 // retrieveGithubUserMailEnv retrieves and reads the os.Env variables needed for further preperation
-// GITHUB_USER_EMAIL
+// GITHUB_MAIL
 func retrieveGithubUserMailEnv() (string, error) {
 	var usermail string
 
-	if os.Getenv("GITHUB_USER_EMAIL") == "" {
-		fmt.Println("Missing Github User Email, please set it. Exiting now.")
+	if os.Getenv("GITHUB_MAIL") == "" {
+		println(color.RedString("Missing Github User Email, please set it. Exiting now."))
 		os.Exit(1)
 	} else {
-		usermail = os.Getenv("GITHUB_USER_EMAIL")
+		usermail = os.Getenv("GITHUB_MAIL")
 	}
 
 	return usermail, nil
@@ -83,15 +85,15 @@ func retrieveGithubUserMailEnv() (string, error) {
 
 // githubLogin logs in to github via github cli using the provided github token
 func githubLogin() {
-	fmt.Println("Loggin in to Github with your provided Github Token")
+	println(color.GreenString("Loggin in to Github with your provided Github Token"))
 
 	cmd := exec.Command("gh", "auth", "login")
 
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error running clusterctl: %s\n", err)
-		fmt.Println(string(output))
+		println(color.RedString("Error: %v", err))
+		println(color.YellowString(string(output)))
 		return
 	}
 	fmt.Println(string(output))
@@ -167,10 +169,10 @@ func replaceStrings(dirPath string, username string, usermail string) error {
 			return err
 		}
 
-		reGhUser := regexp.MustCompile(`GITHUB_USER`)
-		reGhMail := regexp.MustCompile(`GITHUB_USER_EMAIL`)
+		reGhUser := regexp.MustCompile(`GITHUB_USERNAME`)
+		reGhMail := regexp.MustCompile(`GITHUB_MAIL`)
 
-		// Replace GITHUB_USER and GITHUB_USER_EMAIL
+		// Replace GITHUB_USER and GITHUB_MAIL
 		newdata := replaceInString(data, reGhUser, username)
 		newdata = replaceInString(newdata, reGhMail, usermail)
 
