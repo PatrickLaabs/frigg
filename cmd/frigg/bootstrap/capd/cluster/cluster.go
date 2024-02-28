@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/clusterapi"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/reporender"
 	"github.com/PatrickLaabs/frigg/internal/runtime"
 	"github.com/PatrickLaabs/frigg/pkg/common/kubeconfig"
 	"github.com/PatrickLaabs/frigg/pkg/common/postbootstrap"
@@ -147,6 +148,9 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	); err != nil {
 		return errors.Wrap(err, "failed to create cluster")
 	}
+
+	// Rendering gitops repo
+	reporender.FullStage()
 
 	// Installs capi components on the bootstrap cluster.
 	// clustername is bootstrapcluster
