@@ -1,18 +1,18 @@
 package workdir
 
 import (
-	"fmt"
+	"github.com/fatih/color"
 	"os"
 )
 
 func CreateDir() {
 	dir, err := os.UserHomeDir()
 	if err != nil {
-		return
+		println(color.RedString("Error on accessing the .frigg working directory: %v\n", err))
 	}
 
 	err = os.Mkdir(dir+"/.frigg", 0750)
 	if err != nil {
-		fmt.Printf("Error Creating .frigg Directory %v\n", err)
+		println(color.RedString("Error Creating .frigg Directory %v\n", err))
 	}
 }

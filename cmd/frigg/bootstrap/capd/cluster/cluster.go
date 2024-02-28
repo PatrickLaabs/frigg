@@ -3,7 +3,15 @@ package cluster
 import (
 	"fmt"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/clusterapi"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies/argocdWorkload"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies/cni"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies/cnibootstrap"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies/mgmtArgocdApps"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies/mgmtArgocdEvents"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies/mgmtArgocdRollouts"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies/mgmtArgocdWorkflows"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies/mgmtArgohub"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies/mgmtVault"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/reporender"
 	"github.com/PatrickLaabs/frigg/internal/runtime"
 	"github.com/PatrickLaabs/frigg/pkg/common/kubeconfig"
@@ -11,6 +19,7 @@ import (
 	"github.com/PatrickLaabs/frigg/pkg/common/wait"
 	"github.com/PatrickLaabs/frigg/tmpl/helmchartsproxies"
 	"github.com/PatrickLaabs/frigg/tmpl/mgmtmanifestgen"
+	"github.com/fatih/color"
 	"io"
 	"os"
 	"time"
@@ -98,30 +107,31 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
 	if os.Getenv("GITHUB_TOKEN") == "" {
-		fmt.Println("Missing Github Token, please set it. Exiting now.")
+		println(color.RedString("Missing Github Token, please set it. Exiting now."))
 		os.Exit(1)
 	} else {
 		os.Getenv("GITHUB_TOKEN")
-		fmt.Println("Found Github Token Environment variable. Continuing..")
+		println(color.GreenString("Found Github Token Environment variable. Continuing.."))
 	}
 
 	if os.Getenv("GITHUB_USERNAME") == "" {
-		fmt.Println("Missing Github Username, please set it. Exiting now.")
+		println(color.RedString("Missing Github Username, please set it. Exiting now."))
 		os.Exit(1)
 	} else {
 		os.Getenv("GITHUB_USERNAME")
-		fmt.Println("Found Github Username Environment variable. Continuing..")
+		println(color.GreenString("Found Github Username Environment variable. Continuing.."))
 	}
 
 	if os.Getenv("GITHUB_MAIL") == "" {
-		fmt.Println("Missing Github Username, please set it. Exiting now.")
+		println(color.RedString("Missing Github Username, please set it. Exiting now."))
 		os.Exit(1)
 	} else {
 		os.Getenv("GITHUB_MAIL")
-		fmt.Println("Found Github Username Environment variable. Continuing..")
+		println(color.GreenString("Found Github Username Environment variable. Continuing.."))
 	}
 
 	// Create working directory named .frigg inside the users homedirectory.
+	println(color.YellowString("Creating working directory on your homedirectory"))
 	workdir.CreateDir()
 
 	provider := cluster.NewProvider(
@@ -160,7 +170,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	// Installs a CNI solution helm chart proxy to the bootstrapcluster
 	// This is needed, to make the worker nodes ready and complete the bootstrap deployment
 	wait.Wait(10 * time.Second)
-	helmchartproxies.InstallBootstrapHelmCharts()
+	cnibootstrap.Installation()
 
 	// Generates a manifest for the management cluster, named frigg-mgmt-cluster
 	wait.Wait(10 * time.Second)
@@ -226,10 +236,16 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	helmchartsproxies.MgmtArgoApps()
 
 	// Installs the HelmChartProxies onto the mgmt-cluster
-	wait.Wait(5 * time.Second)
-	helmchartproxies.InstallMgmtHelmCharts()
+	argocdWorkload.Installation()
+	cni.Installation()
+	mgmtArgocdApps.Installation()
+	mgmtArgocdEvents.Installation()
+	mgmtArgocdRollouts.Installation()
+	mgmtArgocdWorkflows.Installation()
+	mgmtArgohub.Installation()
+	mgmtVault.Installation()
 
-	fmt.Println("Successfully provisioned your management cluster ontop of capd.")
+	println(color.GreenString("Successfully provisioned your management cluster ontop of capd."))
 
 	return nil
 }

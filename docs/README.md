@@ -16,10 +16,12 @@ You will need to have the following tools installed:
 (Currently, we are working on an implementation, 
 to download the needed binaries - so that you do not need to care about.)
 
-- KinD
-- Docker
-- clusterctl
-- kubectl
+- [kind](https://formulae.brew.sh/formula/kind#default)
+- [Docker](https://www.docker.com/products/docker-desktop/)
+- [clusterctl](https://formulae.brew.sh/formula/clusterctl#default)
+- [kubectl](https://formulae.brew.sh/formula/kubernetes-cli#default)
+- [github cli](https://formulae.brew.sh/formula/gh#default)
+- [jq](https://formulae.brew.sh/formula/jq#default)
 
 ## Choose on of the providers you'd like to use
 

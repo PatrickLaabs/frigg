@@ -2,22 +2,23 @@ package clusterapi
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 	"os"
 	"os/exec"
 )
 
 func KubectlApplyMgmt() {
-	fmt.Println("Applying Manifest to the cluster")
+	println(color.GreenString("Applying Manifest to the cluster"))
 
-	homedir, _ := os.UserHomeDir()
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+		return
+	}
 
-	argohubDirName := ".frigg"
-	kubeconfigName := "bootstrapcluster.kubeconfig"
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + bootstrapkubeconfigName
 
-	// /home/patricklaabs/.frigg/frigg-cluster.kubeconfig
-	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
-
-	mgmtcluster := homedir + "/" + argohubDirName + "/" + "argohubmgmtclusterManifest.yaml"
+	mgmtcluster := homedir + "/" + friggDirName + "/" + "argohubmgmtclusterManifest.yaml"
 
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "apply",
@@ -27,25 +28,25 @@ func KubectlApplyMgmt() {
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error running clusterctl: %s\n", err)
-		fmt.Println(string(output))
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
 		return
 	}
-	fmt.Println(string(output))
 }
 
 func KubectlApplyWorkload() {
 	fmt.Println("Applying Manifest to the cluster")
+	println(color.GreenString("Applying workload cluster manifest to the management cluster"))
 
-	homedir, _ := os.UserHomeDir()
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+		return
+	}
 
-	friggDirname := ".frigg"
-	kubeconfigName := "argohubmgmtcluster.kubeconfig"
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
 
-	// /home/patricklaabs/.frigg/frigg-cluster.kubeconfig
-	kubeconfigFlagPath := homedir + "/" + friggDirname + "/" + kubeconfigName
-
-	mgmtcluster := homedir + "/" + friggDirname + "/" + "workloadcluster.yaml"
+	mgmtcluster := homedir + "/" + friggDirName + "/" + "workloadcluster.yaml"
 
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "apply",
@@ -55,19 +56,17 @@ func KubectlApplyWorkload() {
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error running clusterctl: %s\n", err)
-		fmt.Println(string(output))
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
 		return
 	}
-	fmt.Println(string(output))
 }
 
 func retrieveToken() (string, error) {
-	// Get GITHUB_TOKEN environment var
 	var token string
 
 	if os.Getenv("GITHUB_TOKEN") == "" {
-		fmt.Println("Missing Github Token, please set it. Exiting now.")
+		println(color.RedString("Missing Github Token, please set it. Exiting now."))
 		os.Exit(1)
 	} else {
 		token = os.Getenv("GITHUB_TOKEN")
@@ -77,51 +76,48 @@ func retrieveToken() (string, error) {
 }
 
 func ApplyGithubSecretMgmt() {
+	println(color.GreenString("Applying Github Secret to the mgmt cluster"))
+
 	token, err := retrieveToken()
 	if err != nil {
-		fmt.Println("Error retrieving token:", err)
+		println(color.RedString("Error retrieving token: %v\n", err))
 		os.Exit(1)
 	}
-	fmt.Printf("github token: %v\n", token)
 
-	fmt.Println("Applying Github Secret to the mgmt cluster")
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+		return
+	}
 
-	homedir, _ := os.UserHomeDir()
-
-	friggDirname := ".frigg"
-	kubeconfigName := "argohubmgmtcluster.kubeconfig"
 	fromLiteralString := "--from-literal=token=" + token
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
 
-	kubeconfigFlagPath := homedir + "/" + friggDirname + "/" + kubeconfigName
-
-	// kubectl -n argocd create secret generic github-token --from-literal=
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "-n", "argo", "create", "secret", "generic",
 		"github-token", fromLiteralString,
 	)
-	fmt.Printf("github secret gen: %s", cmd)
 
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error running clusterctl: %s\n", err)
-		fmt.Println(string(output))
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
 		return
 	}
-	fmt.Println(string(output))
 }
 
 func ApplyArgoSecretMgmt() {
-	fmt.Println("Applying ArgoCD Login Secret to the mgmt cluster")
+	println(color.GreenString("Applying ArgoCD Login Secret to the mgmt cluster"))
 
-	homedir, _ := os.UserHomeDir()
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+		return
+	}
 
-	friggDirname := ".frigg"
-	kubeconfigName := "argohubmgmtcluster.kubeconfig"
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
 
-	kubeconfigFlagPath := homedir + "/" + friggDirname + "/" + kubeconfigName
-
-	// kubectl create secret generic argocd-login --from-literal=password=frigg --from-literal=username=admin -n argo
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "-n", "argo", "create", "secret", "generic",
 		"argocd-login",
@@ -132,22 +128,22 @@ func ApplyArgoSecretMgmt() {
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error running clusterctl: %s\n", err)
-		fmt.Println(string(output))
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
 		return
 	}
-	fmt.Println(string(output))
 }
 
 func CreateArgoNSMgmt() {
-	fmt.Println("Creating Argo Namespace to the mgmt cluster")
+	println(color.GreenString("Creating Argo Namespace to the mgmt cluster"))
 
-	homedir, _ := os.UserHomeDir()
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+		return
+	}
 
-	friggDirname := ".frigg"
-	kubeconfigName := "argohubmgmtcluster.kubeconfig"
-
-	kubeconfigFlagPath := homedir + "/" + friggDirname + "/" + kubeconfigName
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
 
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "create", "namespace", "argo",
@@ -156,22 +152,22 @@ func CreateArgoNSMgmt() {
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error running clusterctl: %s\n", err)
-		fmt.Println(string(output))
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
 		return
 	}
-	fmt.Println(string(output))
 }
 
 func CreateArgoNSWorkload() {
-	fmt.Println("Creating Argo Namespace to the mgmt cluster")
+	println(color.GreenString("Creating Argo Namespace to the mgmt cluster"))
 
-	homedir, _ := os.UserHomeDir()
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+		return
+	}
 
-	friggDirname := ".frigg"
-	kubeconfigName := "workloadcluster.kubeconfig"
-
-	kubeconfigFlagPath := homedir + "/" + friggDirname + "/" + kubeconfigName
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + workloadKubeconfigName
 
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "create", "namespace", "argo",
@@ -180,9 +176,8 @@ func CreateArgoNSWorkload() {
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error running clusterctl: %s\n", err)
-		fmt.Println(string(output))
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
 		return
 	}
-	fmt.Println(string(output))
 }

@@ -1,24 +1,21 @@
 package clusterapi
 
 import (
-	"fmt"
+	"github.com/fatih/color"
 	"os"
 	"os/exec"
 )
 
 func ClusterAPI() {
-	fmt.Println("Installing ClusterAPI Components to the KinD Cluster..")
+	println(color.GreenString("Installing ClusterAPI Components to the KinD Cluster.."))
 
 	homedir, err := os.UserHomeDir()
 	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
 		return
 	}
 
-	argohubDirName := ".frigg"
-	kubeconfigName := "bootstrapcluster.kubeconfig"
-
-	// /home/patricklaabs/.frigg/frigg-cluster.kubeconfig
-	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + bootstrapkubeconfigName
 
 	// Installs CAPI v1.6.1, Docker and CAAPH v0.1.1-alpha.0
 	cmd := exec.Command("clusterctl", "init",
@@ -36,26 +33,23 @@ func ClusterAPI() {
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error running clusterctl: %s\n", err)
-		fmt.Println(string(output))
+		println(color.RedString("Error running clusterctl: %v\n", err))
+		println(color.YellowString(string(output)))
 		return
 	}
-	fmt.Println(string(output))
 }
 
 func ClusterAPIMgmt() {
-	fmt.Println("Installing ClusterAPI Components to the KinD Cluster..")
+	println(color.GreenString("Installing ClusterAPI Components to the Management Cluster.."))
 
 	homedir, err := os.UserHomeDir()
 	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
 		return
 	}
 
-	argohubDirName := ".frigg"
-	kubeconfigName := "argohubmgmtcluster.kubeconfig"
-
 	// /home/patricklaabs/.frigg/frigg-cluster.kubeconfig
-	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
 
 	// Installs CAPI v1.6.1, Docker and CAAPH v0.1.1-alpha.0
 	cmd := exec.Command("clusterctl", "init",
@@ -73,9 +67,8 @@ func ClusterAPIMgmt() {
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error running clusterctl: %s\n", err)
-		fmt.Println(string(output))
+		println(color.RedString("Error running clusterctl: %v\n", err))
+		println(color.YellowString(string(output)))
 		return
 	}
-	fmt.Println(string(output))
 }

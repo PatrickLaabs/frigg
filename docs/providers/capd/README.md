@@ -10,7 +10,11 @@ You will need to pass two Environment variables:
 ```
 export GITHUB_TOKEN=
 export GITHUB_USERNAME=
-export GITHUB_MAIL
+export GITHUB_MAIL=
 ```
+
+## TL;DR:
+
+
 
 Updated on: 28 Feb 2024

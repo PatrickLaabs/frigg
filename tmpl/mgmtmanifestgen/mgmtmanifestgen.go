@@ -2,6 +2,7 @@ package mgmtmanifestgen
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 	"gopkg.in/yaml.v3"
 	"os"
 )
@@ -32,5 +33,5 @@ func Gen() {
 		fmt.Printf("Error writing file: %s", err)
 	}
 
-	fmt.Println("Successfully written Mgmt Kubernets Manifest")
+	println(color.GreenString("Successfully written Mgmt Kubernets Manifest"))
 }

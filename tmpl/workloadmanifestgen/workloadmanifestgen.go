@@ -7,8 +7,6 @@ import (
 )
 
 func Gen() {
-	fmt.Println("Generating Workload Cluster Manifest")
-
 	homedir, _ := os.UserHomeDir()
 
 	friggDirname := ".frigg"

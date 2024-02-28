@@ -1,21 +1,26 @@
 package mgmtArgohub
 
 import (
-	"fmt"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies"
+	"github.com/fatih/color"
 	"os"
 	"os/exec"
 )
 
 func Installation() {
-	fmt.Println("Applying HelmChartProxies to the mgmt-cluster...")
+	println(color.GreenString("Applying the Mgmt-ArgoCD HelmChartProxy to the mgmt-cluster..."))
 
-	homedir, _ := os.UserHomeDir()
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+		return
+	}
 
-	friggDirName := ".frigg"
+	friggDirName := helmchartproxies.FriggDirName
 	friggDir := homedir + "/" + friggDirName
-	kubeconfigName := "argohubmgmtcluster.kubeconfig"
+	managementKubeconfigName := helmchartproxies.ManagementKubeconfigName
 
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + kubeconfigName
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
 
 	//helmchartManifests := "templates/helmchartproxies/mgmt-argocd.yaml"
 	newFile := "mgmt-argocd.yaml"
@@ -29,9 +34,8 @@ func Installation() {
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error running clusterctl: %s\n", err)
-		fmt.Println(string(output))
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
 		return
 	}
-	fmt.Println(string(output))
 }

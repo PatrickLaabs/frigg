@@ -1,12 +1,12 @@
 package postbootstrap
 
 import (
-	"fmt"
+	"github.com/fatih/color"
 	"os/exec"
 )
 
 func DeleteBootstrapcluster() {
-	fmt.Println("deleting bootstrap cluster..")
+	println(color.YellowString("deleting bootstrap cluster.."))
 
 	cmd := exec.Command("kind", "delete", "clusters",
 		"bootstrapcluster",
@@ -15,10 +15,8 @@ func DeleteBootstrapcluster() {
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error running clusterctl: %s\n", err)
-		fmt.Println(string(output))
+		println(color.RedString("Error on deletion of bootstrap cluster: %v\n", err))
+		println(color.YellowString(string(output)))
 		return
 	}
-	fmt.Println(string(output))
-
 }

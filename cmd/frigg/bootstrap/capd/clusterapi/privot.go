@@ -1,30 +1,24 @@
 package clusterapi
 
 import (
-	"fmt"
+	"github.com/fatih/color"
 	"os"
 	"os/exec"
 )
 
 func Pivot() {
-	fmt.Println("Moving clusterapi components from bootstrap to mgmt cluster..")
+	println(color.GreenString("Moving clusterapi components from bootstrap to mgmt cluster.."))
+
 	homedir, err := os.UserHomeDir()
 	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
 		return
 	}
 
-	argohubDirName := ".frigg"
-	kubeconfigName := "bootstrapcluster.kubeconfig"
-	targetKubeconfigName := "argohubmgmtcluster.kubeconfig"
+	bootstrapKubeconfig := homedir + "/" + friggDirName + "/" + bootstrapkubeconfigName
 
-	// /home/patricklaabs/.frigg/frigg-cluster.kubeconfig
-	bootstrapKubeconfig := homedir + "/" + argohubDirName + "/" + kubeconfigName
-	fmt.Printf("bootstrap kubeconfig path: %s\n", bootstrapKubeconfig)
+	mgmtKubeconfig := homedir + "/" + friggDirName + "/" + managementKubeconfigName
 
-	mgmtKubeconfig := homedir + "/" + argohubDirName + "/" + targetKubeconfigName
-	fmt.Printf("mgmt cluster kubeconfig path: %s\n", mgmtKubeconfig)
-
-	// clusterctl --kubeconfig bootstrapcluster.kubeconfig move --to-kubeconfig argohubmgmtcluster.kubeconfig
 	cmd := exec.Command("clusterctl", "--kubeconfig", bootstrapKubeconfig,
 		"move", "--to-kubeconfig", mgmtKubeconfig,
 	)
@@ -32,10 +26,8 @@ func Pivot() {
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error running clusterctl: %s\n", err)
-		fmt.Println(string(output))
+		println(color.RedString("Error running clusterctl: %v\n", err))
+		println(color.YellowString(string(output)))
 		return
 	}
-	fmt.Println(string(output))
-
 }

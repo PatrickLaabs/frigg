@@ -48,8 +48,6 @@ func ArgoEvents() {
 }
 
 func MgmtArgoApps() {
-	fmt.Println("Generating Mgmts Argo Apps Helmchartproxy")
-
 	homedir, _ := os.UserHomeDir()
 	friggDirName := ".frigg"
 	friggDir := homedir + "/" + friggDirName
@@ -79,8 +77,6 @@ func MgmtArgoApps() {
 
 	for _, line := range lines {
 		if match := re.FindStringSubmatch(line); match != nil {
-			fmt.Println("inside match statement")
-
 			newUrl := fmt.Sprintf(url)
 
 			modifiedLine := re.ReplaceAllString(line, fmt.Sprintf(newUrl))
@@ -97,8 +93,6 @@ func MgmtArgoApps() {
 }
 
 func MgmtArgoCD() {
-	fmt.Println("Generating Mgmts ArgoCD Helmchartproxy")
-
 	homedir, _ := os.UserHomeDir()
 	friggDirName := ".frigg"
 	friggDir := homedir + "/" + friggDirName
@@ -128,8 +122,6 @@ func MgmtArgoCD() {
 
 	for _, line := range lines {
 		if match := re.FindStringSubmatch(line); match != nil {
-			fmt.Println("inside match statement")
-
 			newUrl := fmt.Sprintf(url)
 
 			modifiedLine := re.ReplaceAllString(line, fmt.Sprintf(newUrl))

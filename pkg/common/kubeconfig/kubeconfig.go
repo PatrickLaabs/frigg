@@ -2,6 +2,7 @@ package kubeconfig
 
 import (
 	"fmt"
+	"github.com/fatih/color"
 	"os"
 	"os/exec"
 	"regexp"
@@ -9,20 +10,20 @@ import (
 	"strings"
 )
 
-// 6. retrieve kubeconfig for the argphub-mgmt-cluster from the bootstrap cluster
-//	  => clusterctl --kubeconfig bootstrapcluster.kubeconfig get kubeconfig argohubmgmtcluster > argohubmgmtcluster.kubeconfig
-
 // RetrieveMgmtKubeconfig retrieves of the newly provisioned mgmt-cluster via capd
 // and stores it to the work directory of frigg
 func RetrieveMgmtKubeconfig() {
-	fmt.Println("Retrieving kubeconfig of mgmt-cluster")
+	println(color.GreenString("Retrieving kubeconfig of the mgmt-cluster"))
 
-	homedir, _ := os.UserHomeDir()
-	argohubDirName := ".frigg"
-	kubeconfigName := "bootstrapcluster.kubeconfig"
-	argohubDir := homedir + "/" + argohubDirName
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+		return
+	}
 
-	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
+	friggDir := homedir + "/" + friggDirName
+
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + bootstrapkubeconfigName
 
 	cmd := exec.Command("clusterctl", "--kubeconfig",
 		kubeconfigFlagPath, "get", "kubeconfig", "argohubmgmtcluster",
@@ -31,28 +32,31 @@ func RetrieveMgmtKubeconfig() {
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error running clusterctl: %s\n", err)
-		fmt.Println(string(output))
+		println(color.RedString("Error running clusterctl: %v\n", err))
+		println(color.YellowString(string(output)))
 		return
 	}
-	fmt.Println(string(output))
 
-	err = os.WriteFile(argohubDir+"/"+"argohubmgmtcluster.kubeconfig", output, 0755)
+	err = os.WriteFile(friggDir+"/"+managementKubeconfigName, output, 0755)
 	if err != nil {
+		println(color.RedString("Error on writing kubeconfig file for mgmt cluster: %v\n", err))
 		return
 	}
 }
 
 // RetrieveWorkloadKubeconfig retrieves kubeconfig of the workload cluster
 func RetrieveWorkloadKubeconfig() {
-	fmt.Println("Retrieving kubeconfig of workload-cluster")
+	println(color.GreenString("Retrieving kubeconfig of workload-cluster"))
 
-	homedir, _ := os.UserHomeDir()
-	argohubDirName := ".frigg"
-	kubeconfigName := "argohubmgmtcluster.kubeconfig"
-	argohubDir := homedir + "/" + argohubDirName
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+		return
+	}
 
-	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
+	friggDir := homedir + "/" + friggDirName
+
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
 
 	cmd := exec.Command("clusterctl", "--kubeconfig",
 		kubeconfigFlagPath, "get", "kubeconfig", "workloadcluster",
@@ -61,30 +65,30 @@ func RetrieveWorkloadKubeconfig() {
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Printf("Error running clusterctl: %s\n", err)
-		fmt.Println(string(output))
+		println(color.RedString("Error running clusterctl: %v\n", err))
+		println(color.YellowString(string(output)))
 		return
 	}
 	fmt.Println(string(output))
 
-	err = os.WriteFile(argohubDir+"/"+"workloadcluster.kubeconfig", output, 0755)
+	err = os.WriteFile(friggDir+"/"+workloadKubeconfigName, output, 0755)
 	if err != nil {
+		println(color.RedString("Error on writing kubeconfig file for mgmt cluster: %v\n", err))
 		return
 	}
 }
 
-// 8. modify the kubeconfig, to continue working with it
-//    => sed -i -e "s/server:.*/server: https:\/\/$(docker port argohubmgmtcluster-lb 6443/tcp | sed "s/0.0.0.0/127.0.0.1/")/g" ./argohubmgmtcluster.kubebeconfig
-
 // ModifyMgmtKubeconfig modifies the stored kubeconfig, so it's working on macOS
 func ModifyMgmtKubeconfig() error {
-	homedir, _ := os.UserHomeDir()
-	argohubDirName := ".frigg"
-	kubeconfigName := "argohubmgmtcluster.kubeconfig"
-	kubeconfigNameNew := "argohubmgmtcluster.kubeconfig.new"
+	println(color.GreenString("Modifying the kubeconfig file of the mgmt cluster"))
 
-	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
-	fmt.Println(kubeconfigFlagPath)
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+	}
+
+	kubeconfigNameNew := managementKubeconfigName + ".new"
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
 
 	data, err := os.ReadFile(kubeconfigFlagPath)
 	if err != nil {
@@ -113,15 +117,13 @@ func ModifyMgmtKubeconfig() error {
 	port = portParts[1]
 
 	portInt, err := strconv.Atoi(port)
-	fmt.Printf("portInt value:%v\n", portInt)
+
 	if err != nil {
 		return fmt.Errorf("invalid port: %s", port)
 	}
 
 	for _, line := range lines {
 		if match := re.FindStringSubmatch(line); match != nil {
-			fmt.Println("Inside match statement")
-
 			// Use the captured URL in the replacement
 			newURL := fmt.Sprintf("https://%s:%v", "127.0.0.1", portInt)
 
@@ -146,18 +148,19 @@ func ModifyMgmtKubeconfig() error {
 		return fmt.Errorf("error renaming new kubeconfig: %w", err)
 	}
 
-	fmt.Println("Kubeconfig of mgmt cluster successfully modified")
+	println(color.GreenString("Kubeconfig of mgmt cluster successfully modified"))
 	return nil
 }
 
 // ModifyWorkloadKubeconfig modifies the stored kubeconfig, so it's working on macOS
 func ModifyWorkloadKubeconfig() error {
-	homedir, _ := os.UserHomeDir()
-	argohubDirName := ".frigg"
-	kubeconfigName := "workloadcluster.kubeconfig"
-	kubeconfigNameNew := "workloadcluster.kubeconfig.new"
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+	}
 
-	kubeconfigFlagPath := homedir + "/" + argohubDirName + "/" + kubeconfigName
+	kubeconfigNameNew := workloadKubeconfigName + ".new"
+	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + workloadKubeconfigName
 
 	data, err := os.ReadFile(kubeconfigFlagPath)
 	if err != nil {
@@ -167,9 +170,6 @@ func ModifyWorkloadKubeconfig() error {
 	lines := strings.Split(string(data), "\n")
 	modifiedLines := make([]string, 0, len(lines))
 
-	// re := regexp.MustCompile(`^server:\s+(?P<url>.*)$`) // Matches "server:" line with URL capture group
-	// re := regexp.MustCompile(`^server:\s+(https?://[^:]+:\d+)/tcp`)
-	// re := regexp.MustCompile(` {4}server:`)
 	re := regexp.MustCompile(`^ {4}server: (https?://[^:]+:\d+)`) // Capture the URL
 
 	var port string
@@ -189,15 +189,12 @@ func ModifyWorkloadKubeconfig() error {
 	port = portParts[1]
 
 	portInt, err := strconv.Atoi(port)
-	fmt.Printf("portInt value:%v\n", portInt)
 	if err != nil {
 		return fmt.Errorf("invalid port: %s", port)
 	}
 
 	for _, line := range lines {
 		if match := re.FindStringSubmatch(line); match != nil {
-			fmt.Println("Inside match statement")
-
 			// Use the captured URL in the replacement
 			newURL := fmt.Sprintf("https://%s:%v", "127.0.0.1", portInt)
 
@@ -222,6 +219,6 @@ func ModifyWorkloadKubeconfig() error {
 		return fmt.Errorf("error renaming new kubeconfig: %w", err)
 	}
 
-	fmt.Println("Kubeconfig of workloadcluster successfully modified")
+	println(color.GreenString("Kubeconfig of workloadcluster successfully modified"))
 	return nil
 }
