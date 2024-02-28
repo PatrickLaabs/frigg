@@ -37,7 +37,7 @@ func FullStage() {
 	friggDirName := ".frigg"
 	friggDir := homedir + "/" + friggDirName
 
-	repoName := "argo-hub-test"
+	repoName := "argo-hub"
 	localRepoStoragePath := friggDir + "/" + repoName
 
 	githubLogin()
@@ -109,7 +109,7 @@ func gitCreateFromTemplate() {
 	}
 	fmt.Println(username)
 
-	repoName := "argo-hub-test"
+	repoName := "argo-hub"
 	targetRepoName := username + "/" + repoName
 
 	cmd := exec.Command("gh", "repo", "create",
@@ -140,7 +140,7 @@ func gitClone() {
 	friggDirName := ".frigg"
 	friggDir := homedir + "/" + friggDirName
 
-	repoName := "argo-hub-test"
+	repoName := "argo-hub"
 	// git@github.com:PatrickLaabs/frigg.git
 	repoUrl := "git@github.com:" + username + "/" + repoName + ".git"
 	localRepoStoragePath := friggDir + "/" + repoName
@@ -220,7 +220,7 @@ func gitCommit() {
 	friggDirName := ".frigg"
 	friggDir := homedir + "/" + friggDirName
 
-	repoName := "argo-hub-test"
+	repoName := "argo-hub"
 	localRepoStoragePath := friggDir + "/" + repoName
 
 	// Opens an already existing repository.
@@ -278,7 +278,7 @@ func gitPush() {
 	friggDirName := ".frigg"
 	friggDir := homedir + "/" + friggDirName
 
-	repoName := "argo-hub-test"
+	repoName := "argo-hub"
 	localRepoStoragePath := friggDir + "/" + repoName
 
 	// Opens an already existing repository.
