@@ -34,10 +34,32 @@ Glad to hear!
 
 Thank you very much, for supporting me 🚀
 
-## Get started
+## Usage
+### requirements:
 
-- docker
-- kind
+I am currently working on a preparing step, so you don't have two worry.\
+But for now, the following needs to be done manually:
+
+#### Install the following tools:
+
+- [kind](https://formulae.brew.sh/formula/kind#default)
+- [Docker](https://www.docker.com/products/docker-desktop/)
+- [clusterctl](https://formulae.brew.sh/formula/clusterctl#default)
+- [kubectl](https://formulae.brew.sh/formula/kubernetes-cli#default)
+- [github cli](https://formulae.brew.sh/formula/gh#default)
+- [jq](https://formulae.brew.sh/formula/jq#default)
+
+#### Get the *frigg* cli:
+Get the binary using go:
+```
+go install github.com/PatrickLaabs/frigg@latest
+```
+or download the binary at the releasepage:\
+[Frigg - Github Release Page](https://github.com/PatrickLaabs/frigg/releases)
+ 
+Homebrew is on the way.
+
+#### Start the deployment:
 
 ```
 frigg provisions kubernetes cluster with capi and gitops in no-time
