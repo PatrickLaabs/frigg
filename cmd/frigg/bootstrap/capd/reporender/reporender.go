@@ -44,6 +44,7 @@ func FullStage() {
 
 	githubLogin()
 	gitCreateFromTemplate()
+	addSshPublickey()
 	wait.Wait(5 * time.Second)
 	gitClone()
 	err = replaceStrings(localRepoStoragePath, username, usermail)
@@ -104,21 +105,40 @@ func gitCreateFromTemplate() {
 
 	targetRepoName := username + "/" + repoName
 
-	//cmd := exec.Command("gh", "repo", "create",
-	//	targetRepoName, "--private",
-	//	"--template=PatrickLaabs/argo-hub-template",
-	//)
 	cmd := exec.Command("gh", "repo", "create",
-		targetRepoName, "--public",
+		targetRepoName, "--private",
 		"--template=PatrickLaabs/argo-hub-template",
 	)
-	// Capture the output of the command
+
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		println(color.YellowString(string(output)))
 		return
 	}
 	println(color.GreenString(string(output)))
+}
+
+// addSshPublickey adds the new generated public to the github repo
+func addSshPublickey() {
+	println(color.GreenString("Adding generated public key to the new gitops repo"))
+
+	homedir, _ := os.UserHomeDir()
+	friggDir := homedir + "/" + friggDirName
+	sshprivatekeyPath := friggDir + "/" + "frigg-sshkeypair_gen.pub"
+
+	// gh ssh-key add ~/.ssh/id_rsa.pub --title "${cluster_base}-argocd-public-key"
+	cmd := exec.Command("gh", "ssh-key", "add",
+		sshprivatekeyPath, "--title",
+		"frigg-generated-publickey",
+	)
+
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		println(color.YellowString(string(output)))
+		return
+	}
+	println(color.GreenString(string(output)))
+
 }
 
 // gitClone clones the gitops template repo from github, to the local working directory
@@ -162,10 +182,14 @@ func replaceStrings(dirPath string, username string, usermail string) error {
 		}
 
 		reGhUser := regexp.MustCompile(`GITHUB_USERNAME`)
+		reGhUrl := regexp.MustCompile(`PLACEHOLDER`)
 		reGhMail := regexp.MustCompile(`GITHUB_MAIL`)
 
+		url := "ssh://git@github.com:" + username + "/argo-hub.git"
+
 		// Replace GITHUB_USER and GITHUB_MAIL
-		newdata := replaceInString(data, reGhUser, username)
+		newdata := replaceInString(data, reGhUrl, url)
+		newdata = replaceInString(newdata, reGhUser, username)
 		newdata = replaceInString(newdata, reGhMail, usermail)
 
 		// Open the file for writing and replace content
