@@ -2,6 +2,7 @@ package helmchartproxy
 
 import (
 	"fmt"
+	"github.com/PatrickLaabs/frigg/pkg/common/sshkey"
 	"github.com/PatrickLaabs/frigg/tmpl/helmchartsproxies"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
@@ -18,26 +19,32 @@ func NewCommand() *cobra.Command {
 		Long:  "modify hc func",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			fmt.Println("modify hc func")
-			username, err := retrieveGithubUserEnv()
-			if err != nil {
-				println(color.RedString("Error retrieving username: %v\n", err))
-			}
-
 			homedir, _ := os.UserHomeDir()
 			friggDirName := ".frigg"
 			friggDir := homedir + "/" + friggDirName
-			newPath := friggDir + "/" + "mgmt-argocd_gend.yaml"
-			sshprivatekeyPath := friggDir + "/" + "frigg-sshkeypair"
 
-			sshprivatekey, err := os.ReadFile(sshprivatekeyPath)
-			sshprivatekeyTrimmed := strings.TrimSuffix(string(sshprivatekey), "\n")
-			fmt.Println(sshprivatekeyTrimmed)
-			err = helmchartsproxies.MGmtArgoCDReplacementTest("templates/helmchartproxies/mgmt-argocd_ssh.yaml", newPath, username, sshprivatekeyTrimmed)
+			username, err := retrieveGithubUserEnv()
 			if err != nil {
-				return err
+				fmt.Println("Error retrieving github username:", err)
+				os.Exit(1)
 			}
 
-			return nil
+			sshkey.KeypairGen()
+
+			filePath := "templates/helmchartproxies/mgmt-argocd_ssh.yaml"
+			newFile := "mgmt-argocd.yaml"
+			newfilePath := friggDir + "/" + newFile
+
+			sshprivatekeyPath := friggDir + "/" + "frigg-sshkeypair_gen"
+			sshprivatekey, err := os.ReadFile(sshprivatekeyPath)
+			sshprivatekeyTrimmed := strings.TrimSuffix(string(sshprivatekey), "\n")
+
+			fmt.Println(sshprivatekeyTrimmed)
+			err = helmchartsproxies.MGmtArgoCDReplacementTest(filePath, newfilePath, username, sshprivatekeyTrimmed)
+			if err != nil {
+				println(color.RedString("error on string replacement for sshkeypair: %v\n", err))
+			}
+			return err
 		},
 	}
 	return c
