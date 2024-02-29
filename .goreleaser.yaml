@@ -7,3 +7,12 @@ builds:
     goarch:
       - amd64
       - arm64
+brews:
+  - name: frigg
+    homepage: "https://github.com/PatrickLaabs/frigg"
+    tap:
+      owner: PatrickLaabs
+      name: homebrew-patricklaabs
+    commit_author:
+      name: PatrickLaabs
+      email: patrick.laabs@me.com
