@@ -7,6 +7,7 @@ import (
 	"github.com/PatrickLaabs/frigg/cmd/frigg/functests/mgmtgen"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/functests/modifykubeconfig"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/functests/reporender"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/functests/sshkeygen"
 	"github.com/PatrickLaabs/frigg/pkg/log"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -32,5 +33,6 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c.AddCommand(mgmtgen.NewCommand(logger, streams))
 	c.AddCommand(helmchartproxy.NewCommand())
 	c.AddCommand(reporender.NewCommand(logger, streams))
+	c.AddCommand(sshkeygen.NewCommand(logger, streams))
 	return c
 }
