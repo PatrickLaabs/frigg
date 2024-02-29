@@ -12,7 +12,7 @@ brews:
     homepage: "https://github.com/PatrickLaabs/frigg"
     tap:
       owner: PatrickLaabs
-      name: homebrew-patricklaabs
+      name: frigg
     commit_author:
       name: PatrickLaabs
       email: patrick.laabs@me.com
