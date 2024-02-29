@@ -74,8 +74,8 @@ func MgmtArgoApps() {
 	re := regexp.MustCompile(`PLACEHOLDER`)
 
 	// URL should be formated like this: ssh://git@github.com:<USERNAME>/argo-hub.git
-	// url := "ssh://git@github.com:" + username + "/argo-hub.git"
-	url := "https://github.com/" + username + "/argo-hub.git"
+	url := "ssh://git@github.com:" + username + "/argo-hub.git"
+	// url := "https://github.com/" + username + "/argo-hub.git"
 	for _, line := range lines {
 		if match := re.FindStringSubmatch(line); match != nil {
 			newUrl := fmt.Sprintf(url)
@@ -93,14 +93,55 @@ func MgmtArgoApps() {
 	}
 }
 
+//func MgmtArgoCD() {
+//	homedir, _ := os.UserHomeDir()
+//	friggDirName := ".frigg"
+//	friggDir := homedir + "/" + friggDirName
+//
+//	filePath := "templates/helmchartproxies/mgmt-argocd.yaml"
+//	newFile := "mgmt-argocd.yaml"
+//	newfilePath := friggDir + "/" + newFile
+//
+//	username, err := retrieveUsername()
+//	if err != nil {
+//		fmt.Println("Error retrieving github username:", err)
+//		os.Exit(1)
+//	}
+//
+//	data, err := os.ReadFile(filePath)
+//	if err != nil {
+//		return
+//	}
+//
+//	lines := strings.Split(string(data), "\n")
+//	modifiedLines := make([]string, 0, len(lines))
+//
+//	re := regexp.MustCompile(`PLACEHOLDER`)
+//
+//	// URL should be formated like this: ssh://git@github.com:<USERNAME>/argo-hub.git
+//	// url := "ssh://git@github.com:" + username + "/argo-hub.git"
+//	url := "https://github.com/" + username + "/argo-hub.git"
+//	for _, line := range lines {
+//		if match := re.FindStringSubmatch(line); match != nil {
+//			newUrl := fmt.Sprintf(url)
+//
+//			modifiedLine := re.ReplaceAllString(line, fmt.Sprintf(newUrl))
+//			modifiedLines = append(modifiedLines, modifiedLine)
+//		} else {
+//			modifiedLines = append(modifiedLines, line)
+//		}
+//	}
+//
+//	err = os.WriteFile(newfilePath, []byte(strings.Join(modifiedLines, "\n")), 0755)
+//	if err != nil {
+//		return
+//	}
+//}
+
 func MgmtArgoCD() {
 	homedir, _ := os.UserHomeDir()
 	friggDirName := ".frigg"
 	friggDir := homedir + "/" + friggDirName
-
-	filePath := "templates/helmchartproxies/mgmt-argocd.yaml"
-	newFile := "mgmt-argocd.yaml"
-	newfilePath := friggDir + "/" + newFile
 
 	username, err := retrieveUsername()
 	if err != nil {
@@ -108,33 +149,18 @@ func MgmtArgoCD() {
 		os.Exit(1)
 	}
 
-	data, err := os.ReadFile(filePath)
+	filePath := "templates/helmchartproxies/mgmt-argocd_ssh.yaml"
+	newFile := "mgmt-argocd.yaml"
+	newfilePath := friggDir + "/" + newFile
+
+	sshprivatekeyPath := friggDir + "/" + "frigg-sshkeypair_gen"
+	sshprivatekey, err := os.ReadFile(sshprivatekeyPath)
+	sshprivatekeyTrimmed := strings.TrimSuffix(string(sshprivatekey), "\n")
+
+	fmt.Println(sshprivatekeyTrimmed)
+	err = MGmtArgoCDReplacementTest(filePath, newfilePath, username, sshprivatekeyTrimmed)
 	if err != nil {
-		return
-	}
-
-	lines := strings.Split(string(data), "\n")
-	modifiedLines := make([]string, 0, len(lines))
-
-	re := regexp.MustCompile(`PLACEHOLDER`)
-
-	// URL should be formated like this: ssh://git@github.com:<USERNAME>/argo-hub.git
-	// url := "ssh://git@github.com:" + username + "/argo-hub.git"
-	url := "https://github.com/" + username + "/argo-hub.git"
-	for _, line := range lines {
-		if match := re.FindStringSubmatch(line); match != nil {
-			newUrl := fmt.Sprintf(url)
-
-			modifiedLine := re.ReplaceAllString(line, fmt.Sprintf(newUrl))
-			modifiedLines = append(modifiedLines, modifiedLine)
-		} else {
-			modifiedLines = append(modifiedLines, line)
-		}
-	}
-
-	err = os.WriteFile(newfilePath, []byte(strings.Join(modifiedLines, "\n")), 0755)
-	if err != nil {
-		return
+		println(color.RedString("error on string replacement for sshkeypair: %v\n", err))
 	}
 }
 
@@ -145,8 +171,16 @@ func MGmtArgoCDReplacementTest(filePath string, newFilePath string, username str
 		return fmt.Errorf("error reading file: %v", err)
 	}
 
-	reGhUser := regexp.MustCompile(`GITHUB_USERNAME`)
+	username, err = retrieveUsername()
+	if err != nil {
+		fmt.Println("Error retrieving github username:", err)
+		os.Exit(1)
+	}
+
+	reGhUser := regexp.MustCompile(`PLACEHOLDER`)
 	reSshKey := regexp.MustCompile(`SSHREPLACEMENT`)
+
+	url := "ssh://git@github.com:" + username + "/argo-hub.git"
 
 	// Split the YAML data into lines
 	yamlLines := strings.Split(string(data), "\n")
@@ -171,7 +205,7 @@ func MGmtArgoCDReplacementTest(filePath string, newFilePath string, username str
 	indentedSshKey := strings.ReplaceAll(sshprivatekey, "\n", "\n"+originalIndent)
 
 	// Replace GITHUB_USER and sshkey
-	newdata := replaceInString(data, reGhUser, username)
+	newdata := replaceInString(data, reGhUser, url)
 	newdata = replaceInString(newdata, reSshKey, indentedSshKey)
 
 	// Write modified content back to the file
