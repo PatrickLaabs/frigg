@@ -43,6 +43,7 @@ But for now, the following needs to be done manually:
 #### Install the following tools:
 
 - [kind](https://formulae.brew.sh/formula/kind#default)
+- [k9s](https://formulae.brew.sh/formula/k9s#default)
 - [Docker](https://www.docker.com/products/docker-desktop/)
 - [clusterctl](https://formulae.brew.sh/formula/clusterctl#default)
 - [kubectl](https://formulae.brew.sh/formula/kubernetes-cli#default)
@@ -109,6 +110,11 @@ Available Commands:
   workloadcluster deploy workload cluster
 ```
 
+After the provisioning of your management cluster is ready,\
+you can port-forward the argocd-server pod and login with:
+```
+User: admin
+Password: frigg
 ```
 ## Features
 
@@ -134,6 +140,6 @@ Further documentation is available in the `/docs` directory.
 - [Workload-Clusters-Template Repository](https://github.com/PatrickLaabs/workload-appofapps-template)
 - [Frigg-Builder used within ArgoWorkflows](https://github.com/PatrickLaabs/frigg-builder)
 
-<br></br>
+
 *This one is not yet implemented, but will be used in the future, to visualize the provisioned clusters*
 - [Management-Dashboard](https://github.com/PatrickLaabs/mgmt-dashboard)
