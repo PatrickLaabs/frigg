@@ -185,7 +185,7 @@ func replaceStrings(dirPath string, username string, usermail string) error {
 		reGhUrl := regexp.MustCompile(`PLACEHOLDER`)
 		reGhMail := regexp.MustCompile(`GITHUB_MAIL`)
 
-		url := "ssh://git@github.com:" + username + "/argo-hub.git"
+		url := "git@github.com:" + username + "/argo-hub.git"
 
 		// Replace GITHUB_USER and GITHUB_MAIL
 		newdata := replaceInString(data, reGhUrl, url)
