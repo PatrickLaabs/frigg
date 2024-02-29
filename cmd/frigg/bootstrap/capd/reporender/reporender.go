@@ -36,6 +36,7 @@ func FullStage() {
 	if err != nil {
 		println(color.RedString("Error retrieving mail: %v\n", err))
 	}
+
 	homedir, _ := os.UserHomeDir()
 	friggDir := homedir + "/" + friggDirName
 
@@ -103,11 +104,14 @@ func gitCreateFromTemplate() {
 
 	targetRepoName := username + "/" + repoName
 
+	//cmd := exec.Command("gh", "repo", "create",
+	//	targetRepoName, "--private",
+	//	"--template=PatrickLaabs/argo-hub-template",
+	//)
 	cmd := exec.Command("gh", "repo", "create",
-		targetRepoName, "--private",
+		targetRepoName, "--public",
 		"--template=PatrickLaabs/argo-hub-template",
 	)
-
 	// Capture the output of the command
 	output, err := cmd.CombinedOutput()
 	if err != nil {
@@ -129,7 +133,7 @@ func gitClone() {
 	homedir, _ := os.UserHomeDir()
 	friggDir := homedir + "/" + friggDirName
 
-	// git@github.com:PatrickLaabs/frigg.git
+	// git@github.com:PatrickLaabs/argo-hub.git
 	repoUrl := "git@github.com:" + username + "/" + repoName + ".git"
 	localRepoStoragePath := friggDir + "/" + repoName
 

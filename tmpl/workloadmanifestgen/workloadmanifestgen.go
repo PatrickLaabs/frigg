@@ -1,7 +1,7 @@
 package workloadmanifestgen
 
 import (
-	"fmt"
+	"github.com/fatih/color"
 	"gopkg.in/yaml.v3"
 	"os"
 )
@@ -19,18 +19,18 @@ func Gen() {
 
 	yamlFile, err := os.ReadFile(tmplmanifest)
 	if err != nil {
-		fmt.Printf("Error Reading file: %s", err)
+		println(color.RedString("Error Reading file: %v\n", err))
 	}
 
 	err = yaml.Unmarshal(yamlFile, &manifest)
 	if err != nil {
-		fmt.Printf("Error unmarshaling yaml: %s", err)
+		println(color.RedString("Error unmarshaling yaml: %v\n", err))
 	}
 
 	err = os.WriteFile(outputPath, yamlFile, 0755)
 	if err != nil {
-		fmt.Printf("Error writing file: %s", err)
+		println(color.RedString("Error writing file: %v\n", err))
 	}
 
-	fmt.Println("Successfully written Workload Cluster Kubernets Manifest")
+	println(color.GreenString("Successfully written Workload Cluster Kubernets Manifest"))
 }

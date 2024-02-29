@@ -6,6 +6,7 @@ import (
 	"github.com/PatrickLaabs/frigg/pkg/common/kubeconfig"
 	"github.com/PatrickLaabs/frigg/pkg/common/wait"
 	"github.com/PatrickLaabs/frigg/tmpl/workloadmanifestgen"
+	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 	"time"
 )
@@ -18,7 +19,7 @@ func NewCommand() *cobra.Command {
 		Short: "deploy workload cluster",
 		Long:  "deploy workload cluster",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			fmt.Println("deploy workload cluster")
+			println(color.GreenString("deploying workload cluster"))
 
 			// Generates a workload-cluster manifest
 			// Modifies the manifest of the workload cluster, to add the helmchart labels to it

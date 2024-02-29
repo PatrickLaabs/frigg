@@ -4,6 +4,7 @@ package helmchartsproxies
 // which will be installed onto the management cluster.
 import (
 	"fmt"
+	"github.com/fatih/color"
 	"gopkg.in/yaml.v3"
 	"os"
 	"regexp"
@@ -58,7 +59,7 @@ func MgmtArgoApps() {
 
 	username, err := retrieveUsername()
 	if err != nil {
-		fmt.Println("Error retrieving token:", err)
+		println(color.RedString("Error retrieving token: %v\n", err))
 		os.Exit(1)
 	}
 
@@ -70,11 +71,11 @@ func MgmtArgoApps() {
 	lines := strings.Split(string(data), "\n")
 	modifiedLines := make([]string, 0, len(lines))
 
-	// URL should be formated like this: https://github.com/<USERNAME>/argo-hub.git
 	re := regexp.MustCompile(`PLACEHOLDER`)
 
+	// URL should be formated like this: ssh://git@github.com:<USERNAME>/argo-hub.git
+	// url := "ssh://git@github.com:" + username + "/argo-hub.git"
 	url := "https://github.com/" + username + "/argo-hub.git"
-
 	for _, line := range lines {
 		if match := re.FindStringSubmatch(line); match != nil {
 			newUrl := fmt.Sprintf(url)
@@ -115,11 +116,11 @@ func MgmtArgoCD() {
 	lines := strings.Split(string(data), "\n")
 	modifiedLines := make([]string, 0, len(lines))
 
-	// URL should be formated like this: https://github.com/<USERNAME>/argo-hub.git
 	re := regexp.MustCompile(`PLACEHOLDER`)
 
+	// URL should be formated like this: ssh://git@github.com:<USERNAME>/argo-hub.git
+	// url := "ssh://git@github.com:" + username + "/argo-hub.git"
 	url := "https://github.com/" + username + "/argo-hub.git"
-
 	for _, line := range lines {
 		if match := re.FindStringSubmatch(line); match != nil {
 			newUrl := fmt.Sprintf(url)
@@ -135,6 +136,66 @@ func MgmtArgoCD() {
 	if err != nil {
 		return
 	}
+}
+
+func MGmtArgoCDReplacementTest(filePath string, newFilePath string, username string, sshprivatekey string) error {
+	// Read file contents
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return fmt.Errorf("error reading file: %v", err)
+	}
+
+	reGhUser := regexp.MustCompile(`GITHUB_USERNAME`)
+	reSshKey := regexp.MustCompile(`SSHREPLACEMENT`)
+
+	// Split the YAML data into lines
+	yamlLines := strings.Split(string(data), "\n")
+
+	// Find the line containing the placeholder and extract its indentation
+	var placeholderLine string
+	var originalIndent string // Placeholder for extracted indentation
+	for _, line := range yamlLines {
+		if strings.Contains(line, "SSHREPLACEMENT") {
+			placeholderLine = line
+			originalIndent = extractIndentation(placeholderLine)
+			break
+		}
+	}
+
+	// If placeholder not found, return an error
+	if originalIndent == "" {
+		return fmt.Errorf("placeholder 'SSHREPLACEMENT' not found in the YAML file")
+	}
+
+	// Indent each line of the SSH private key with the relative indentation
+	indentedSshKey := strings.ReplaceAll(sshprivatekey, "\n", "\n"+originalIndent)
+
+	// Replace GITHUB_USER and sshkey
+	newdata := replaceInString(data, reGhUser, username)
+	newdata = replaceInString(newdata, reSshKey, indentedSshKey)
+
+	// Write modified content back to the file
+	err = os.WriteFile(newFilePath, newdata, 0644)
+	if err != nil {
+		return fmt.Errorf("error writing file: %v", err)
+	}
+
+	return nil
+}
+
+// replaceInString replaces specific pattern with a new string
+func replaceInString(data []byte, re *regexp.Regexp, replacement string) []byte {
+	return re.ReplaceAll(data, []byte(replacement))
+}
+
+// Helper function to extract indentation from a line
+func extractIndentation(line string) string {
+	for i, char := range line {
+		if char != ' ' && char != '\t' {
+			return line[:i]
+		}
+	}
+	return ""
 }
 
 func retrieveUsername() (string, error) {
