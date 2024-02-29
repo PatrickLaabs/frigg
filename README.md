@@ -61,6 +61,14 @@ Homebrew is on the way.
 
 #### Start the deployment:
 
+While everything gets bootstrapped and provisioned, the Frigg CLI \
+also creates a working directory inside your home directory at
+`$HOME/.frigg`
+
+Inside this directory we will store every generated file, such as\
+the private and public ssh keypairs, various manifests, etc.
+<br></br>
+
 ```
 frigg provisions kubernetes cluster with capi and gitops in no-time
 
@@ -101,6 +109,7 @@ Available Commands:
   workloadcluster deploy workload cluster
 ```
 
+```
 ## Features
 
 ### Supported Providers
