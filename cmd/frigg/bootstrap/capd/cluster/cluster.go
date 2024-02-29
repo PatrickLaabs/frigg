@@ -16,6 +16,7 @@ import (
 	"github.com/PatrickLaabs/frigg/internal/runtime"
 	"github.com/PatrickLaabs/frigg/pkg/common/kubeconfig"
 	"github.com/PatrickLaabs/frigg/pkg/common/postbootstrap"
+	"github.com/PatrickLaabs/frigg/pkg/common/sshkey"
 	"github.com/PatrickLaabs/frigg/pkg/common/wait"
 	"github.com/PatrickLaabs/frigg/tmpl/helmchartsproxies"
 	"github.com/PatrickLaabs/frigg/tmpl/mgmtmanifestgen"
@@ -158,6 +159,9 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	); err != nil {
 		return errors.Wrap(err, "failed to create cluster")
 	}
+
+	// Generating SSH Key pair
+	sshkey.KeypairGen()
 
 	// Rendering gitops repo
 	reporender.FullStage()
