@@ -35,7 +35,7 @@ Glad to hear!
 Thank you very much, for supporting me 🚀
 
 ## Usage
-### requirements:
+### Requirements:
 
 I am currently working on a preparing step, so you don't have two worry.\
 But for now, the following needs to be done manually:
@@ -77,6 +77,16 @@ also creates a working directory inside your home directory at
 Inside this directory we will store every generated file, such as\
 the private and public ssh keypairs, various manifests, etc.
 <br></br>
+
+**Set the environment variables:**
+
+```
+export GITHUB_TOKEN=
+export GITHUB_USERNAME=
+export GITHUB_MAIL=
+```
+
+**Running Frigg:**
 
 ```
 frigg provisions kubernetes cluster with capi and gitops in no-time
