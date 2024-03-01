@@ -7,10 +7,15 @@ builds:
     goarch:
       - amd64
       - arm64
+universal_binaries:
+  - id: frigg
+    ids:
+      - build1
+      - build2
 brews:
   - name: frigg
     homepage: "https://github.com/PatrickLaabs/frigg"
-    tap:
+    repository:
       owner: PatrickLaabs
       name: frigg
     commit_author:

@@ -1,9 +1,13 @@
 package sshkey
 
 import (
+	"crypto/rand"
+	"crypto/rsa"
+	"crypto/x509"
+	"encoding/pem"
 	"github.com/fatih/color"
+	"golang.org/x/crypto/ssh"
 	"os"
-	"os/exec"
 )
 
 func KeypairGen() {
@@ -15,30 +19,93 @@ func KeypairGen() {
 		return
 	}
 	friggDir := homedir + "/" + friggDirName
-	sshKeypairName := "frigg-sshkeypair_gen"
-	keypairSavePath := friggDir + "/" + sshKeypairName
+	sshpubliykeyName := "frigg-sshkeypair_gen.pub"
+	sshprivatekeyName := "frigg-sshkeypair_gen"
 
-	// ssh-keygen -t rsa -C "frigg ssh keypar" -N "" -f frigg-sshkeypair
-	cmd := exec.Command("ssh-keygen", "-t", "rsa",
-		"-C", `frigg ssh keypar`, "-N", `""`, "-f", keypairSavePath,
-	)
+	savePublicFileTo := friggDir + "/" + sshpubliykeyName
+	savePrivateFileTo := friggDir + "/" + sshprivatekeyName
+	bitSize := 4096
 
-	//Capture the output of the command
-	output, err := cmd.CombinedOutput()
+	privateKey, err := generatePrivateKey(bitSize)
 	if err != nil {
-		println(color.RedString("error creating ssh keypair: %v\n", err))
-		println(color.YellowString(string(output)))
-		return
+		println(color.RedString("error on private key generating: %v\n", err))
 	}
 
-	keyvalue, err := os.ReadFile(keypairSavePath)
+	publicKeyBytes, err := generatePublicKey(&privateKey.PublicKey)
 	if err != nil {
-		println(color.RedString("error reading ssh key file: %v\n", err))
+		println(color.RedString("error on public key generating: %v\n", err))
 	}
 
-	err = os.WriteFile(keypairSavePath, keyvalue, 0775)
+	privateKeyBytes := encodePrivateKeyToPEM(privateKey)
+
+	err = writeKeyToFile(privateKeyBytes, savePrivateFileTo)
 	if err != nil {
-		println(color.RedString("Error on writing ssh key pairs: %v\n", err))
-		return
+		println(color.RedString("error on writing private key: %v\n", err))
 	}
+
+	err = writeKeyToFile(publicKeyBytes, savePublicFileTo)
+	if err != nil {
+		println(color.RedString("error on writing public key: %v\n", err))
+	}
+}
+
+// generatePrivateKey creates a RSA Private Key of specified byte size
+func generatePrivateKey(bitSize int) (*rsa.PrivateKey, error) {
+	// Private Key generation
+	privateKey, err := rsa.GenerateKey(rand.Reader, bitSize)
+	if err != nil {
+		return nil, err
+	}
+
+	// Validate Private Key
+	err = privateKey.Validate()
+	if err != nil {
+		return nil, err
+	}
+
+	println(color.YellowString("Private Key generated"))
+	return privateKey, nil
+}
+
+// encodePrivateKeyToPEM encodes Private Key from RSA to PEM format
+func encodePrivateKeyToPEM(privateKey *rsa.PrivateKey) []byte {
+	// Get ASN.1 DER format
+	privDER := x509.MarshalPKCS1PrivateKey(privateKey)
+
+	// pem.Block
+	privBlock := pem.Block{
+		Type:    "RSA PRIVATE KEY",
+		Headers: nil,
+		Bytes:   privDER,
+	}
+
+	// Private key in PEM format
+	privatePEM := pem.EncodeToMemory(&privBlock)
+
+	return privatePEM
+}
+
+// generatePublicKey take a rsa.PublicKey and return bytes suitable for writing to .pub file
+// returns in the format "ssh-rsa ..."
+func generatePublicKey(privatekey *rsa.PublicKey) ([]byte, error) {
+	publicRsaKey, err := ssh.NewPublicKey(privatekey)
+	if err != nil {
+		return nil, err
+	}
+
+	pubKeyBytes := ssh.MarshalAuthorizedKey(publicRsaKey)
+
+	println(color.YellowString("Public key generated"))
+	return pubKeyBytes, nil
+}
+
+// writePemToFile writes keys to a file
+func writeKeyToFile(keyBytes []byte, saveFileTo string) error {
+	err := os.WriteFile(saveFileTo, keyBytes, 0600)
+	if err != nil {
+		return err
+	}
+
+	println(color.YellowString("Key saved to: %v\n", saveFileTo))
+	return nil
 }

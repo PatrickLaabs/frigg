@@ -55,6 +55,13 @@ Get the binary using go:
 ```
 go install github.com/PatrickLaabs/frigg@latest
 ```
+
+```
+curl -L -o frigg https://github.com/PatrickLaabs/frigg/releases/download/0.4.0/frigg_0.4.0_darwin_arm64.tar.gz
+chmod +x frigg
+./frigg version
+```
+
 or download the binary at the releasepage:\
 [Frigg - Github Release Page](https://github.com/PatrickLaabs/frigg/releases)
  
