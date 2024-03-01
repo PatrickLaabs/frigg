@@ -5,20 +5,20 @@
 class Frigg < Formula
   desc ""
   homepage "https://github.com/PatrickLaabs/frigg"
-  version "0.3.2"
+  version "0.3.3"
 
   on_macos do
-    if Hardware::CPU.intel?
-      url "https://github.com/PatrickLaabs/frigg/releases/download/0.3.2/frigg_0.3.2_darwin_amd64.tar.gz"
-      sha256 "136b9182e4f30f24a2d12a4de07b723422979f6c95ae7bfaf545e2a2236b9e51"
+    if Hardware::CPU.arm?
+      url "https://github.com/PatrickLaabs/frigg/releases/download/0.3.3/frigg_0.3.3_darwin_arm64.tar.gz"
+      sha256 "bcaa03139aab32adf1cb524cd026c6a2d5a7c617cd642fa9a829ddbd37a28c2a"
 
       def install
         bin.install "frigg"
       end
     end
-    if Hardware::CPU.arm?
-      url "https://github.com/PatrickLaabs/frigg/releases/download/0.3.2/frigg_0.3.2_darwin_arm64.tar.gz"
-      sha256 "6eb26730fff8782e475442374bf908d7abebf8f6c4f2fd956469c49cff8f4ecf"
+    if Hardware::CPU.intel?
+      url "https://github.com/PatrickLaabs/frigg/releases/download/0.3.3/frigg_0.3.3_darwin_amd64.tar.gz"
+      sha256 "c95680a03bf850e00be72a3d1db0852e06c1a07a3642abd790acb0f3bd979fc2"
 
       def install
         bin.install "frigg"
@@ -28,16 +28,16 @@ class Frigg < Formula
 
   on_linux do
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/PatrickLaabs/frigg/releases/download/0.3.2/frigg_0.3.2_linux_arm64.tar.gz"
-      sha256 "76ade9a0e24eb1ece810e2289a85d22d2eb3fcb5a7751ddd1a53fef6cd58909f"
+      url "https://github.com/PatrickLaabs/frigg/releases/download/0.3.3/frigg_0.3.3_linux_arm64.tar.gz"
+      sha256 "1a69f222087607bb0cf82653d2c98c654c9bc8ac3cc94da1d89c2ac8d6c6e403"
 
       def install
         bin.install "frigg"
       end
     end
     if Hardware::CPU.intel?
-      url "https://github.com/PatrickLaabs/frigg/releases/download/0.3.2/frigg_0.3.2_linux_amd64.tar.gz"
-      sha256 "e9a4150de1c3d197a74ce99b2803639460f753e0cdce46353b011727cd6723c8"
+      url "https://github.com/PatrickLaabs/frigg/releases/download/0.3.3/frigg_0.3.3_linux_amd64.tar.gz"
+      sha256 "aaddf54754eece533a8ef78804e2218652b437fb32b6c2884613186bca4100ef"
 
       def install
         bin.install "frigg"
