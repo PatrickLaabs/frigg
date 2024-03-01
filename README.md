@@ -57,7 +57,8 @@ go install github.com/PatrickLaabs/frigg@latest
 ```
 
 ```
-curl -L -o frigg https://github.com/PatrickLaabs/frigg/releases/download/0.4.0/frigg_0.4.0_darwin_arm64.tar.gz
+curl -L -o frigg.tar.gz https://github.com/PatrickLaabs/frigg/releases/download/0.4.0/frigg_0.4.0_darwin_arm64.tar.gz
+tar -xf frigg.tar.gz
 chmod +x frigg
 ./frigg version
 ```
