@@ -5,6 +5,7 @@ import (
 	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
+	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"github.com/fatih/color"
 	"golang.org/x/crypto/ssh"
 	"os"
@@ -18,12 +19,10 @@ func KeypairGen() {
 		println(color.RedString("Error on accessing the working directory: %v\n", err))
 		return
 	}
-	friggDir := homedir + "/" + friggDirName
-	sshpubliykeyName := "frigg-sshkeypair_gen.pub"
-	sshprivatekeyName := "frigg-sshkeypair_gen"
+	friggDir := homedir + "/" + vars.FriggDirName
 
-	savePublicFileTo := friggDir + "/" + sshpubliykeyName
-	savePrivateFileTo := friggDir + "/" + sshprivatekeyName
+	savePublicFileTo := friggDir + "/" + vars.PublickeyName
+	savePrivateFileTo := friggDir + "/" + vars.PrivatekeyName
 	bitSize := 4096
 
 	privateKey, err := generatePrivateKey(bitSize)

@@ -1,6 +1,7 @@
 package clusterapi
 
 import (
+	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
@@ -15,9 +16,9 @@ func Pivot() {
 		return
 	}
 
-	bootstrapKubeconfig := homedir + "/" + friggDirName + "/" + bootstrapkubeconfigName
+	bootstrapKubeconfig := homedir + "/" + vars.FriggDirName + "/" + vars.BootstrapkubeconfigName
 
-	mgmtKubeconfig := homedir + "/" + friggDirName + "/" + managementKubeconfigName
+	mgmtKubeconfig := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
 
 	cmd := exec.Command("clusterctl", "--kubeconfig", bootstrapKubeconfig,
 		"move", "--to-kubeconfig", mgmtKubeconfig,

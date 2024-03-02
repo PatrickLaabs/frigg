@@ -1,7 +1,7 @@
 package mgmtArgohub
 
 import (
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies"
+	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
@@ -16,15 +16,8 @@ func Installation() {
 		return
 	}
 
-	friggDirName := helmchartproxies.FriggDirName
-	friggDir := homedir + "/" + friggDirName
-	managementKubeconfigName := helmchartproxies.ManagementKubeconfigName
-
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
-
-	//helmchartManifests := "templates/helmchartproxies/mgmt-argocd.yaml"
-	newFile := "mgmt-argocd.yaml"
-	helmchartManifests := friggDir + "/" + newFile
+	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
+	helmchartManifests := homedir + "/" + vars.FriggDirName + "/" + vars.ArgoCDMgmt
 
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "apply",

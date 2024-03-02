@@ -1,6 +1,7 @@
 package clusterapi
 
 import (
+	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
@@ -15,9 +16,9 @@ func ClusterAPI() {
 		return
 	}
 
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + bootstrapkubeconfigName
+	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.BootstrapkubeconfigName
+	clusterconfigPath := homedir + "/" + vars.FriggDirName + "/" + vars.ClusterctlConfigName
 
-	// Installs CAPI v1.6.1, Docker and CAAPH v0.1.1-alpha.0
 	cmd := exec.Command("clusterctl", "init",
 		"--bootstrap", "kubeadm:v1.6.1",
 		"--control-plane", "kubeadm:v1.6.1",
@@ -27,7 +28,7 @@ func ClusterAPI() {
 		"--addon", "helm:v0.1.1-alpha.0",
 		"--kubeconfig", kubeconfigFlagPath,
 		"--wait-providers",
-		"--config", "templates/clusterctl-config.yaml",
+		"--config", clusterconfigPath,
 	)
 
 	// Capture the output of the command
@@ -48,10 +49,9 @@ func ClusterAPIMgmt() {
 		return
 	}
 
-	// /home/patricklaabs/.frigg/frigg-cluster.kubeconfig
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
+	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
+	clusterconfigPath := homedir + "/" + vars.FriggDirName + "/" + vars.ClusterctlConfigName
 
-	// Installs CAPI v1.6.1, Docker and CAAPH v0.1.1-alpha.0
 	cmd := exec.Command("clusterctl", "init",
 		"--bootstrap", "kubeadm:v1.6.1",
 		"--control-plane", "kubeadm:v1.6.1",
@@ -61,7 +61,7 @@ func ClusterAPIMgmt() {
 		"--addon", "helm:v0.1.1-alpha.0",
 		"--kubeconfig", kubeconfigFlagPath,
 		"--wait-providers",
-		"--config", "templates/clusterctl-config.yaml",
+		"--config", clusterconfigPath,
 	)
 
 	// Capture the output of the command
