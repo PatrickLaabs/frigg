@@ -140,6 +140,9 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	// Generating kind-config
 	kindconfig.KindConfigGen()
 
+	// Generating SSH Key pair
+	sshkey.KeypairGen()
+
 	// Generating clusterctl config
 	clusterctlconfig.ClusterctlConfigGen()
 
@@ -156,9 +159,6 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	// Generates a manifest for the management cluster, named frigg-mgmt-cluster
 	wait.Wait(10 * time.Second)
 	mgmtmanifestgen.Gen()
-
-	// Generating SSH Key pair
-	sshkey.KeypairGen()
 
 	provider := cluster.NewProvider(
 		cluster.ProviderWithLogger(logger),

@@ -990,8 +990,6 @@ func MgmtArgoApps() {
 
 // MgmtArgoCD generates the ArgoCD Apps Helmchartproxy YAML file to the .frigg directory
 func MgmtArgoCD() {
-	println(color.GreenString("Generating ArgoCD Helmchart Proxy for the Management cluster"))
-
 	homedir, err := os.UserHomeDir()
 	if err != nil {
 		println(color.RedString("error on accessing home directory: %v\n", err))
