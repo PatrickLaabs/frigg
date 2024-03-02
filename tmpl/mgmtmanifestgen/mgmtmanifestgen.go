@@ -1,36 +1,34 @@
 package mgmtmanifestgen
 
 import (
+	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"github.com/fatih/color"
-	"gopkg.in/yaml.v3"
 	"os"
+	"os/exec"
 )
 
 func Gen() {
-	homedir, _ := os.UserHomeDir()
+	println(color.YellowString("Getting Management Clusters Manifest from Github"))
 
-	friggDirname := ".frigg"
-
-	tmplmanifest := "templates/argohubmgmtclusterManifest.yaml"
-	outputmanifestName := "argohubmgmtclusterManifest.yaml"
-	outputPath := homedir + "/" + friggDirname + "/" + outputmanifestName
-
-	var manifest map[string]interface{}
-
-	yamlFile, err := os.ReadFile(tmplmanifest)
+	homedir, err := os.UserHomeDir()
 	if err != nil {
-		println(color.RedString("Error Reading file: %v\n", err))
+		println(color.RedString("error on accessing home directory: %v\n", err))
 	}
 
-	err = yaml.Unmarshal(yamlFile, &manifest)
-	if err != nil {
-		println(color.RedString("Error unmarshaling yaml: %v\n", err))
-	}
+	// https://raw.githubusercontent.com/PatrickLaabs/frigg/main/templates/argohubmgmtclusterManifest.yaml
 
-	err = os.WriteFile(outputPath, yamlFile, 0755)
+	outputPath := homedir + "/" + vars.FriggDirName + "/" + vars.MgmtManifest
+
+	cmd := exec.Command("curl", "-L", "-o", outputPath,
+		vars.CurlMgmtManifest,
+	)
+
+	output, err := cmd.CombinedOutput()
 	if err != nil {
-		println(color.RedString("Error writing file: %v\n", err))
+		println(color.YellowString(string(output)))
+		return
 	}
+	println(color.GreenString("Successfully written Workload Cluster Kubernets Manifest"))
 
 	println(color.GreenString("Successfully written Mgmt Kubernets Manifest"))
 }

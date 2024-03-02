@@ -951,7 +951,7 @@ func MgmtArgoApps() {
     project: default
     source:
       repoURL: ` + url + `
-      path: path: clusters/management-cluster/argocd
+      path: clusters/management-cluster/argocd
       targetRevision: main
     destination:
       server: https://kubernetes.default.svc

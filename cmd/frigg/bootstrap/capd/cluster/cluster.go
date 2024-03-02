@@ -153,6 +153,13 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	helmchartsproxies.MgmtArgoCD()
 	helmchartsproxies.MgmtArgoApps()
 
+	// Generates a manifest for the management cluster, named frigg-mgmt-cluster
+	wait.Wait(10 * time.Second)
+	mgmtmanifestgen.Gen()
+
+	// Generating SSH Key pair
+	sshkey.KeypairGen()
+
 	provider := cluster.NewProvider(
 		cluster.ProviderWithLogger(logger),
 		runtime.GetDefault(logger),
@@ -178,9 +185,6 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 		return errors.Wrap(err, "failed to create cluster")
 	}
 
-	// Generating SSH Key pair
-	sshkey.KeypairGen()
-
 	// Rendering gitops repo
 	reporender.FullStage()
 
@@ -193,10 +197,6 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	// This is needed, to make the worker nodes ready and complete the bootstrap deployment
 	wait.Wait(10 * time.Second)
 	cnibootstrap.Installation()
-
-	// Generates a manifest for the management cluster, named frigg-mgmt-cluster
-	wait.Wait(10 * time.Second)
-	mgmtmanifestgen.Gen()
 
 	// Applies the frigg-mgmt-cluster manifest to the bootstrap cluster
 	// to create the first 'real' management cluster
