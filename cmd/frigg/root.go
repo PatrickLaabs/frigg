@@ -19,7 +19,6 @@ package frigg
 
 import (
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/functests"
 	"io"
 
 	"github.com/spf13/cobra"
@@ -83,7 +82,6 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c.AddCommand(version.NewCommand(logger, streams))
 	//c.AddCommand(load.NewCommand(logger))
 	c.AddCommand(bootstrap.NewCommand(logger, streams))
-	c.AddCommand(functests.NewCommand(logger, streams))
 	return c
 }
 

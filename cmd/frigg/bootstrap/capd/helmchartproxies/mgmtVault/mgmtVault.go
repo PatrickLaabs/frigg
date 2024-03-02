@@ -1,7 +1,7 @@
 package mgmtVault
 
 import (
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies"
+	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
@@ -16,12 +16,8 @@ func Installation() {
 		return
 	}
 
-	friggDirName := helmchartproxies.FriggDirName
-	managementKubeconfigName := helmchartproxies.ManagementKubeconfigName
-
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
-
-	helmchartManifests := "templates/helmchartproxies/mgmt-vault.yaml"
+	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
+	helmchartManifests := homedir + "/" + vars.FriggDirName + "/" + vars.VaultName
 
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "apply",

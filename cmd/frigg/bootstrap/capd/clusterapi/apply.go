@@ -2,6 +2,7 @@ package clusterapi
 
 import (
 	"fmt"
+	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
@@ -16,9 +17,9 @@ func KubectlApplyMgmt() {
 		return
 	}
 
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + bootstrapkubeconfigName
+	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.BootstrapkubeconfigName
 
-	mgmtcluster := homedir + "/" + friggDirName + "/" + "argohubmgmtclusterManifest.yaml"
+	mgmtcluster := homedir + "/" + vars.FriggDirName + "/" + vars.MgmtManifest
 
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "apply",
@@ -44,13 +45,13 @@ func KubectlApplyWorkload() {
 		return
 	}
 
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
+	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
 
-	mgmtcluster := homedir + "/" + friggDirName + "/" + "workloadcluster.yaml"
+	workloadcluster := homedir + "/" + vars.FriggDirName + "/" + vars.WorkloadManifest
 
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "apply",
-		"-f", mgmtcluster,
+		"-f", workloadcluster,
 	)
 
 	// Capture the output of the command
@@ -91,7 +92,7 @@ func ApplyGithubSecretMgmt() {
 	}
 
 	fromLiteralString := "--from-literal=token=" + token
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
+	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
 
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "-n", "argo", "create", "secret", "generic",
@@ -116,7 +117,7 @@ func ApplyArgoSecretMgmt() {
 		return
 	}
 
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
+	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
 
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "-n", "argo", "create", "secret", "generic",
@@ -143,7 +144,7 @@ func CreateArgoNSMgmt() {
 		return
 	}
 
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
+	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
 
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "create", "namespace", "argo",
@@ -167,7 +168,7 @@ func CreateArgoNSWorkload() {
 		return
 	}
 
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + workloadKubeconfigName
+	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.WorkloadKubeconfigName
 
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "create", "namespace", "argo",

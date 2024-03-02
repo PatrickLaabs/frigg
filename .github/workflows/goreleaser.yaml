@@ -45,3 +45,8 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      - name: Upload Release Assets
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-assets
+          path: ./templates/*.yaml

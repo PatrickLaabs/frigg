@@ -1,7 +1,7 @@
 package cnibootstrap
 
 import (
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/helmchartproxies"
+	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
@@ -16,12 +16,9 @@ func Installation() {
 		return
 	}
 
-	friggDirName := helmchartproxies.FriggDirName
-	bootstrapkubeconfigName := helmchartproxies.BootstrapkubeconfigName
+	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.BootstrapkubeconfigName
 
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + bootstrapkubeconfigName
-
-	helmchartManifests := "templates/helmchartproxies/cni.yaml"
+	helmchartManifests := homedir + "/" + vars.FriggDirName + "/" + vars.CniName
 
 	cmd := exec.Command("kubectl", "--kubeconfig",
 		kubeconfigFlagPath, "apply",

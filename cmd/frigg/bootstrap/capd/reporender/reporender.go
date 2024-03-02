@@ -2,6 +2,7 @@ package reporender
 
 import (
 	"fmt"
+	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"github.com/PatrickLaabs/frigg/pkg/common/wait"
 	"github.com/fatih/color"
 	"github.com/go-git/go-git/v5"
@@ -20,9 +21,6 @@ import (
 // - GITHUB_USER
 // - GITHUB_MAIL
 
-var repoName = "argo-hub"
-var friggDirName = ".frigg"
-
 // FullStage combines everything, that is needed, to fully prepare the gitops repo for the end-user
 func FullStage() {
 	println(color.GreenString("Rendering the gitops template repo"))
@@ -38,19 +36,19 @@ func FullStage() {
 	}
 
 	homedir, _ := os.UserHomeDir()
-	friggDir := homedir + "/" + friggDirName
+	friggDir := homedir + "/" + vars.FriggDirName
 
-	localRepoStoragePath := friggDir + "/" + repoName
+	localRepoStoragePath := friggDir + "/" + vars.RepoName
 
 	githubLogin()
 	gitCreateFromTemplate()
-	addSshPublickey()
 	wait.Wait(5 * time.Second)
 	gitClone()
 	err = replaceStrings(localRepoStoragePath, username, usermail)
 	if err != nil {
 		return
 	}
+	addSshPublickey()
 	gitCommit()
 	gitPush()
 }
@@ -103,7 +101,7 @@ func gitCreateFromTemplate() {
 		println(color.RedString("Error retrieving token: %v\n", err))
 	}
 
-	targetRepoName := username + "/" + repoName
+	targetRepoName := username + "/" + vars.RepoName
 
 	cmd := exec.Command("gh", "repo", "create",
 		targetRepoName, "--private",
@@ -123,13 +121,20 @@ func addSshPublickey() {
 	println(color.GreenString("Adding generated public key to the new gitops repo"))
 
 	homedir, _ := os.UserHomeDir()
-	friggDir := homedir + "/" + friggDirName
-	sshprivatekeyPath := friggDir + "/" + "frigg-sshkeypair_gen.pub"
+	friggDir := homedir + "/" + vars.FriggDirName
+	sshpublickeyPath := friggDir + "/" + vars.PublickeyName
+	localRepo := friggDir + "/" + vars.RepoName
 
-	// gh ssh-key add ~/.ssh/id_rsa.pub --title "${cluster_base}-argocd-public-key"
-	cmd := exec.Command("gh", "ssh-key", "add",
-		sshprivatekeyPath, "--title",
-		"frigg-generated-publickey",
+	// Change working directory using os.Chdir
+	err := os.Chdir(localRepo)
+	if err != nil {
+		println(color.RedString("Error changing directory: ", err))
+		return
+	}
+
+	cmd := exec.Command("gh", "repo", "deploy-key", "add",
+		sshpublickeyPath, "--allow-write", "--title",
+		vars.PublickeyNameOnGh,
 	)
 
 	output, err := cmd.CombinedOutput()
@@ -138,7 +143,6 @@ func addSshPublickey() {
 		return
 	}
 	println(color.GreenString(string(output)))
-
 }
 
 // gitClone clones the gitops template repo from github, to the local working directory
@@ -151,11 +155,11 @@ func gitClone() {
 	}
 
 	homedir, _ := os.UserHomeDir()
-	friggDir := homedir + "/" + friggDirName
+	friggDir := homedir + "/" + vars.FriggDirName
 
 	// git@github.com:PatrickLaabs/argo-hub.git
-	repoUrl := "git@github.com:" + username + "/" + repoName + ".git"
-	localRepoStoragePath := friggDir + "/" + repoName
+	repoUrl := "git@github.com:" + username + "/" + vars.RepoName + ".git"
+	localRepoStoragePath := friggDir + "/" + vars.RepoName
 
 	_, err = git.PlainClone(localRepoStoragePath, false, &git.CloneOptions{
 		URL:      repoUrl,
@@ -234,9 +238,9 @@ func gitCommit() {
 	}
 
 	homedir, _ := os.UserHomeDir()
-	friggDir := homedir + "/" + friggDirName
+	friggDir := homedir + "/" + vars.FriggDirName
 
-	localRepoStoragePath := friggDir + "/" + repoName
+	localRepoStoragePath := friggDir + "/" + vars.RepoName
 
 	// Opens an already existing repository.
 	r, err := git.PlainOpen(localRepoStoragePath)
@@ -290,9 +294,9 @@ func gitPush() {
 	println(color.GreenString("Pushing local changes to the remote repo"))
 
 	homedir, _ := os.UserHomeDir()
-	friggDir := homedir + "/" + friggDirName
+	friggDir := homedir + "/" + vars.FriggDirName
 
-	localRepoStoragePath := friggDir + "/" + repoName
+	localRepoStoragePath := friggDir + "/" + vars.RepoName
 
 	// Opens an already existing repository.
 	r, err := git.PlainOpen(localRepoStoragePath)

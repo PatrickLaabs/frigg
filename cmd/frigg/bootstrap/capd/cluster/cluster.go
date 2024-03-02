@@ -17,8 +17,11 @@ import (
 	"github.com/PatrickLaabs/frigg/pkg/common/kubeconfig"
 	"github.com/PatrickLaabs/frigg/pkg/common/postbootstrap"
 	"github.com/PatrickLaabs/frigg/pkg/common/sshkey"
+	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"github.com/PatrickLaabs/frigg/pkg/common/wait"
+	"github.com/PatrickLaabs/frigg/tmpl/clusterctlconfig"
 	"github.com/PatrickLaabs/frigg/tmpl/helmchartsproxies"
+	"github.com/PatrickLaabs/frigg/tmpl/kindconfig"
 	"github.com/PatrickLaabs/frigg/tmpl/mgmtmanifestgen"
 	"github.com/fatih/color"
 	"io"
@@ -47,13 +50,13 @@ type flagpole struct {
 
 // NewCommand returns a new cobra.Command for cluster creation
 func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
-	homedir, _ := os.UserHomeDir()
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("error on accessing users home directory: %v\n", err))
+	}
 
-	friggDirName := ".frigg"
-	kubeconfigName := "bootstrapcluster.kubeconfig"
-
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + kubeconfigName
-
+	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.BootstrapkubeconfigName
+	kindconfigPath := homedir + "/" + vars.FriggDirName + "/" + vars.KindconfigName
 	flags := &flagpole{}
 	c := &cobra.Command{
 		Args:  cobra.NoArgs,
@@ -75,7 +78,7 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c.Flags().StringVar(
 		&flags.Config,
 		"config",
-		"templates/kind-config.yaml",
+		kindconfigPath,
 		"path to a kind config file",
 	)
 	c.Flags().StringVar(
@@ -132,8 +135,23 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	}
 
 	// Create working directory named .frigg inside the users homedirectory.
-	println(color.YellowString("Creating working directory on your homedirectory"))
 	workdir.CreateDir()
+
+	// Generating kind-config
+	kindconfig.KindConfigGen()
+
+	// Generating clusterctl config
+	clusterctlconfig.ClusterctlConfigGen()
+
+	// Generating HelmChartProxies
+	helmchartsproxies.Cni()
+	helmchartsproxies.Vault()
+	helmchartsproxies.ArgoCDWorkloadClusters()
+	helmchartsproxies.ArgoWorkflows()
+	helmchartsproxies.ArgoRollouts()
+	helmchartsproxies.ArgoEvents()
+	helmchartsproxies.MgmtArgoCD()
+	helmchartsproxies.MgmtArgoApps()
 
 	provider := cluster.NewProvider(
 		cluster.ProviderWithLogger(logger),
@@ -234,10 +252,6 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	// Deletes the bootstrap cluster, since we don't need it any longer
 	// and to free up some hardware resources.
 	postbootstrap.DeleteBootstrapcluster()
-
-	// Generating HelmChartProxies
-	helmchartsproxies.MgmtArgoCD()
-	helmchartsproxies.MgmtArgoApps()
 
 	// Installs the HelmChartProxies onto the mgmt-cluster
 	argocdWorkload.Installation()
