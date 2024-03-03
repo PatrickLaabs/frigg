@@ -200,12 +200,11 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
 	// Applies the frigg-mgmt-cluster manifest to the bootstrap cluster
 	// to create the first 'real' management cluster
-	wait.Wait(5 * time.Second)
 	clusterapi.KubectlApplyMgmt()
 
 	// Retrieves the kubeconfig for the frigg-mgmt-cluster from the bootstrap cluster
 	// so that we can later on use the kubeconfig to target the correct cluster for deployments.
-	wait.Wait(10 * time.Second)
+	wait.Wait(2 * time.Second)
 	kubeconfig.RetrieveMgmtKubeconfig()
 
 	// Modifes the kubeconfig, to let us interact with the newly created kubernetes cluster.
@@ -214,7 +213,6 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	// ToDo:
 	// We shall check, if the user is running on macOS, Linux and/or Windows.
 	// Depending on the OS, the modification, of the kubeconfig, may not be needed.
-	wait.Wait(5 * time.Second)
 	err = kubeconfig.ModifyMgmtKubeconfig()
 	if err != nil {
 		fmt.Printf("Error on modification of mgmt clusters kubeconfig: %v\n", err)
@@ -222,36 +220,17 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
 	// Installs the capi components to the frigg-mgmt-cluster
 	// This part may take a while.
-	wait.Wait(15 * time.Second)
+	wait.Wait(60 * time.Second)
 	clusterapi.ClusterAPIMgmt()
 
-	wait.Wait(30 * time.Second)
 	// Creates the argo namespace on the Mgmt Cluster
 	clusterapi.CreateArgoNSMgmt()
 
-	// Applies the Github Token and the default ArgoCD Login Credentials as a
-	// kubernetes secret on the argo namespace.
-	// This is needed to let us interact with github, to clone, refactor and push the needed
-	// gitops repositories.
-	//
-	// On the deployment, of new workload kubernetes clusters - which will be attached to the management
-	// cluster - we run ArgoCD Workflows, which will create a pod, which runs a script.
-	// This script logs in to the argocd instance, and adds the new kubernetes cluster to it, and
-	// also adds a label to the cluster, with which we can proceed the automation steps.
-
-	wait.Wait(5 * time.Second)
+	//wait.Wait(5 * time.Second)
 	// Github Token Secret deployment
 	clusterapi.ApplyGithubSecretMgmt()
 	// ArgoCD Default Login Secret deployment
 	clusterapi.ApplyArgoSecretMgmt()
-
-	// Moves the capi components from the bootstrap cluster to the frigg-mgmt-cluster
-	wait.Wait(5 * time.Second)
-	clusterapi.Pivot()
-
-	// Deletes the bootstrap cluster, since we don't need it any longer
-	// and to free up some hardware resources.
-	postbootstrap.DeleteBootstrapcluster()
 
 	// Installs the HelmChartProxies onto the mgmt-cluster
 	argocdWorkload.Installation()
@@ -263,8 +242,14 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	mgmtArgohub.Installation()
 	mgmtVault.Installation()
 
-	println(color.GreenString("Successfully provisioned your management cluster ontop of capd."))
+	// Moves the capi components from the bootstrap cluster to the frigg-mgmt-cluster
+	wait.Wait(60 * time.Second)
+	clusterapi.Pivot()
 
+	// Deletes the bootstrap cluster, since we don't need it any longer
+	// and to free up some hardware resources.
+	postbootstrap.DeleteBootstrapcluster()
+	println(color.GreenString("Successfully provisioned your management cluster ontop of capd."))
 	return nil
 }
 
