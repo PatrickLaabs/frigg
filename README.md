@@ -3,8 +3,6 @@
 [![Go Reference](https://pkg.go.dev/badge/github.com/PatrickLaabs/frigg.svg)](https://pkg.go.dev/github.com/PatrickLaabs/frigg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/PatrickLaabs/frigg)](https://goreportcard.com/badge/github.com/PatrickLaabs/frigg)
 
-[![Licence](https://img.shields.io/github/license/Ileriayo/markdown-badges?style=for-the-badge)](./LICENSE)
-
 ## What is Frigg
 
 ***Meaning of Frigg**:* Goddess of wisdom and crafts
@@ -15,7 +13,8 @@ With Frigg, you provision **N-Kubernets** Clusters, which are **GitOps**-enabled
 Frigg is a cli project, to easily create one to one hundred 
 of Kubernetes clusters on different hyperscalers.
 
-[Check the supported Hyperscalers]
+**Since we relay heavenly on Cluster-API, we could implement any supported provider to _Frigg_\
+[Check the supported Hyperscalers](https://cluster-api.sigs.k8s.io/reference/providers)**
 
 No matter which hyperscaler you choose, your kubernetes clusters will be
 attached to one another, and are also GitOps enabled.
@@ -57,7 +56,7 @@ go install github.com/PatrickLaabs/frigg@latest
 ```
 
 ```
-curl -L -o frigg.tar.gz https://github.com/PatrickLaabs/frigg/releases/download/1.0.1/frigg_1.0.1_darwin_arm64.tar.gz
+curl -L -o frigg.tar.gz https://github.com/PatrickLaabs/frigg/releases/download/1.0.2/frigg_1.0.2_darwin_arm64.tar.gz
 tar -xf frigg.tar.gz
 chmod +x frigg
 ./frigg version
@@ -102,30 +101,15 @@ Available Commands:
   version     Prints the frigg CLI version
 ```
 
+**Provision your first management cluster:**
+``` sh
+frigg bootstrap capd cluster
 ```
-bootstrap various clusters on different providers
+This might take a while, since we are doing some heavy lifting.
 
-Usage:
-  frigg bootstrap [flags]
-  frigg bootstrap [command]
-
-Available Commands:
-  capd        clusterapi provider docker
-  capv        capv
-  capz        capz
-  harvester   harvester
-```
-
-```
-Creates local Kubernetes clusters using clusterapi's provider capd (docker)
-
-Usage:
-  frigg bootstrap capd [flags]
-  frigg bootstrap capd [command]
-
-Available Commands:
-  cluster         Creates a local Kubernetes cluster
-  workloadcluster deploy workload cluster
+**Provision your workload cluster ontop:**
+``` sh
+frigg bootstrap capd workloadcluster
 ```
 
 After the provisioning of your management cluster is ready,\
