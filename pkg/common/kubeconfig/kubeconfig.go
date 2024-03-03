@@ -2,6 +2,7 @@ package kubeconfig
 
 import (
 	"fmt"
+	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
@@ -21,9 +22,9 @@ func RetrieveMgmtKubeconfig() {
 		return
 	}
 
-	friggDir := homedir + "/" + friggDirName
+	friggDir := homedir + "/" + vars.FriggDirName
 
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + bootstrapkubeconfigName
+	kubeconfigFlagPath := friggDir + "/" + vars.BootstrapkubeconfigName
 
 	cmd := exec.Command("clusterctl", "--kubeconfig",
 		kubeconfigFlagPath, "get", "kubeconfig", "argohubmgmtcluster",
@@ -37,7 +38,7 @@ func RetrieveMgmtKubeconfig() {
 		return
 	}
 
-	err = os.WriteFile(friggDir+"/"+managementKubeconfigName, output, 0755)
+	err = os.WriteFile(friggDir+"/"+vars.ManagementKubeconfigName, output, 0755)
 	if err != nil {
 		println(color.RedString("Error on writing kubeconfig file for mgmt cluster: %v\n", err))
 		return
@@ -54,9 +55,9 @@ func RetrieveWorkloadKubeconfig() {
 		return
 	}
 
-	friggDir := homedir + "/" + friggDirName
+	friggDir := homedir + "/" + vars.FriggDirName
 
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
+	kubeconfigFlagPath := friggDir + "/" + vars.ManagementKubeconfigName
 
 	cmd := exec.Command("clusterctl", "--kubeconfig",
 		kubeconfigFlagPath, "get", "kubeconfig", "workloadcluster",
@@ -69,9 +70,8 @@ func RetrieveWorkloadKubeconfig() {
 		println(color.YellowString(string(output)))
 		return
 	}
-	fmt.Println(string(output))
 
-	err = os.WriteFile(friggDir+"/"+workloadKubeconfigName, output, 0755)
+	err = os.WriteFile(friggDir+"/"+vars.WorkloadKubeconfigName, output, 0755)
 	if err != nil {
 		println(color.RedString("Error on writing kubeconfig file for mgmt cluster: %v\n", err))
 		return
@@ -87,8 +87,8 @@ func ModifyMgmtKubeconfig() error {
 		println(color.RedString("Error on accessing the working directory: %v\n", err))
 	}
 
-	kubeconfigNameNew := managementKubeconfigName + ".new"
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + managementKubeconfigName
+	kubeconfigNameNew := vars.ManagementKubeconfigName + ".new"
+	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
 
 	data, err := os.ReadFile(kubeconfigFlagPath)
 	if err != nil {
@@ -159,8 +159,8 @@ func ModifyWorkloadKubeconfig() error {
 		println(color.RedString("Error on accessing the working directory: %v\n", err))
 	}
 
-	kubeconfigNameNew := workloadKubeconfigName + ".new"
-	kubeconfigFlagPath := homedir + "/" + friggDirName + "/" + workloadKubeconfigName
+	kubeconfigNameNew := vars.WorkloadKubeconfigName + ".new"
+	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.WorkloadKubeconfigName
 
 	data, err := os.ReadFile(kubeconfigFlagPath)
 	if err != nil {
