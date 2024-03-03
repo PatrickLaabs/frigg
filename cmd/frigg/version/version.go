@@ -19,6 +19,7 @@ package version
 
 import (
 	"fmt"
+	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"runtime"
 
 	"github.com/spf13/cobra"
@@ -27,7 +28,7 @@ import (
 	"github.com/PatrickLaabs/frigg/pkg/log"
 )
 
-// Version returns the kind CLI Semantic Version
+// Version returns the frigg CLI Semantic Version
 func Version() string {
 	v := versionCore
 	// add pre-release version info if we have it
@@ -54,11 +55,11 @@ func DisplayVersion() string {
 }
 
 // versionCore is the core portion of the frigg CLI version per Semantic Versioning 2.0.0
-const versionCore = "1.0.1"
+const versionCore = vars.FriggVersion
 
 // versionPreRelease is the base pre-release portion of the kind CLI version per
 // Semantic Versioning 2.0.0
-const versionPreRelease = ""
+const versionPreRelease = vars.VersionPreRelease
 
 // gitCommitCount count the commits since the last release.
 // It is injected at build time.
