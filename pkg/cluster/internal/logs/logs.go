@@ -23,6 +23,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"strings"
 
 	"github.com/alessio/shellescape"
 
@@ -60,6 +61,11 @@ func untar(logger log.Logger, r io.Reader, dir string) (err error) {
 	tr := tar.NewReader(r)
 	for {
 		f, err := tr.Next()
+
+		if strings.Contains(f.Name, "..") {
+			logger.Warnf("Skipping potentially unsafe path: %s", f.Name)
+			continue // Skip this file
+		}
 
 		switch {
 		case err == io.EOF:
