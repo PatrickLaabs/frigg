@@ -132,14 +132,3 @@ Password: frigg
 ## Documentation
 
 Further documentation is available in the `/docs` directory.
-
-## Relevant repositories
-
-- [sample-application for workload clusters](https://github.com/PatrickLaabs/sample-application)
-- [Management-Clusters-Template Repoistory](https://github.com/PatrickLaabs/argo-hub-template)
-- [Workload-Clusters-Template Repository](https://github.com/PatrickLaabs/workload-appofapps-template)
-- [Frigg-Builder used within ArgoWorkflows](https://github.com/PatrickLaabs/frigg-builder)
-
-
-*This one is not yet implemented, but will be used in the future, to visualize the provisioned clusters*
-- [Management-Dashboard](https://github.com/PatrickLaabs/mgmt-dashboard)
