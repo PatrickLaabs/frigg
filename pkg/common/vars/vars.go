@@ -6,6 +6,7 @@ const VersionPreRelease = ""
 
 var RepoName = "argo-hub"
 var FriggDirName = ".frigg"
+var FriggTools = "tools"
 var PrivatekeyName = "frigg-sshkeypair_gen"
 var PublickeyName = "frigg-sshkeypair_gen.pub"
 var PublickeyNameOnGh = "frigg-generated-publickey"

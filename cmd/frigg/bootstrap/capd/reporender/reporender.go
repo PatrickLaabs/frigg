@@ -35,7 +35,10 @@ func FullStage() {
 		println(color.RedString("Error retrieving mail: %v\n", err))
 	}
 
-	homedir, _ := os.UserHomeDir()
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("error on accessing home directory: %v\n", err))
+	}
 	friggDir := homedir + "/" + vars.FriggDirName
 
 	localRepoStoragePath := friggDir + "/" + vars.RepoName
