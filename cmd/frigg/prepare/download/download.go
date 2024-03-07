@@ -1,7 +1,6 @@
 package download
 
 import (
-	"fmt"
 	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"github.com/fatih/color"
 	"github.com/hashicorp/go-getter"
@@ -53,7 +52,6 @@ func GithubCli() {
 			println(color.YellowString("GH CLI does not exist inside tools dir. Downloading now.."))
 
 			src := "https://github.com/cli/cli/releases/download/v" + vars.GithubCliVersion + "/gh_" + vars.GithubCliVersion + "_" + operatingSystem + "_" + runtime.GOARCH + ".zip"
-			fmt.Println(src)
 			dst := filepath.Join(friggDir, "/gh_"+vars.GithubCliVersion+"_"+operatingSystem+"_"+runtime.GOARCH+".zip")
 
 			err = getter.GetAny(dst, src)
@@ -82,7 +80,6 @@ func Kubectl() {
 			println(color.YellowString("Kubectl CLI does not exist inside tools dir. Downloading now.."))
 
 			src := "https://dl.k8s.io/release/v" + vars.KubectlVersion + "/bin/" + runtime.GOOS + "/" + runtime.GOARCH + "/kubectl"
-			fmt.Println(src)
 			dst := filepath.Join(friggDir, vars.KubectlVersion+"/bin/"+runtime.GOOS+"/"+runtime.GOARCH)
 
 			err := getter.GetAny(dst, src)
@@ -116,7 +113,6 @@ func Clusterctl() {
 			println(color.YellowString("Clusterctl CLI does not exist inside tools dir. Downloading now.."))
 
 			src := "https://github.com/kubernetes-sigs/cluster-api/releases/download/v" + vars.ClusterctlVersion + "/clusterctl-" + runtime.GOOS + "-" + runtime.GOARCH
-			fmt.Println(src)
 			dst := filepath.Join(friggDir, "clusterctl-directory")
 
 			err := getter.GetAny(dst, src)
@@ -150,9 +146,7 @@ func K9s() {
 			println(color.YellowString("K9s CLI does not exist inside tools dir. Downloading now.."))
 
 			src := "https://github.com/derailed/k9s/releases/download/v" + vars.K9sVersion + "/k9s_" + runtime.GOOS + "_" + runtime.GOARCH + ".tar.gz"
-			fmt.Println(src)
 			dst := filepath.Join(friggDir, "k9s-"+vars.K9sVersion)
-			fmt.Println(dst)
 
 			err := getter.GetAny(dst, src)
 			if err != nil {
