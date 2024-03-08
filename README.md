@@ -7,6 +7,8 @@
 
 ***Meaning of Frigg**:* Goddess of wisdom and crafts
 
+![Friggs Overview](assets/Frigg.png)
+
 ### **TL;DR**:
 With Frigg, you provision **N-Kubernets** Clusters, which are **GitOps**-enabled and have **batteries included**.
 
