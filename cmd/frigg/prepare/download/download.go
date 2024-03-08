@@ -140,8 +140,7 @@ func Clusterctl() {
 }
 
 func K9s() {
-	_, err := os.Stat(filepath.Join(friggDir, "k9s"))
-	if err != nil {
+	if _, err := os.Stat(filepath.Join(friggDir, "k9s")); err != nil {
 		if os.IsNotExist(err) {
 			println(color.YellowString("K9s CLI does not exist inside tools dir. Downloading now.."))
 
