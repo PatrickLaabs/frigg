@@ -19,6 +19,7 @@ package frigg
 
 import (
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/prepare"
 	"io"
 
 	"github.com/spf13/cobra"
@@ -73,15 +74,10 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 		"silence all stderr output",
 	)
 	// add all top level subcommands
-	//c.AddCommand(build.NewCommand(logger))
-	//c.AddCommand(completion.NewCommand(streams))
-	//c.AddCommand(create.NewCommand(logger, streams))
 	c.AddCommand(delete.NewCommand(logger))
-	//c.AddCommand(export.NewCommand(logger, streams))
-	//c.AddCommand(get.NewCommand(logger, streams))
 	c.AddCommand(version.NewCommand(logger, streams))
-	//c.AddCommand(load.NewCommand(logger))
 	c.AddCommand(bootstrap.NewCommand(logger, streams))
+	c.AddCommand(prepare.NewCommand())
 	return c
 }
 

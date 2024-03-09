@@ -7,6 +7,8 @@
 
 ***Meaning of Frigg**:* Goddess of wisdom and crafts
 
+![Frigg](assets/Frigg_Logo.png)
+
 ### **TL;DR**:
 With Frigg, you provision **N-Kubernets** Clusters, which are **GitOps**-enabled and have **batteries included**.
 
@@ -21,6 +23,9 @@ attached to one another, and are also GitOps enabled.
 
 At the end, you will have N-amount of clusters, with a Github
 repository for each of them, where you are able to add more applications deployments.
+
+## Quick overview of Frigg()
+![Friggs Overview](assets/Frigg_Overview.png)
 
 ## Support
 
@@ -39,13 +44,11 @@ But for now, the following needs to be done manually:
 
 #### Install the following tools:
 
-- [kind](https://formulae.brew.sh/formula/kind#default)
-- [k9s](https://formulae.brew.sh/formula/k9s#default)
-- [Docker](https://www.docker.com/products/docker-desktop/)
-- [clusterctl](https://formulae.brew.sh/formula/clusterctl#default)
-- [kubectl](https://formulae.brew.sh/formula/kubernetes-cli#default)
-- [github cli](https://formulae.brew.sh/formula/gh#default)
-- [jq](https://formulae.brew.sh/formula/jq#default)
+Just run:\
+`frigg prepare`
+
+All Tools we need, will be installed into the tools Directory under\
+`~/.frigg/tools`
 
 #### Get the *frigg* cli:
 Get the binary using go:
