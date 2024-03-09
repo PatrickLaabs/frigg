@@ -15,12 +15,10 @@ func NewCommand() *cobra.Command {
 		Long:  "Prepares everything to use Frigg",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			println(color.GreenString("Downloading Tools you need to operate with Frigg into your home directory."))
-
 			download.GithubCli()
 			download.Kubectl()
 			download.Clusterctl()
 			download.K9s()
-
 			return nil
 		},
 	}
