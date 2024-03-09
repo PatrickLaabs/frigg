@@ -7,7 +7,7 @@
 
 ***Meaning of Frigg**:* Goddess of wisdom and crafts
 
-![Friggs Overview](assets/Frigg.png)
+![Frigg](assets/Frigg_Logo.png)
 
 ### **TL;DR**:
 With Frigg, you provision **N-Kubernets** Clusters, which are **GitOps**-enabled and have **batteries included**.
@@ -23,6 +23,9 @@ attached to one another, and are also GitOps enabled.
 
 At the end, you will have N-amount of clusters, with a Github
 repository for each of them, where you are able to add more applications deployments.
+
+## Quick overview of Frigg()
+![Friggs Overview](assets/Frigg_Overview.png)
 
 ## Support
 
