@@ -27,8 +27,7 @@ func FriggWorkingDir() {
 	// Check if directory exists and create it if not
 	if _, err := os.Stat(friggDir); os.IsNotExist(err) {
 		println(color.YellowString("Tools directory does not exists, Creating %s\n", friggDir))
-		err = os.MkdirAll(friggDir, 0755) // Create directory with permissions 0755
-		if err != nil {
+		if err = os.MkdirAll(friggDir, 0755); err != nil {
 			println(color.RedString("Error creating directory %s: %v\n", friggDir, err))
 		}
 	} else if err != nil {
@@ -46,23 +45,21 @@ func GithubCli() {
 		operatingSystem = runtime.GOOS
 	}
 
-	_, err := os.Stat(filepath.Join(friggDir, "gh"))
-	if err != nil {
+	if _, err := os.Stat(filepath.Join(friggDir, "gh")); err != nil {
 		if os.IsNotExist(err) {
 			println(color.YellowString("GH CLI does not exist inside tools dir. Downloading now.."))
 
 			src := "https://github.com/cli/cli/releases/download/v" + vars.GithubCliVersion + "/gh_" + vars.GithubCliVersion + "_" + operatingSystem + "_" + runtime.GOARCH + ".zip"
 			dst := filepath.Join(friggDir, "/gh_"+vars.GithubCliVersion+"_"+operatingSystem+"_"+runtime.GOARCH+".zip")
 
-			err = getter.GetAny(dst, src)
-			if err != nil {
+			if err = getter.GetAny(dst, src); err != nil {
 				println(color.RedString("error on downloading github cli: %v\n", err))
 			}
 
 			ghSrcPath := filepath.Join(friggDir, "gh_"+vars.GithubCliVersion+"_"+operatingSystem+"_"+runtime.GOARCH+".zip/"+"gh_"+vars.GithubCliVersion+"_"+operatingSystem+"_"+runtime.GOARCH+"/bin/gh")
 			ghDstPath := filepath.Join(friggDir, "gh")
-			err = os.Link(ghSrcPath, ghDstPath)
-			if err != nil {
+
+			if err = os.Link(ghSrcPath, ghDstPath); err != nil {
 				println(color.RedString("error on linking gh cli: %v\n", err))
 			}
 		} else {
@@ -74,28 +71,25 @@ func GithubCli() {
 }
 
 func Kubectl() {
-	_, err := os.Stat(filepath.Join(friggDir, "kubectl"))
-	if err != nil {
+	if _, err := os.Stat(filepath.Join(friggDir, "kubectl")); err != nil {
 		if os.IsNotExist(err) {
 			println(color.YellowString("Kubectl CLI does not exist inside tools dir. Downloading now.."))
 
 			src := "https://dl.k8s.io/release/v" + vars.KubectlVersion + "/bin/" + runtime.GOOS + "/" + runtime.GOARCH + "/kubectl"
 			dst := filepath.Join(friggDir, vars.KubectlVersion+"/bin/"+runtime.GOOS+"/"+runtime.GOARCH)
 
-			err := getter.GetAny(dst, src)
-			if err != nil {
+			if err := getter.GetAny(dst, src); err != nil {
 				println(color.RedString("error on downloading kubectl cli: %v\n", err))
 			}
 
 			kubectlSrcPath := filepath.Join(friggDir, vars.KubectlVersion+"/bin/"+runtime.GOOS+"/"+runtime.GOARCH+"/kubectl")
 			kubectlDstPath := filepath.Join(friggDir, "kubectl")
-			err = os.Link(kubectlSrcPath, kubectlDstPath)
-			if err != nil {
+
+			if err = os.Link(kubectlSrcPath, kubectlDstPath); err != nil {
 				println(color.RedString("error on linking kubectl: %v\n", err))
 			}
 
-			err = os.Chmod(kubectlDstPath, 0755)
-			if err != nil {
+			if err = os.Chmod(kubectlDstPath, 0755); err != nil {
 				println(color.RedString("error with chmod on kubectl cli: %v\n", err))
 			}
 		} else {
@@ -107,28 +101,25 @@ func Kubectl() {
 }
 
 func Clusterctl() {
-	_, err := os.Stat(filepath.Join(friggDir, "clusterctl"))
-	if err != nil {
+	if _, err := os.Stat(filepath.Join(friggDir, "clusterctl")); err != nil {
 		if os.IsNotExist(err) {
 			println(color.YellowString("Clusterctl CLI does not exist inside tools dir. Downloading now.."))
 
 			src := "https://github.com/kubernetes-sigs/cluster-api/releases/download/v" + vars.ClusterctlVersion + "/clusterctl-" + runtime.GOOS + "-" + runtime.GOARCH
 			dst := filepath.Join(friggDir, "clusterctl-directory")
 
-			err := getter.GetAny(dst, src)
-			if err != nil {
+			if err := getter.GetAny(dst, src); err != nil {
 				println(color.RedString("error on downloading clusterctl cli: %v\n", err))
 			}
 
 			clusterctlSrcPath := filepath.Join(friggDir, "clusterctl-directory/"+"clusterctl-"+runtime.GOOS+"-"+runtime.GOARCH)
 			clusterctlDstPath := filepath.Join(friggDir, "clusterctl")
-			err = os.Link(clusterctlSrcPath, clusterctlDstPath)
-			if err != nil {
+
+			if err = os.Link(clusterctlSrcPath, clusterctlDstPath); err != nil {
 				println(color.RedString("error on linking clusterctl: %v\n", err))
 			}
 
-			err = os.Chmod(clusterctlDstPath, 0755)
-			if err != nil {
+			if err = os.Chmod(clusterctlDstPath, 0755); err != nil {
 				println(color.RedString("error with chmod on clusterctl cli: %v\n", err))
 			}
 		} else {
@@ -147,20 +138,18 @@ func K9s() {
 			src := "https://github.com/derailed/k9s/releases/download/v" + vars.K9sVersion + "/k9s_" + runtime.GOOS + "_" + runtime.GOARCH + ".tar.gz"
 			dst := filepath.Join(friggDir, "k9s-"+vars.K9sVersion)
 
-			err := getter.GetAny(dst, src)
-			if err != nil {
+			if err := getter.GetAny(dst, src); err != nil {
 				println(color.RedString("error on downloading k9s cli: %v\n", err))
 			}
 
 			k9sSrcPath := filepath.Join(friggDir, "k9s-"+vars.K9sVersion+"/k9s")
 			k9sDstPath := filepath.Join(friggDir, "k9s")
-			err = os.Link(k9sSrcPath, k9sDstPath)
-			if err != nil {
+
+			if err := os.Link(k9sSrcPath, k9sDstPath); err != nil {
 				println(color.RedString("error on linking k9s: %v\n", err))
 			}
 
-			err = os.Chmod(k9sDstPath, 0755)
-			if err != nil {
+			if err := os.Chmod(k9sDstPath, 0755); err != nil {
 				println(color.RedString("error with chmod on k9s cli: %v\n", err))
 			}
 		} else {
