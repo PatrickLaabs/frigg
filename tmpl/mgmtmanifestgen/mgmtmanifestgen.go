@@ -15,8 +15,6 @@ func Gen() {
 		println(color.RedString("error on accessing home directory: %v\n", err))
 	}
 
-	// https://raw.githubusercontent.com/PatrickLaabs/frigg/main/templates/argohubmgmtclusterManifest.yaml
-
 	outputPath := homedir + "/" + vars.FriggDirName + "/" + vars.MgmtManifest
 
 	cmd := exec.Command("curl", "-L", "-o", outputPath,

@@ -169,7 +169,7 @@ func gitClone() {
 		Progress: os.Stdout,
 	})
 	if err != nil {
-		println(color.RedString("Error cloning your Argohub Repo: %v\n", err))
+		println(color.RedString("Error cloning your Frigg Repo: %v\n", err))
 	}
 }
 
