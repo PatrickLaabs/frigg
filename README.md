@@ -135,3 +135,21 @@ Password: frigg
 ## Documentation
 
 Further documentation is available in the `/docs` directory.
+
+## Relevant Repositories
+
+### Friggs Management-Cluster GitOps Repository Template
+This Repository will the beating-heart for your management-cluster.\
+[friggs-mgmt-repo-template](https://github.com/PatrickLaabs/friggs-mgmt-repo-template)
+
+### Friggs Workload-Clusters GitOps Repository Template
+This Repository is used to provide a good foundation for your workload clusters with various deployments.\
+[friggs-workload-repo-template](https://github.com/PatrickLaabs/friggs-workload-repo-template)
+
+### Frigg-Builder
+This simple Tool will be used by ArgoCD Workflows to operate various things inside the pipeline.\
+[Frigg-Builder](https://github.com/PatrickLaabs/frigg-builder)
+
+### Sample-Application
+An example application deployment for your workload clusters.\
+[sample-application](https://github.com/PatrickLaabs/sample-application)
