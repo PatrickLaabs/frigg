@@ -39,9 +39,9 @@ func FullStage() {
 	if err != nil {
 		println(color.RedString("error on accessing home directory: %v\n", err))
 	}
-	friggDir := homedir + "/" + vars.FriggDirName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
 
-	localRepoStoragePath := friggDir + "/" + vars.RepoName
+	localRepoStoragePath := filepath.Join(friggDir, vars.RepoName)
 
 	githubLogin()
 	gitCreateFromTemplate()
@@ -91,7 +91,12 @@ func retrieveGithubUserMailEnv() (string, error) {
 func githubLogin() {
 	println(color.GreenString("Loggin in to Github with your provided Github Token"))
 
-	cmd := exec.Command("gh", "auth", "login")
+	homedir, _ := os.UserHomeDir()
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	ghCliPath := filepath.Join(friggToolsDir, "gh")
+
+	cmd := exec.Command(ghCliPath, "auth", "login")
 	fmt.Println(cmd)
 }
 
@@ -106,9 +111,14 @@ func gitCreateFromTemplate() {
 
 	targetRepoName := username + "/" + vars.RepoName
 
-	cmd := exec.Command("gh", "repo", "create",
+	homedir, _ := os.UserHomeDir()
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	ghCliPath := filepath.Join(friggToolsDir, "gh")
+
+	cmd := exec.Command(ghCliPath, "repo", "create",
 		targetRepoName, "--private",
-		"--template=PatrickLaabs/argo-hub-template",
+		"--template=PatrickLaabs/friggs-mgmt-repo-template",
 	)
 
 	output, err := cmd.CombinedOutput()
@@ -124,18 +134,19 @@ func addSshPublickey() {
 	println(color.GreenString("Adding generated public key to the new gitops repo"))
 
 	homedir, _ := os.UserHomeDir()
-	friggDir := homedir + "/" + vars.FriggDirName
-	sshpublickeyPath := friggDir + "/" + vars.PublickeyName
-	localRepo := friggDir + "/" + vars.RepoName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	ghCliPath := filepath.Join(friggToolsDir, "gh")
+	sshpublickeyPath := filepath.Join(friggDir, vars.PrivatekeyName)
+	localRepo := filepath.Join(friggDir, vars.RepoName)
 
 	// Change working directory using os.Chdir
-	err := os.Chdir(localRepo)
-	if err != nil {
+	if err := os.Chdir(localRepo); err != nil {
 		println(color.RedString("Error changing directory: ", err))
 		return
 	}
 
-	cmd := exec.Command("gh", "repo", "deploy-key", "add",
+	cmd := exec.Command(ghCliPath, "repo", "deploy-key", "add",
 		sshpublickeyPath, "--allow-write", "--title",
 		vars.PublickeyNameOnGh,
 	)
@@ -158,7 +169,7 @@ func gitClone() {
 	}
 
 	homedir, _ := os.UserHomeDir()
-	friggDir := homedir + "/" + vars.FriggDirName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
 
 	// git@github.com:PatrickLaabs/argo-hub.git
 	repoUrl := "git@github.com:" + username + "/" + vars.RepoName + ".git"
@@ -169,7 +180,7 @@ func gitClone() {
 		Progress: os.Stdout,
 	})
 	if err != nil {
-		println(color.RedString("Error cloning your Argohub Repo: %v\n", err))
+		println(color.RedString("Error cloning your Frigg Mgmt GitOps Repo: %v\n", err))
 	}
 }
 
@@ -192,7 +203,7 @@ func replaceStrings(dirPath string, username string, usermail string) error {
 		reGhUrl := regexp.MustCompile(`PLACEHOLDER`)
 		reGhMail := regexp.MustCompile(`GITHUB_MAIL`)
 
-		url := "git@github.com:" + username + "/argo-hub.git"
+		url := "git@github.com:" + username + vars.FriggMgmtGitOpsName
 
 		// Replace GITHUB_USER and GITHUB_MAIL
 		newdata := replaceInString(data, reGhUrl, url)
@@ -241,9 +252,9 @@ func gitCommit() {
 	}
 
 	homedir, _ := os.UserHomeDir()
-	friggDir := homedir + "/" + vars.FriggDirName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
 
-	localRepoStoragePath := friggDir + "/" + vars.RepoName
+	localRepoStoragePath := filepath.Join(friggDir, vars.RepoName)
 
 	// Opens an already existing repository.
 	r, err := git.PlainOpen(localRepoStoragePath)
@@ -297,9 +308,9 @@ func gitPush() {
 	println(color.GreenString("Pushing local changes to the remote repo"))
 
 	homedir, _ := os.UserHomeDir()
-	friggDir := homedir + "/" + vars.FriggDirName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
 
-	localRepoStoragePath := friggDir + "/" + vars.RepoName
+	localRepoStoragePath := filepath.Join(friggDir, vars.RepoName)
 
 	// Opens an already existing repository.
 	r, err := git.PlainOpen(localRepoStoragePath)

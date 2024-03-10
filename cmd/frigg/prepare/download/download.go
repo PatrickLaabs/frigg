@@ -1,6 +1,7 @@
 package download
 
 import (
+	"github.com/PatrickLaabs/frigg/pkg/common/consts"
 	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"github.com/fatih/color"
 	"github.com/hashicorp/go-getter"
@@ -49,14 +50,14 @@ func GithubCli() {
 		if os.IsNotExist(err) {
 			println(color.YellowString("GH CLI does not exist inside tools dir. Downloading now.."))
 
-			src := "https://github.com/cli/cli/releases/download/v" + vars.GithubCliVersion + "/gh_" + vars.GithubCliVersion + "_" + operatingSystem + "_" + runtime.GOARCH + ".zip"
-			dst := filepath.Join(friggDir, "/gh_"+vars.GithubCliVersion+"_"+operatingSystem+"_"+runtime.GOARCH+".zip")
+			src := "https://github.com/cli/cli/releases/download/v" + consts.GithubCliVersion + "/gh_" + consts.GithubCliVersion + "_" + operatingSystem + "_" + runtime.GOARCH + ".zip"
+			dst := filepath.Join(friggDir, "/gh_"+consts.GithubCliVersion+"_"+operatingSystem+"_"+runtime.GOARCH+".zip")
 
 			if err = getter.GetAny(dst, src); err != nil {
 				println(color.RedString("error on downloading github cli: %v\n", err))
 			}
 
-			ghSrcPath := filepath.Join(friggDir, "gh_"+vars.GithubCliVersion+"_"+operatingSystem+"_"+runtime.GOARCH+".zip/"+"gh_"+vars.GithubCliVersion+"_"+operatingSystem+"_"+runtime.GOARCH+"/bin/gh")
+			ghSrcPath := filepath.Join(friggDir, "gh_"+consts.GithubCliVersion+"_"+operatingSystem+"_"+runtime.GOARCH+".zip/"+"gh_"+consts.GithubCliVersion+"_"+operatingSystem+"_"+runtime.GOARCH+"/bin/gh")
 			ghDstPath := filepath.Join(friggDir, "gh")
 
 			if err = os.Link(ghSrcPath, ghDstPath); err != nil {
@@ -75,14 +76,14 @@ func Kubectl() {
 		if os.IsNotExist(err) {
 			println(color.YellowString("Kubectl CLI does not exist inside tools dir. Downloading now.."))
 
-			src := "https://dl.k8s.io/release/v" + vars.KubectlVersion + "/bin/" + runtime.GOOS + "/" + runtime.GOARCH + "/kubectl"
-			dst := filepath.Join(friggDir, vars.KubectlVersion+"/bin/"+runtime.GOOS+"/"+runtime.GOARCH)
+			src := "https://dl.k8s.io/release/v" + consts.KubectlVersion + "/bin/" + runtime.GOOS + "/" + runtime.GOARCH + "/kubectl"
+			dst := filepath.Join(friggDir, consts.KubectlVersion+"/bin/"+runtime.GOOS+"/"+runtime.GOARCH)
 
 			if err := getter.GetAny(dst, src); err != nil {
 				println(color.RedString("error on downloading kubectl cli: %v\n", err))
 			}
 
-			kubectlSrcPath := filepath.Join(friggDir, vars.KubectlVersion+"/bin/"+runtime.GOOS+"/"+runtime.GOARCH+"/kubectl")
+			kubectlSrcPath := filepath.Join(friggDir, consts.KubectlVersion+"/bin/"+runtime.GOOS+"/"+runtime.GOARCH+"/kubectl")
 			kubectlDstPath := filepath.Join(friggDir, "kubectl")
 
 			if err = os.Link(kubectlSrcPath, kubectlDstPath); err != nil {
@@ -105,7 +106,7 @@ func Clusterctl() {
 		if os.IsNotExist(err) {
 			println(color.YellowString("Clusterctl CLI does not exist inside tools dir. Downloading now.."))
 
-			src := "https://github.com/kubernetes-sigs/cluster-api/releases/download/v" + vars.ClusterctlVersion + "/clusterctl-" + runtime.GOOS + "-" + runtime.GOARCH
+			src := "https://github.com/kubernetes-sigs/cluster-api/releases/download/v" + consts.ClusterctlVersion + "/clusterctl-" + runtime.GOOS + "-" + runtime.GOARCH
 			dst := filepath.Join(friggDir, "clusterctl-directory")
 
 			if err := getter.GetAny(dst, src); err != nil {
@@ -135,14 +136,14 @@ func K9s() {
 		if os.IsNotExist(err) {
 			println(color.YellowString("K9s CLI does not exist inside tools dir. Downloading now.."))
 
-			src := "https://github.com/derailed/k9s/releases/download/v" + vars.K9sVersion + "/k9s_" + runtime.GOOS + "_" + runtime.GOARCH + ".tar.gz"
-			dst := filepath.Join(friggDir, "k9s-"+vars.K9sVersion)
+			src := "https://github.com/derailed/k9s/releases/download/v" + consts.K9sVersion + "/k9s_" + runtime.GOOS + "_" + runtime.GOARCH + ".tar.gz"
+			dst := filepath.Join(friggDir, "k9s-"+consts.K9sVersion)
 
 			if err := getter.GetAny(dst, src); err != nil {
 				println(color.RedString("error on downloading k9s cli: %v\n", err))
 			}
 
-			k9sSrcPath := filepath.Join(friggDir, "k9s-"+vars.K9sVersion+"/k9s")
+			k9sSrcPath := filepath.Join(friggDir, "k9s-"+consts.K9sVersion+"/k9s")
 			k9sDstPath := filepath.Join(friggDir, "k9s")
 
 			if err := os.Link(k9sSrcPath, k9sDstPath); err != nil {

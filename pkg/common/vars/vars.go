@@ -1,8 +1,10 @@
 package vars
 
-var RepoName = "argo-hub"
+var RepoName = "friggs-mgmt-repo"
 var FriggDirName = ".frigg"
 var FriggTools = "tools"
+var FriggMgmtGitOpsName = "friggs-mgmt-repo.git"
+var FriggMgmtTemplateName = "friggs-mgmt-repo-template"
 var PrivatekeyName = "frigg-sshkeypair_gen"
 var PublickeyName = "frigg-sshkeypair_gen.pub"
 var PublickeyNameOnGh = "frigg-generated-publickey"
