@@ -27,7 +27,7 @@ func RetrieveMgmtKubeconfig() {
 	kubeconfigFlagPath := friggDir + "/" + vars.BootstrapkubeconfigName
 
 	cmd := exec.Command("clusterctl", "--kubeconfig",
-		kubeconfigFlagPath, "get", "kubeconfig", "argohubmgmtcluster",
+		kubeconfigFlagPath, "get", "kubeconfig", vars.FriggMgmtName,
 	)
 
 	// Capture the output of the command
@@ -103,7 +103,7 @@ func ModifyMgmtKubeconfig() error {
 	var port string
 
 	// Fallback to using docker port command only if environment variable is not set
-	portBytes, err := exec.Command("docker", "port", "argohubmgmtcluster-lb", "6443/tcp").Output()
+	portBytes, err := exec.Command("docker", "port", "friggmgmtcluster-lb", "6443/tcp").Output()
 	if err != nil {
 		return fmt.Errorf("error getting container port: %w", err)
 	}
