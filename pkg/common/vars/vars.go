@@ -1,9 +1,11 @@
 package vars
 
-var RepoName = "frigg-mgmt-gitops-repo"
+var RepoName = "friggs-mgmt-repo"
 var FriggMgmtName = "friggmgmtcluster"
 var FriggDirName = ".frigg"
 var FriggTools = "tools"
+var FriggMgmtGitOpsName = "friggs-mgmt-repo.git"
+var FriggMgmtTemplateName = "friggs-mgmt-repo-template"
 var PrivatekeyName = "frigg-sshkeypair_gen"
 var PublickeyName = "frigg-sshkeypair_gen.pub"
 var PublickeyNameOnGh = "frigg-generated-publickey"
