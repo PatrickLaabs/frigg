@@ -5,20 +5,20 @@
 class Frigg < Formula
   desc ""
   homepage "https://github.com/PatrickLaabs/frigg"
-  version "1.0.2"
+  version "1.0.3"
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/PatrickLaabs/frigg/releases/download/1.0.2/frigg_1.0.2_darwin_arm64.tar.gz"
-      sha256 "231a0852ba16f20bd0d48e6a23d1d84edb11661a2daa12292966cc6ecfe46b64"
+      url "https://github.com/PatrickLaabs/frigg/releases/download/1.0.3/frigg_1.0.3_darwin_arm64.tar.gz"
+      sha256 "9517623808b97ea8824b7446069690d464cce63f2abb76d8b75ff8b141da5346"
 
       def install
         bin.install "frigg"
       end
     end
     if Hardware::CPU.intel?
-      url "https://github.com/PatrickLaabs/frigg/releases/download/1.0.2/frigg_1.0.2_darwin_amd64.tar.gz"
-      sha256 "2795f8a221d9283bbd9f5ec785e4c13d7bb9bc8f1fb5d2db9f4d16da519d98fb"
+      url "https://github.com/PatrickLaabs/frigg/releases/download/1.0.3/frigg_1.0.3_darwin_amd64.tar.gz"
+      sha256 "9edc043511fcf0f25f1777239b7902ce7cb29830bb71d2b7991c38b7c55e0894"
 
       def install
         bin.install "frigg"
@@ -27,17 +27,17 @@ class Frigg < Formula
   end
 
   on_linux do
-    if Hardware::CPU.intel?
-      url "https://github.com/PatrickLaabs/frigg/releases/download/1.0.2/frigg_1.0.2_linux_amd64.tar.gz"
-      sha256 "37a42f019d985e19aa8b0f395f1a3cc80bb044f773777188b542ad183f27af5f"
+    if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
+      url "https://github.com/PatrickLaabs/frigg/releases/download/1.0.3/frigg_1.0.3_linux_arm64.tar.gz"
+      sha256 "afd9aacd336b0bda5989dd4dfc8dbc923517dfcd3c740744a44995f034455635"
 
       def install
         bin.install "frigg"
       end
     end
-    if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/PatrickLaabs/frigg/releases/download/1.0.2/frigg_1.0.2_linux_arm64.tar.gz"
-      sha256 "b6304855490630a6599a458297d24744a32ade735faeb9c1200cea2430824340"
+    if Hardware::CPU.intel?
+      url "https://github.com/PatrickLaabs/frigg/releases/download/1.0.3/frigg_1.0.3_linux_amd64.tar.gz"
+      sha256 "ab49c9c3c9d139b90c6aa14355c288aeb835e241a318eb6b3e1f00650f352426"
 
       def install
         bin.install "frigg"
