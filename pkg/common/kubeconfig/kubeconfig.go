@@ -6,6 +6,7 @@ import (
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -22,11 +23,13 @@ func RetrieveMgmtKubeconfig() {
 		return
 	}
 
-	friggDir := homedir + "/" + vars.FriggDirName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl")
 
-	kubeconfigFlagPath := friggDir + "/" + vars.BootstrapkubeconfigName
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
-	cmd := exec.Command("clusterctl", "--kubeconfig",
+	cmd := exec.Command(clusterctlPath, "--kubeconfig",
 		kubeconfigFlagPath, "get", "kubeconfig", vars.FriggMgmtName,
 	)
 
@@ -55,11 +58,13 @@ func RetrieveWorkloadKubeconfig() {
 		return
 	}
 
-	friggDir := homedir + "/" + vars.FriggDirName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl")
 
-	kubeconfigFlagPath := friggDir + "/" + vars.ManagementKubeconfigName
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
-	cmd := exec.Command("clusterctl", "--kubeconfig",
+	cmd := exec.Command(clusterctlPath, "--kubeconfig",
 		kubeconfigFlagPath, "get", "kubeconfig", "workloadcluster",
 	)
 
@@ -87,8 +92,10 @@ func ModifyMgmtKubeconfig() error {
 		println(color.RedString("Error on accessing the working directory: %v\n", err))
 	}
 
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+
 	kubeconfigNameNew := vars.ManagementKubeconfigName + ".new"
-	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
 	data, err := os.ReadFile(kubeconfigFlagPath)
 	if err != nil {
@@ -159,8 +166,9 @@ func ModifyWorkloadKubeconfig() error {
 		println(color.RedString("Error on accessing the working directory: %v\n", err))
 	}
 
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	kubeconfigNameNew := vars.WorkloadKubeconfigName + ".new"
-	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.WorkloadKubeconfigName
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.WorkloadKubeconfigName)
 
 	data, err := os.ReadFile(kubeconfigFlagPath)
 	if err != nil {

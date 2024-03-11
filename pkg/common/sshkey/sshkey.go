@@ -9,6 +9,7 @@ import (
 	"github.com/fatih/color"
 	"golang.org/x/crypto/ssh"
 	"os"
+	"path/filepath"
 )
 
 func KeypairGen() {
@@ -19,10 +20,10 @@ func KeypairGen() {
 		println(color.RedString("Error on accessing the working directory: %v\n", err))
 		return
 	}
-	friggDir := homedir + "/" + vars.FriggDirName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
 
-	savePublicFileTo := friggDir + "/" + vars.PublickeyName
-	savePrivateFileTo := friggDir + "/" + vars.PrivatekeyName
+	savePublicFileTo := filepath.Join(friggDir, vars.PublickeyName)
+	savePrivateFileTo := filepath.Join(friggDir, vars.PrivatekeyName)
 	bitSize := 4096
 
 	privateKey, err := generatePrivateKey(bitSize)

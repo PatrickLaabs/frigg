@@ -26,6 +26,7 @@ import (
 	"github.com/fatih/color"
 	"io"
 	"os"
+	"path/filepath"
 	"time"
 
 	"github.com/spf13/cobra"
@@ -55,8 +56,8 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 		println(color.RedString("error on accessing users home directory: %v\n", err))
 	}
 
-	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.BootstrapkubeconfigName
-	kindconfigPath := homedir + "/" + vars.FriggDirName + "/" + vars.KindconfigName
+	kubeconfigFlagPath := filepath.Join(homedir, vars.FriggDirName, vars.BootstrapkubeconfigName)
+	kindconfigPath := filepath.Join(homedir, vars.FriggDirName, vars.KindconfigName)
 	flags := &flagpole{}
 	c := &cobra.Command{
 		Args:  cobra.NoArgs,

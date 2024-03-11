@@ -8,6 +8,7 @@ import (
 	"github.com/fatih/color"
 	"gopkg.in/yaml.v3"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -278,8 +279,8 @@ func Cni() {
 		println(color.RedString("error on accessing home directory: %v\n", err))
 	}
 
-	friggDir := homedir + "/" + vars.FriggDirName
-	newfilePath := friggDir + "/" + vars.CniName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	newfilePath := filepath.Join(friggDir, vars.CniName)
 
 	// Write to file
 	err = os.WriteFile(newfilePath, yamlData, 0644)
@@ -388,8 +389,8 @@ ui:
 		println(color.RedString("error on accessing home directory: %v\n", err))
 	}
 
-	friggDir := homedir + "/" + vars.FriggDirName
-	newfilePath := friggDir + "/" + vars.VaultName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	newfilePath := filepath.Join(friggDir, vars.VaultName)
 
 	// Write to file
 	err = os.WriteFile(newfilePath, yamlData, 0644)
@@ -495,8 +496,8 @@ func ArgoCDWorkloadClusters() {
 		println(color.RedString("error on accessing home directory: %v\n", err))
 	}
 
-	friggDir := homedir + "/" + vars.FriggDirName
-	newfilePath := friggDir + "/" + vars.ArgoCDWorkload
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	newfilePath := filepath.Join(friggDir, vars.ArgoCDWorkload)
 
 	// Write to file
 	err = os.WriteFile(newfilePath, yamlData, 0644)
@@ -659,8 +660,8 @@ server:
 		println(color.RedString("error on accessing home directory: %v\n", err))
 	}
 
-	friggDir := homedir + "/" + vars.FriggDirName
-	newfilePath := friggDir + "/" + vars.ArgoWorkflowsMgmt
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	newfilePath := filepath.Join(friggDir, vars.ArgoWorkflowsMgmt)
 
 	// Write to file
 	err = os.WriteFile(newfilePath, yamlData, 0644)
@@ -764,8 +765,8 @@ func ArgoRollouts() {
 		println(color.RedString("error on accessing home directory: %v\n", err))
 	}
 
-	friggDir := homedir + "/" + vars.FriggDirName
-	newfilePath := friggDir + "/" + vars.ArgoRolloutsMgmt
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	newfilePath := filepath.Join(friggDir, vars.ArgoRolloutsMgmt) + "/" + vars.ArgoRolloutsMgmt
 
 	// Write to file
 	err = os.WriteFile(newfilePath, yamlData, 0644)
@@ -857,8 +858,8 @@ func ArgoEvents() {
 		println(color.RedString("error on accessing home directory: %v\n", err))
 	}
 
-	friggDir := homedir + "/" + vars.FriggDirName
-	newfilePath := friggDir + "/" + vars.ArgoEventsMgmt
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	newfilePath := filepath.Join(friggDir, vars.ArgoEventsMgmt)
 
 	// Write to file
 	err = os.WriteFile(newfilePath, yamlData, 0644)
@@ -977,8 +978,8 @@ func MgmtArgoApps() {
 		println(color.RedString("error on accessing home directory: %v\n", err))
 	}
 
-	friggDir := homedir + "/" + vars.FriggDirName
-	newfilePath := friggDir + "/" + vars.ArgoCDAppsMgmt
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	newfilePath := filepath.Join(friggDir, vars.ArgoCDAppsMgmt)
 
 	// Write to file
 	err = os.WriteFile(newfilePath, yamlData, 0644)
@@ -995,9 +996,9 @@ func MgmtArgoCD() {
 		println(color.RedString("error on accessing home directory: %v\n", err))
 	}
 
-	friggDir := homedir + "/" + vars.FriggDirName
-	newfilePath := friggDir + "/" + vars.ArgoCDMgmt
-	sshprivatekeyPath := friggDir + "/" + vars.PrivatekeyName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	newfilePath := filepath.Join(friggDir, vars.ArgoCDMgmt)
+	sshprivatekeyPath := filepath.Join(friggDir, vars.PrivatekeyName)
 
 	username, err := retrieveUsername()
 	if err != nil {
