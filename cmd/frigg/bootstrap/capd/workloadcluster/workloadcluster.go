@@ -5,7 +5,7 @@ import (
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/clusterapi"
 	"github.com/PatrickLaabs/frigg/pkg/common/kubeconfig"
 	"github.com/PatrickLaabs/frigg/pkg/common/wait"
-	"github.com/PatrickLaabs/frigg/tmpl/workloadmanifestgen"
+	"github.com/PatrickLaabs/frigg/pkg/tmpl/workloadmanifestgen"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 	"time"
