@@ -8,7 +8,7 @@ import (
 func DeleteBootstrapcluster() {
 	println(color.YellowString("deleting bootstrap cluster.."))
 
-	cmd := exec.Command("kind", "delete", "clusters",
+	cmd := exec.Command("frigg", "delete", "clusters",
 		"bootstrapcluster",
 	)
 
