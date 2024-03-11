@@ -5,6 +5,7 @@ import (
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 func Installation() {
@@ -16,10 +17,14 @@ func Installation() {
 		return
 	}
 
-	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
-	helmchartManifests := homedir + "/" + vars.FriggDirName + "/" + vars.VaultName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
 
-	cmd := exec.Command("kubectl", "--kubeconfig",
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
+	helmchartManifests := filepath.Join(friggDir, vars.VaultName)
+
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
 		kubeconfigFlagPath, "apply",
 		"-f", helmchartManifests,
 	)

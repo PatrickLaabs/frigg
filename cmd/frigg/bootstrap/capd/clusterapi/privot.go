@@ -5,6 +5,7 @@ import (
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 func Pivot() {
@@ -16,11 +17,14 @@ func Pivot() {
 		return
 	}
 
-	bootstrapKubeconfig := homedir + "/" + vars.FriggDirName + "/" + vars.BootstrapkubeconfigName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl")
 
-	mgmtKubeconfig := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
+	bootstrapKubeconfig := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
+	mgmtKubeconfig := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
-	cmd := exec.Command("clusterctl", "--kubeconfig", bootstrapKubeconfig,
+	cmd := exec.Command(clusterctlPath, "--kubeconfig", bootstrapKubeconfig,
 		"move", "--to-kubeconfig", mgmtKubeconfig,
 	)
 

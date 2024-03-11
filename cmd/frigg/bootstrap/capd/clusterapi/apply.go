@@ -6,6 +6,7 @@ import (
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 func KubectlApplyMgmt() {
@@ -16,12 +17,14 @@ func KubectlApplyMgmt() {
 		println(color.RedString("Error on accessing the working directory: %v\n", err))
 		return
 	}
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
 
-	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.BootstrapkubeconfigName
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
+	mgmtcluster := filepath.Join(friggDir, vars.MgmtManifest)
 
-	mgmtcluster := homedir + "/" + vars.FriggDirName + "/" + vars.MgmtManifest
-
-	cmd := exec.Command("kubectl", "--kubeconfig",
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
 		kubeconfigFlagPath, "apply",
 		"-f", mgmtcluster,
 	)
@@ -44,12 +47,14 @@ func KubectlApplyWorkload() {
 		println(color.RedString("Error on accessing the working directory: %v\n", err))
 		return
 	}
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
 
-	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
+	workloadcluster := filepath.Join(friggDir, vars.WorkloadManifest)
 
-	workloadcluster := homedir + "/" + vars.FriggDirName + "/" + vars.WorkloadManifest
-
-	cmd := exec.Command("kubectl", "--kubeconfig",
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
 		kubeconfigFlagPath, "apply",
 		"-f", workloadcluster,
 	)
@@ -91,10 +96,14 @@ func ApplyGithubSecretMgmt() {
 		return
 	}
 
-	fromLiteralString := "--from-literal=token=" + token
-	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
 
-	cmd := exec.Command("kubectl", "--kubeconfig",
+	fromLiteralString := "--from-literal=token=" + token
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
+
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
 		kubeconfigFlagPath, "-n", "argo", "create", "secret", "generic",
 		"github-token", fromLiteralString,
 	)
@@ -117,9 +126,13 @@ func ApplyArgoSecretMgmt() {
 		return
 	}
 
-	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
 
-	cmd := exec.Command("kubectl", "--kubeconfig",
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
+
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
 		kubeconfigFlagPath, "-n", "argo", "create", "secret", "generic",
 		"argocd-login",
 		"--from-literal=password=$2a$10$UfHxzEstRBKFAiTH0ZlI8u95SOaRBcXDCxBTBxfmOz14FHC6Vv3de",
@@ -143,10 +156,13 @@ func CreateArgoNSMgmt() {
 		println(color.RedString("Error on accessing the working directory: %v\n", err))
 		return
 	}
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
 
-	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
-	cmd := exec.Command("kubectl", "--kubeconfig",
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
 		kubeconfigFlagPath, "create", "namespace", "argo",
 	)
 
@@ -168,9 +184,13 @@ func CreateArgoNSWorkload() {
 		return
 	}
 
-	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.WorkloadKubeconfigName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
 
-	cmd := exec.Command("kubectl", "--kubeconfig",
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.WorkloadKubeconfigName)
+
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
 		kubeconfigFlagPath, "create", "namespace", "argo",
 	)
 

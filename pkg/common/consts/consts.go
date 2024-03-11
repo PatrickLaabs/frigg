@@ -7,3 +7,10 @@ const GithubCliVersion = "2.45.0"
 const KubectlVersion = "1.29.2"
 const ClusterctlVersion = "1.6.1"
 const K9sVersion = "0.32.3"
+
+// KubeadmVersion , etc, Version for clusterctl bootstrapping
+const KubeadmVersion = "kubeadm:v1.6.1"
+const DockerInfraVersion = "docker:v1.6.1"
+const ClusterApiVersion = "cluster-api:v1.6.1"
+const VClusterInfraVersion = "vcluster:v0.1.3"
+const CaaphVersion = "helm:v0.1.1-alpha.0"

@@ -5,6 +5,7 @@ import (
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 func Gen() {
@@ -15,7 +16,8 @@ func Gen() {
 		println(color.RedString("error on accessing home directory: %v\n", err))
 	}
 
-	outputPath := homedir + "/" + vars.FriggDirName + "/" + vars.MgmtManifest
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	outputPath := filepath.Join(friggDir, vars.MgmtManifest)
 
 	cmd := exec.Command("curl", "-L", "-o", outputPath,
 		vars.CurlMgmtManifest,

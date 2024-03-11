@@ -118,7 +118,7 @@ func gitCreateFromTemplate() {
 
 	cmd := exec.Command(ghCliPath, "repo", "create",
 		targetRepoName, "--private",
-		"--template=PatrickLaabs/friggs-mgmt-repo-template",
+		vars.FriggMgmtTemplateName,
 	)
 
 	output, err := cmd.CombinedOutput()
@@ -173,7 +173,7 @@ func gitClone() {
 
 	// git@github.com:PatrickLaabs/argo-hub.git
 	repoUrl := "git@github.com:" + username + "/" + vars.RepoName + ".git"
-	localRepoStoragePath := friggDir + "/" + vars.RepoName
+	localRepoStoragePath := filepath.Join(friggDir, vars.RepoName)
 
 	_, err = git.PlainClone(localRepoStoragePath, false, &git.CloneOptions{
 		URL:      repoUrl,

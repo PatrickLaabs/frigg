@@ -1,10 +1,12 @@
 package clusterapi
 
 import (
+	"github.com/PatrickLaabs/frigg/pkg/common/consts"
 	"github.com/PatrickLaabs/frigg/pkg/common/vars"
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 func ClusterAPI() {
@@ -16,16 +18,20 @@ func ClusterAPI() {
 		return
 	}
 
-	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.BootstrapkubeconfigName
-	clusterconfigPath := homedir + "/" + vars.FriggDirName + "/" + vars.ClusterctlConfigName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl")
 
-	cmd := exec.Command("clusterctl", "init",
-		"--bootstrap", "kubeadm:v1.6.1",
-		"--control-plane", "kubeadm:v1.6.1",
-		"--core", "cluster-api:v1.6.1",
-		"--infrastructure", "docker:v1.6.1",
-		"--infrastructure", "vcluster:v0.1.3",
-		"--addon", "helm:v0.1.1-alpha.0",
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
+	clusterconfigPath := filepath.Join(friggDir, vars.ClusterctlConfigName)
+
+	cmd := exec.Command(clusterctlPath, "init",
+		"--bootstrap", consts.KubeadmVersion,
+		"--control-plane", consts.KubeadmVersion,
+		"--core", consts.ClusterApiVersion,
+		"--infrastructure", consts.DockerInfraVersion,
+		"--infrastructure", consts.VClusterInfraVersion,
+		"--addon", consts.CaaphVersion,
 		"--kubeconfig", kubeconfigFlagPath,
 		"--wait-providers",
 		"--config", clusterconfigPath,
@@ -49,16 +55,20 @@ func ClusterAPIMgmt() {
 		return
 	}
 
-	kubeconfigFlagPath := homedir + "/" + vars.FriggDirName + "/" + vars.ManagementKubeconfigName
-	clusterconfigPath := homedir + "/" + vars.FriggDirName + "/" + vars.ClusterctlConfigName
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl")
 
-	cmd := exec.Command("clusterctl", "init",
-		"--bootstrap", "kubeadm:v1.6.1",
-		"--control-plane", "kubeadm:v1.6.1",
-		"--core", "cluster-api:v1.6.1",
-		"--infrastructure", "docker:v1.6.1",
-		"--infrastructure", "vcluster:v0.1.3",
-		"--addon", "helm:v0.1.1-alpha.0",
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
+	clusterconfigPath := filepath.Join(friggDir, vars.ClusterctlConfigName)
+
+	cmd := exec.Command(clusterctlPath, "init",
+		"--bootstrap", consts.KubeadmVersion,
+		"--control-plane", consts.KubeadmVersion,
+		"--core", consts.ClusterApiVersion,
+		"--infrastructure", consts.DockerInfraVersion,
+		"--infrastructure", consts.VClusterInfraVersion,
+		"--addon", consts.CaaphVersion,
 		"--kubeconfig", kubeconfigFlagPath,
 		"--wait-providers",
 		"--config", clusterconfigPath,

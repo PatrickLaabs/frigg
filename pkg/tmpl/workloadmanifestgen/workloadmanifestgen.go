@@ -5,6 +5,7 @@ import (
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
+	"path/filepath"
 )
 
 func Gen() {
@@ -13,8 +14,8 @@ func Gen() {
 		println(color.RedString("error on accessing home directory: %v\n", err))
 	}
 
-	// curl -L -o workloadcluster.yaml https://raw.githubusercontent.com/PatrickLaabs/frigg/main/templates/workloadcluster.yaml
-	outputPath := homedir + "/" + vars.FriggDirName + "/" + vars.WorkloadManifest
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	outputPath := filepath.Join(friggDir, vars.WorkloadManifest)
 
 	cmd := exec.Command("curl", "-L", "-o", outputPath,
 		vars.CurlWorkloadManifest,
