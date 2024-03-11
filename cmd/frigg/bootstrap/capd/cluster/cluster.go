@@ -233,6 +233,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	clusterapi.ApplyArgoSecretMgmt()
 
 	// Installs the HelmChartProxies onto the mgmt-cluster
+	wait.Wait(10 * time.Second)
 	argocdWorkload.Installation()
 	cni.Installation()
 	mgmtArgocdApps.Installation()
@@ -243,7 +244,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	mgmtVault.Installation()
 
 	// Moves the capi components from the bootstrap cluster to the frigg-mgmt-cluster
-	wait.Wait(60 * time.Second)
+	wait.Wait(15 * time.Second)
 	clusterapi.Pivot()
 
 	// Deletes the bootstrap cluster, since we don't need it any longer

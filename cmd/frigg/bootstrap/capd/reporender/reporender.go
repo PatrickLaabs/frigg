@@ -137,7 +137,7 @@ func addSshPublickey() {
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
 	ghCliPath := filepath.Join(friggToolsDir, "gh")
-	sshpublickeyPath := filepath.Join(friggDir, vars.PrivatekeyName)
+	sshpublickeyPath := filepath.Join(friggDir, vars.PublickeyName)
 	localRepo := filepath.Join(friggDir, vars.RepoName)
 
 	// Change working directory using os.Chdir
@@ -203,7 +203,7 @@ func replaceStrings(dirPath string, username string, usermail string) error {
 		reGhUrl := regexp.MustCompile(`PLACEHOLDER`)
 		reGhMail := regexp.MustCompile(`GITHUB_MAIL`)
 
-		url := "git@github.com:" + username + vars.FriggMgmtGitOpsName
+		url := "git@github.com:" + username + "/" + vars.FriggMgmtGitOpsName
 
 		// Replace GITHUB_USER and GITHUB_MAIL
 		newdata := replaceInString(data, reGhUrl, url)
