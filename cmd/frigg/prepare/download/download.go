@@ -1,8 +1,8 @@
 package download
 
 import (
-	"github.com/PatrickLaabs/frigg/pkg/common/consts"
-	"github.com/PatrickLaabs/frigg/pkg/common/toolsdir"
+	"github.com/PatrickLaabs/frigg/pkg/consts"
+	"github.com/PatrickLaabs/frigg/pkg/toolsdir"
 	"github.com/fatih/color"
 	"github.com/hashicorp/go-getter"
 	"os"
@@ -58,7 +58,7 @@ func GithubCli() {
 			}
 
 			ghSrcPath := filepath.Join(toolsdir.FriggDir, "gh_"+consts.GithubCliVersion+"_"+operatingSystem+"_"+runtime.GOARCH+".zip/"+"gh_"+consts.GithubCliVersion+"_"+operatingSystem+"_"+runtime.GOARCH+"/bin/gh")
-			ghDstPath := filepath.Join(toolsdir.FriggDir, "gh")
+			ghDstPath := filepath.Join(toolsdir.FriggDir, "gh_"+consts.GithubCliVersion)
 
 			if err = os.Link(ghSrcPath, ghDstPath); err != nil {
 				println(color.RedString("error on linking gh cli: %v\n", err))
@@ -84,7 +84,7 @@ func Kubectl() {
 			}
 
 			kubectlSrcPath := filepath.Join(toolsdir.FriggDir, consts.KubectlVersion+"/bin/"+runtime.GOOS+"/"+runtime.GOARCH+"/kubectl")
-			kubectlDstPath := filepath.Join(toolsdir.FriggDir, "kubectl")
+			kubectlDstPath := filepath.Join(toolsdir.FriggDir, "kubectl_"+consts.KubectlVersion)
 
 			if err = os.Link(kubectlSrcPath, kubectlDstPath); err != nil {
 				println(color.RedString("error on linking kubectl: %v\n", err))
@@ -114,7 +114,7 @@ func Clusterctl() {
 			}
 
 			clusterctlSrcPath := filepath.Join(toolsdir.FriggDir, "clusterctl-directory/"+"clusterctl-"+runtime.GOOS+"-"+runtime.GOARCH)
-			clusterctlDstPath := filepath.Join(toolsdir.FriggDir, "clusterctl")
+			clusterctlDstPath := filepath.Join(toolsdir.FriggDir, "clusterctl_"+consts.ClusterctlVersion)
 
 			if err = os.Link(clusterctlSrcPath, clusterctlDstPath); err != nil {
 				println(color.RedString("error on linking clusterctl: %v\n", err))
@@ -144,7 +144,7 @@ func K9s() {
 			}
 
 			k9sSrcPath := filepath.Join(toolsdir.FriggDir, "k9s-"+consts.K9sVersion+"/k9s")
-			k9sDstPath := filepath.Join(toolsdir.FriggDir, "k9s")
+			k9sDstPath := filepath.Join(toolsdir.FriggDir, "k9s_"+consts.K9sVersion)
 
 			if err := os.Link(k9sSrcPath, k9sDstPath); err != nil {
 				println(color.RedString("error on linking k9s: %v\n", err))

@@ -1,11 +1,10 @@
-package capd
+package capd_controller
 
 import (
 	"github.com/PatrickLaabs/frigg/cmd"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/cluster"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/workloadcluster"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd-controller/cluster"
+	"github.com/PatrickLaabs/frigg/pkg/errors"
 	"github.com/PatrickLaabs/frigg/pkg/log"
-	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
 
@@ -13,9 +12,9 @@ import (
 func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c := &cobra.Command{
 		Args:  cobra.NoArgs,
-		Use:   "capd",
-		Short: "clusterapi provider docker",
-		Long:  "Creates local Kubernetes clusters using clusterapi's provider capd (docker)",
+		Use:   "capd-controller",
+		Short: "capd-controller",
+		Long:  "Creates local Kubernetes clusters using clusterapi's controller provider capd (docker)",
 		RunE: func(cmd *cobra.Command, args []string) error {
 			err := cmd.Help()
 			if err != nil {
@@ -25,6 +24,6 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 		},
 	}
 	c.AddCommand(cluster.NewCommand(logger, streams))
-	c.AddCommand(workloadcluster.NewCommand())
+	//c.AddCommand(workloadcluster.NewCommand())
 	return c
 }
