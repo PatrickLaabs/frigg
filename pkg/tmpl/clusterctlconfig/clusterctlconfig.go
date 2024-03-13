@@ -1,7 +1,7 @@
 package clusterctlconfig
 
 import (
-	"github.com/PatrickLaabs/frigg/pkg/common/vars"
+	"github.com/PatrickLaabs/frigg/pkg/vars"
 	"github.com/fatih/color"
 	"gopkg.in/yaml.v3"
 	"os"

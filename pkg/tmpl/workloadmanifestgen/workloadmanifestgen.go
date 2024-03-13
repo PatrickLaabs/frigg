@@ -1,7 +1,7 @@
 package workloadmanifestgen
 
 import (
-	"github.com/PatrickLaabs/frigg/pkg/common/vars"
+	"github.com/PatrickLaabs/frigg/pkg/vars"
 	"github.com/fatih/color"
 	"os"
 	"os/exec"

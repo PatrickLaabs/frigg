@@ -19,7 +19,7 @@ package version
 
 import (
 	"fmt"
-	"github.com/PatrickLaabs/frigg/pkg/common/consts"
+	"github.com/PatrickLaabs/frigg/pkg/consts"
 	"runtime"
 
 	"github.com/spf13/cobra"

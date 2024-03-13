@@ -1,7 +1,7 @@
 package mgmtmanifestgen
 
 import (
-	"github.com/PatrickLaabs/frigg/pkg/common/vars"
+	"github.com/PatrickLaabs/frigg/pkg/vars"
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
@@ -28,7 +28,5 @@ func Gen() {
 		println(color.YellowString(string(output)))
 		return
 	}
-	println(color.GreenString("Successfully written Workload Cluster Kubernets Manifest"))
-
 	println(color.GreenString("Successfully written Mgmt Kubernets Manifest"))
 }

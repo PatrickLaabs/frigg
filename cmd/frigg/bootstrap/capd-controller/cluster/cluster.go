@@ -14,13 +14,16 @@ import (
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/mgmtVault"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/reporender"
 	"github.com/PatrickLaabs/frigg/internal/runtime"
+	"github.com/PatrickLaabs/frigg/pkg/capi_controller"
+	"github.com/PatrickLaabs/frigg/pkg/controllerdir"
 	"github.com/PatrickLaabs/frigg/pkg/kubeconfig"
 	"github.com/PatrickLaabs/frigg/pkg/postbootstrap"
 	"github.com/PatrickLaabs/frigg/pkg/sshkey"
-	"github.com/PatrickLaabs/frigg/pkg/tmpl/clusterctlconfig"
+	"github.com/PatrickLaabs/frigg/pkg/statuscheck"
 	"github.com/PatrickLaabs/frigg/pkg/tmpl/helmchartsproxies"
 	"github.com/PatrickLaabs/frigg/pkg/tmpl/kindconfig"
 	"github.com/PatrickLaabs/frigg/pkg/tmpl/mgmtmanifestgen"
+	"github.com/PatrickLaabs/frigg/pkg/toolsdir"
 	"github.com/PatrickLaabs/frigg/pkg/vars"
 	"github.com/PatrickLaabs/frigg/pkg/wait"
 	"github.com/PatrickLaabs/frigg/pkg/workdir"
@@ -135,16 +138,28 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	// Create working directory named .frigg inside the users homedirectory.
 	workdir.CreateDir()
 
+	// Creates the Frigg Tools dir
+	toolsdir.FriggWorkingDir()
+
+	// Creates the Frigg controllers dir
+	controllerdir.FriggControllerDir()
+
 	// Generating kind-config
 	kindconfig.KindConfigGen()
 
 	// Generating SSH Key pair
 	sshkey.KeypairGen()
 
-	// Generating clusterctl config
-	clusterctlconfig.ClusterctlConfigGen()
+	// Generates the Manifests for the ClusterAPI Controllers
+	println(color.GreenString("Generating CAPI Controller Manifests.."))
+	capi_controller.BootstrapProviderGen()
+	capi_controller.ControlPlaneProviderGen()
+	capi_controller.CoreProviderGen()
+	capi_controller.DockerInfraProviderGen()
+	capi_controller.AddonHelmProviderGen()
 
 	// Generating HelmChartProxies
+	println(color.GreenString("Generating Helm Chart Proxy Manifests.."))
 	helmchartsproxies.Cni()
 	helmchartsproxies.Vault()
 	helmchartsproxies.ArgoCDWorkloadClusters()
@@ -155,7 +170,6 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	helmchartsproxies.MgmtArgoApps()
 
 	// Generates a manifest for the management cluster, named frigg-mgmt-cluster
-	wait.Wait(10 * time.Second)
 	mgmtmanifestgen.Gen()
 
 	provider := cluster.NewProvider(
@@ -186,14 +200,40 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	// Rendering gitops repo
 	reporender.FullStage()
 
+	// Creating Namespaces
+	clusterapi.CreateCapiNs()
+	clusterapi.CreateCapdNs()
+	clusterapi.CreateKubeadmBootstrapNs()
+	clusterapi.CreateKubeAdmControlPlaneNs()
+
+	// Installing CertManager
+	println(color.YellowString("Applying CertManager"))
+	clusterapi.ApplyCertManager()
+	// Checks the conditions for all cert-manager related deployments
+	statuscheck.ConditionsCertManagers()
+
+	// Installing ClusterAPI Operator
+	println(color.YellowString("Applying CAPI Operator"))
+	clusterapi.ApplyCapiOperator()
+	// Checks for all conditions of the clusterapi controller deployment
+	statuscheck.ConditionCheckCapiOperator()
+
 	// Installs capi components on the bootstrap cluster.
-	// clustername is bootstrapcluster
-	wait.Wait(10 * time.Second)
-	clusterapi.ClusterAPI()
+	println(color.YellowString("Applying ClusterAPI Controller"))
+	clusterapi.ApplyCoreProvider()
+	clusterapi.ApplyBootstrapProv()
+	clusterapi.ApplyControlPlaneProv()
+	statuscheck.ConditionsCapiControllers()
+
+	clusterapi.ApplyDockerInfraProv()
+	statuscheck.ConditionsCapdControllers()
+
+	clusterapi.ApplyAddonHelmProv()
+	statuscheck.ConditionsCaaphControllers()
 
 	// Installs a CNI solution helm chart proxy to the bootstrapcluster
 	// This is needed, to make the worker nodes ready and complete the bootstrap deployment
-	wait.Wait(10 * time.Second)
+	println(color.YellowString("Applying CNI"))
 	cnibootstrap.Installation()
 
 	// Applies the frigg-mgmt-cluster manifest to the bootstrap cluster
@@ -216,22 +256,47 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 		fmt.Printf("Error on modification of mgmt clusters kubeconfig: %v\n", err)
 	}
 
-	// Installs the capi components to the frigg-mgmt-cluster
-	// This part may take a while.
-	wait.Wait(60 * time.Second)
-	clusterapi.ClusterAPIMgmt()
+	println(color.YellowString("Deploying CNI, CoreDNS and checking their deployment status.."))
+	statuscheck.ConditionTigerOperatorMgmt()
+	statuscheck.ConditionCoreDnsMgmt()
+	statuscheck.ConditionsCni()
 
-	// Creates the argo namespace on the Mgmt Cluster
+	// Creates namespaces on the Mgmt Cluster
 	clusterapi.CreateArgoNSMgmt()
+	clusterapi.CreateCapiNsMgmt()
+	clusterapi.CreateCapdNsMgmt()
+	clusterapi.CreateKubeadmBootstrapNsMgmt()
+	clusterapi.CreateKubeAdmControlPlaneNsMgmt()
 
-	//wait.Wait(5 * time.Second)
+	// Installing CertManager
+	clusterapi.ApplyCertManagerMgmt()
+	// Checks the conditions for all cert-manager related deployments
+	statuscheck.ConditionsCertManagersMgmt()
+
+	// Installing ClusterAPI Operator
+	clusterapi.ApplyCapiOperatorMgmt()
+	// Checks for all conditions of the clusterapi controller deployment
+	statuscheck.ConditionCheckCapiOperatorMgmt()
+
+	// Installs capi components on the mgmt cluster.
+	clusterapi.ApplyCoreProviderMgmt()
+	clusterapi.ApplyBootstrapProvMgmt()
+	clusterapi.ApplyControlPlaneProvMgmt()
+	statuscheck.ConditionsCapiControllersMgmt()
+
+	//clusterapi.ApplyDockerInfraProvMgmt()
+	clusterapi.ClusterAPIMgmt()
+	statuscheck.ConditionsCapdControllersMgmt()
+
+	clusterapi.ApplyAddonHelmProvMgmt()
+	statuscheck.ConditionsCaaphControllersMgmt()
+
 	// Github Token Secret deployment
 	clusterapi.ApplyGithubSecretMgmt()
 	// ArgoCD Default Login Secret deployment
 	clusterapi.ApplyArgoSecretMgmt()
 
 	// Installs the HelmChartProxies onto the mgmt-cluster
-	wait.Wait(10 * time.Second)
 	argocdWorkload.Installation()
 	cni.Installation()
 	mgmtArgocdApps.Installation()
@@ -248,7 +313,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	// Deletes the bootstrap cluster, since we don't need it any longer
 	// and to free up some hardware resources.
 	postbootstrap.DeleteBootstrapcluster()
-	println(color.GreenString("Successfully provisioned your management cluster ontop of commons."))
+	println(color.GreenString("Successfully provisioned your management cluster ontop of capd."))
 	return nil
 }
 
