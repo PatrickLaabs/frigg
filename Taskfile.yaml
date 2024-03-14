@@ -1,0 +1,15 @@
+version: '3'
+
+tasks:
+  build:
+    cmds:
+      - go build -o ../frigg main.go
+
+  test_bootstrap:
+    cmds:
+      - ./main version
+      - ./main bootstrap capd-controller cluster
+
+  destroy_bootstrap:
+    cmds:
+      - ./main delete clusters -A

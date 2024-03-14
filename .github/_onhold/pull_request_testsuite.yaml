@@ -1,0 +1,60 @@
+name: "PR Test Suite"
+
+## ON HOLD
+
+#on:
+#  push:
+#    branches:
+#      - '70-*'
+#  pull_request:
+#    types: [opened, reopened, edited]
+#  pull_request_target:
+#    types:
+#      - edited
+#      - labeled
+#      - reopened
+#      - synchronize
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+  GITHUB_MAIL: ${{ github.event.pusher.email }}
+  GITHUB_USERNAME: ${{ github.actor }}
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  testsuite:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: git fetch --force --tags
+
+      - name: Install Task and Build Binary
+        uses: arduino/setup-task@v2
+      - run:  task build
+
+      - name: Testing
+        uses: engineerd/setup-kind@v0.5.0
+        with:
+          version: "v0.22.0"
+          skipClusterDeletion: true
+          name: "bootstrapcluster"
+          image: "kindest/node:v1.27.3"
+      - run: |
+          kubectl cluster-info
+          echo "current-context:" $(kubectl config current-context)
+
+      - name: Test Bootstrap Installation
+        uses: arduino/setup-task@v2
+      - run: |
+          task test_bootstrap
+
+      - name: Destroy Bootstrap Cluster
+        uses: arduino/setup-task@v2
+      - run: |
+          task destroy_bootstrap
