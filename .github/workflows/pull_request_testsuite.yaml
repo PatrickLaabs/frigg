@@ -15,8 +15,8 @@ jobs:
         run: |
           task build
 
-      - uses: engineerd/setup-kind@v0.5.0
       - name: Testing
+        uses: engineerd/setup-kind@v0.5.0
         run: |
           kubectl cluster-info
           echo "current-context:" $(kubectl config current-context)
