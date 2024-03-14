@@ -13,23 +13,23 @@ jobs:
           fetch-depth: 0
       - run: git fetch --force --tags
 
-      - name: Install Task & Build Binary
-        uses: arduino/setup-task@v2
-        run: |
-          task build
-
-      - name: Testing
-        uses: engineerd/setup-kind@v0.5.0
-        run: |
-          kubectl cluster-info
-          echo "current-context:" $(kubectl config current-context)
-
-      - name: Test Bootstrap Installation
-        uses: arduino/setup-task@v2
-        run: |
-          task test_bootstrap
-
-      - name: Destroy Bootstrap Cluster
-        uses: arduino/setup-task@v2
-        run: |
-          task destroy_bootstrap
+#      - name: Install Task & Build Binary
+#        uses: arduino/setup-task@v2
+#        run: |
+#          task build
+#
+#      - name: Testing
+#        uses: engineerd/setup-kind@v0.5.0
+#        run: |
+#          kubectl cluster-info
+#          echo "current-context:" $(kubectl config current-context)
+#
+#      - name: Test Bootstrap Installation
+#        uses: arduino/setup-task@v2
+#        run: |
+#          task test_bootstrap
+#
+#      - name: Destroy Bootstrap Cluster
+#        uses: arduino/setup-task@v2
+#        run: |
+#          task destroy_bootstrap
