@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/clusterapi"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/argocdWorkload"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/clusterapioperator"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/cni"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/cnibootstrap"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/mgmtArgocdApps"
@@ -168,6 +169,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	helmchartsproxies.ArgoEvents()
 	helmchartsproxies.MgmtArgoCD()
 	helmchartsproxies.MgmtArgoApps()
+	helmchartsproxies.MgmtClusterApiOperator()
 
 	// Generates a manifest for the management cluster, named frigg-mgmt-cluster
 	mgmtmanifestgen.Gen()
@@ -235,6 +237,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	// This is needed, to make the worker nodes ready and complete the bootstrap deployment
 	println(color.YellowString("Applying CNI"))
 	cnibootstrap.Installation()
+	clusterapioperator.Installation()
 
 	// Applies the frigg-mgmt-cluster manifest to the bootstrap cluster
 	// to create the first 'real' management cluster
@@ -263,32 +266,32 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
 	// Creates namespaces on the Mgmt Cluster
 	clusterapi.CreateArgoNSMgmt()
-	clusterapi.CreateCapiNsMgmt()
-	clusterapi.CreateCapdNsMgmt()
-	clusterapi.CreateKubeadmBootstrapNsMgmt()
-	clusterapi.CreateKubeAdmControlPlaneNsMgmt()
+	//clusterapi.CreateCapiNsMgmt()
+	//clusterapi.CreateCapdNsMgmt()
+	//clusterapi.CreateKubeadmBootstrapNsMgmt()
+	//clusterapi.CreateKubeAdmControlPlaneNsMgmt()
 
 	// Installing CertManager
-	clusterapi.ApplyCertManagerMgmt()
+	//clusterapi.ApplyCertManagerMgmt()
 	// Checks the conditions for all cert-manager related deployments
 	statuscheck.ConditionsCertManagersMgmt()
 
 	// Installing ClusterAPI Operator
-	clusterapi.ApplyCapiOperatorMgmt()
+	//clusterapi.ApplyCapiOperatorMgmt()
 	// Checks for all conditions of the clusterapi controller deployment
 	statuscheck.ConditionCheckCapiOperatorMgmt()
 
 	// Installs capi components on the mgmt cluster.
-	clusterapi.ApplyCoreProviderMgmt()
-	clusterapi.ApplyBootstrapProvMgmt()
-	clusterapi.ApplyControlPlaneProvMgmt()
+	//clusterapi.ApplyCoreProviderMgmt()
+	//clusterapi.ApplyBootstrapProvMgmt()
+	//clusterapi.ApplyControlPlaneProvMgmt()
 	statuscheck.ConditionsCapiControllersMgmt()
 
 	//clusterapi.ApplyDockerInfraProvMgmt()
-	clusterapi.ClusterAPIMgmt()
+	//clusterapi.ClusterAPIMgmt()
 	statuscheck.ConditionsCapdControllersMgmt()
 
-	clusterapi.ApplyAddonHelmProvMgmt()
+	//clusterapi.ApplyAddonHelmProvMgmt()
 	statuscheck.ConditionsCaaphControllersMgmt()
 
 	// Github Token Secret deployment

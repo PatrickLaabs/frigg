@@ -321,6 +321,7 @@ metadata:
     argo-rollouts-Enabled: default
     argo-workflows-Enabled: default
     vaultmgmtEnabled: default
+    capi-operator-Enabled: default
 spec:
   clusterNetwork:
     pods:
