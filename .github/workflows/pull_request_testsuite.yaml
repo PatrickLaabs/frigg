@@ -7,7 +7,7 @@ on:
     types: [opened, reopened, edited]
 
 jobs:
-  kind:
+  testsuite:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,10 +16,10 @@ jobs:
           fetch-depth: 0
       - run: git fetch --force --tags
 
-#      - name: Install Task & Build Binary
-#        uses: arduino/setup-task@v2
-#        run: |
-#          task build
+      - name: Install Task & Build Binary
+        uses: arduino/setup-task@v2
+        run: |
+          task build
 #
 #      - name: Testing
 #        uses: engineerd/setup-kind@v0.5.0
