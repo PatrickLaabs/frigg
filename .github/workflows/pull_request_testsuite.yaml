@@ -15,7 +15,6 @@ jobs:
         with:
           fetch-depth: 0
       - run: git fetch --force --tags
-
       - name: Install Task & Build Binary
         uses: arduino/setup-task@v2
         run:  task build
