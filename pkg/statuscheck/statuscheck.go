@@ -80,7 +80,7 @@ func ConditionCheckCapiOperator() {
 
 // ConditionCheckCapiOperatorMgmt checks for all ClusterAPI Operator deployment conditions on the mgmt cluster
 func ConditionCheckCapiOperatorMgmt() {
-	deployments := []string{"capi-operator-controller-manager"}
+	deployments := []string{"cluster-api-operator"}
 	readyChan := make(chan bool) // Create a channel for readiness signal
 	homedir, err := os.UserHomeDir()
 	if err != nil {
@@ -211,7 +211,7 @@ func checkCapiControllers(kubeconfigFlagPath string, deployments map[string][]st
 func ConditionsCapiControllers() {
 	//deployments := []string{"capi-controller-manager", "capi-kubeadm-control-plane-controller-manager", "capi-kubeadm-bootstrap-controller-manager"}
 	deployments := map[string][]string{
-		"capi-system":                       {"capi-controller-manager"},
+		"capi-system":                       {"capi-controller-manager", "capi-kubeadm-control-plane-controller-manager", "capi-kubeadm-bootstrap-controller-manager"},
 		"capi-kubeadm-control-plane-system": {"capi-kubeadm-control-plane-controller-manager"},
 		"capi-kubeadm-bootstrap-system":     {"capi-kubeadm-bootstrap-controller-manager"},
 	}
@@ -241,7 +241,7 @@ func ConditionsCapiControllers() {
 func ConditionsCapiControllersMgmt() {
 	//deployments := []string{"capi-controller-manager", "capi-kubeadm-control-plane-controller-manager", "capi-kubeadm-bootstrap-controller-manager"}
 	deployments := map[string][]string{
-		"capi-system":                       {"capi-controller-manager"},
+		"capi-system":                       {"capi-controller-manager", "capi-kubeadm-control-plane-controller-manager", "capi-kubeadm-bootstrap-controller-manager"},
 		"capi-kubeadm-control-plane-system": {"capi-kubeadm-control-plane-controller-manager"},
 		"capi-kubeadm-bootstrap-system":     {"capi-kubeadm-bootstrap-controller-manager"},
 	}
