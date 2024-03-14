@@ -9,6 +9,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - run: git fetch --force --tags
 
       - name: Install Task & Build Binary
         uses: arduino/setup-task@v2
@@ -20,7 +21,6 @@ jobs:
         run: |
           kubectl cluster-info
           echo "current-context:" $(kubectl config current-context)
-          echo "environment-kubeconfig:" ${KUBECONFIG}
 
       - name: Test Bootstrap Installation
         uses: arduino/setup-task@v2
