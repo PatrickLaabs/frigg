@@ -1,5 +1,7 @@
 name: "PR Test Suite"
-on: [pull_request]
+on:
+  pull_request:
+    types: [opened, reopened]
 
 jobs:
   kind:
