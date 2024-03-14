@@ -308,7 +308,7 @@ func AddonHelmProviderGen() {
 			Namespace string `yaml:"namespace"`
 		}{
 			Name:      "helm",
-			Namespace: "capi-system",
+			Namespace: "caaph-system",
 		},
 		Spec: struct {
 			Version string `yaml:"version"`
