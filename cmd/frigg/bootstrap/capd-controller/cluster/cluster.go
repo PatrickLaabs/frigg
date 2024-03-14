@@ -201,6 +201,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	reporender.FullStage()
 
 	// Creating Namespaces
+	println(color.GreenString("Creating Namespaces.."))
 	clusterapi.CreateCapiNs()
 	clusterapi.CreateCapdNs()
 	clusterapi.CreateKubeadmBootstrapNs()
@@ -219,7 +220,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	statuscheck.ConditionCheckCapiOperator()
 
 	// Installs capi components on the bootstrap cluster.
-	println(color.YellowString("Applying ClusterAPI Controller"))
+	println(color.YellowString("Applying ClusterAPI Controllers"))
 	clusterapi.ApplyCoreProvider()
 	clusterapi.ApplyBootstrapProv()
 	clusterapi.ApplyControlPlaneProv()
@@ -269,25 +270,30 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	clusterapi.CreateKubeAdmControlPlaneNsMgmt()
 
 	// Installing CertManager
+	println(color.GreenString("Installation of Cert-Manager and waiting for the 'Ready' conditions.."))
 	clusterapi.ApplyCertManagerMgmt()
 	// Checks the conditions for all cert-manager related deployments
 	statuscheck.ConditionsCertManagersMgmt()
 
 	// Installing ClusterAPI Operator
+	println(color.GreenString("Installation of the ClusterAPI Operator and waiting for the 'Ready' conditions.."))
 	clusterapi.ApplyCapiOperatorMgmt()
 	// Checks for all conditions of the clusterapi controller deployment
 	statuscheck.ConditionCheckCapiOperatorMgmt()
 
 	// Installs capi components on the mgmt cluster.
+	println(color.GreenString("Installation of the ClusterAPI Providers and waiting for the 'Ready' conditions.."))
 	clusterapi.ApplyCoreProviderMgmt()
 	clusterapi.ApplyBootstrapProvMgmt()
 	clusterapi.ApplyControlPlaneProvMgmt()
 	statuscheck.ConditionsCapiControllersMgmt()
 
 	//clusterapi.ApplyDockerInfraProvMgmt()
+	println(color.GreenString("Installation of the ClusterAPI Provider CAPD and waiting for the 'Ready' conditions.."))
 	clusterapi.ClusterAPIMgmt()
 	statuscheck.ConditionsCapdControllersMgmt()
 
+	println(color.GreenString("Installation of the ClusterAPI Helm Provider and waiting for the 'Ready' conditions.."))
 	clusterapi.ApplyAddonHelmProvMgmt()
 	statuscheck.ConditionsCaaphControllersMgmt()
 
