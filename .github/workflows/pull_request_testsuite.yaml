@@ -1,0 +1,33 @@
+name: "PR Test Suite"
+on: [pull_request]
+
+jobs:
+  kind:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Task & Build Binary
+        uses: arduino/setup-task@v2
+        run: |
+          task build
+
+      - uses: engineerd/setup-kind@v0.5.0
+      - name: Testing
+        run: |
+          kubectl cluster-info
+          echo "current-context:" $(kubectl config current-context)
+          echo "environment-kubeconfig:" ${KUBECONFIG}
+
+      - name: Test Bootstrap Installation
+        uses: arduino/setup-task@v2
+        run: |
+          task test_bootstrap
+
+      - name: Destroy Bootstrap Cluster
+        uses: arduino/setup-task@v2
+        run: |
+          task destroy_bootstrap
