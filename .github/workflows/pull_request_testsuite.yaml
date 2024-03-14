@@ -18,8 +18,7 @@ jobs:
 
       - name: Install Task & Build Binary
         uses: arduino/setup-task@v2
-        run: |
-          task build
+        run:  task build
 #
 #      - name: Testing
 #        uses: engineerd/setup-kind@v0.5.0
