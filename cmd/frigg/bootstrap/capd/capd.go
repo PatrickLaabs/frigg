@@ -3,7 +3,7 @@ package capd
 import (
 	"github.com/PatrickLaabs/frigg/cmd"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/cluster"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/workloadcluster"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd/workloadcluster"
 	"github.com/PatrickLaabs/frigg/pkg/log"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
