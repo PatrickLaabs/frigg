@@ -204,6 +204,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	println(color.GreenString("Creating Namespaces.."))
 	clusterapi.CreateCapiNs()
 	clusterapi.CreateCapdNs()
+	clusterapi.CreateCaaphNs()
 	clusterapi.CreateKubeadmBootstrapNs()
 	clusterapi.CreateKubeAdmControlPlaneNs()
 
@@ -266,6 +267,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	clusterapi.CreateArgoNSMgmt()
 	clusterapi.CreateCapiNsMgmt()
 	clusterapi.CreateCapdNsMgmt()
+	clusterapi.CreateCaaphNsMgmt()
 	clusterapi.CreateKubeadmBootstrapNsMgmt()
 	clusterapi.CreateKubeAdmControlPlaneNsMgmt()
 
