@@ -1142,7 +1142,7 @@ func MgmtClusterApiOperator() {
 		Metadata: struct {
 			Name string `yaml:"name"`
 		}{
-			Name: "argocd-hub-apps",
+			Name: "capi-operator",
 		},
 		Spec: struct {
 			ClusterSelector struct {
@@ -1197,10 +1197,10 @@ func MgmtClusterApiOperator() {
 				},
 			},
 			RepoURL:     "https://kubernetes-sigs.github.io/cluster-api-operator",
-			ChartName:   "capi-operator",
+			ChartName:   "cluster-api-operator",
 			Namespace:   "capi-operator-system",
 			ReleaseName: "cluster-api-operator",
-			Version:     "1.13.2",
+			Version:     "0.9.0",
 			Options: struct {
 				WaitForJobs bool   `yaml:"waitForJobs"`
 				Wait        bool   `yaml:"wait"`
@@ -1219,12 +1219,12 @@ func MgmtClusterApiOperator() {
 				},
 			},
 			ValuesTemplate: `cert-manager:
-  enabled: true
-core: "` + consts.KubeadmVersion + `"
-bootstrap: "` + consts.KubeadmVersion + `"
-controlPlane: "` + consts.KubeadmVersion + `"
-infrastructure: "` + consts.DockerInfraVersion + `"
-addon: "` + consts.CaaphVersion + `"
+  enabled: false
+core: "capi-system:` + consts.ClusterApiVersion + `"
+bootstrap: "capi-system:` + consts.KubeadmVersion + `"
+controlPlane: "capi-system:` + consts.KubeadmVersion + `"
+infrastructure: "capd-system:` + consts.DockerInfraVersion + `"
+addon: "capi-system:` + consts.CaaphVersion + `"
 manager.featureGates:
   MachinePool: true
   ClusterTopology: true`,
