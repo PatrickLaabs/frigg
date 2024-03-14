@@ -237,7 +237,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	// This is needed, to make the worker nodes ready and complete the bootstrap deployment
 	println(color.YellowString("Applying CNI"))
 	cnibootstrap.Installation()
-	clusterapioperator.Installation()
+	//clusterapioperator.Installation()
 
 	// Applies the frigg-mgmt-cluster manifest to the bootstrap cluster
 	// to create the first 'real' management cluster
@@ -266,15 +266,17 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
 	// Creates namespaces on the Mgmt Cluster
 	clusterapi.CreateArgoNSMgmt()
-	//clusterapi.CreateCapiNsMgmt()
-	//clusterapi.CreateCapdNsMgmt()
-	//clusterapi.CreateKubeadmBootstrapNsMgmt()
-	//clusterapi.CreateKubeAdmControlPlaneNsMgmt()
+	clusterapi.CreateCapiNsMgmt()
+	clusterapi.CreateCapdNsMgmt()
+	clusterapi.CreateKubeadmBootstrapNsMgmt()
+	clusterapi.CreateKubeAdmControlPlaneNsMgmt()
 
 	// Installing CertManager
-	//clusterapi.ApplyCertManagerMgmt()
+	clusterapi.ApplyCertManagerMgmt()
 	// Checks the conditions for all cert-manager related deployments
 	statuscheck.ConditionsCertManagersMgmt()
+
+	clusterapioperator.Installation()
 
 	// Installing ClusterAPI Operator
 	//clusterapi.ApplyCapiOperatorMgmt()
