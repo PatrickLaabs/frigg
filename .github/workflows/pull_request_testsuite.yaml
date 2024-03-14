@@ -1,16 +1,19 @@
 name: "PR Test Suite"
-on:
-  push:
-    branches:
-      - '70-*'
-  pull_request:
-    types: [opened, reopened, edited]
-  pull_request_target:
-    types:
-      - edited
-      - labeled
-      - reopened
-      - synchronize
+
+## ON HOLD
+
+#on:
+#  push:
+#    branches:
+#      - '70-*'
+#  pull_request:
+#    types: [opened, reopened, edited]
+#  pull_request_target:
+#    types:
+#      - edited
+#      - labeled
+#      - reopened
+#      - synchronize
 
 env:
   GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
@@ -35,16 +38,16 @@ jobs:
         uses: arduino/setup-task@v2
       - run:  task build
 
-#      - name: Testing
-#        uses: engineerd/setup-kind@v0.5.0
-#        with:
-#          version: "v0.22.0"
-#          skipClusterDeletion: true
-#          name: "bootstrapcluster"
-#          image: "kindest/node:v1.27.3"
-#      - run: |
-#          kubectl cluster-info
-#          echo "current-context:" $(kubectl config current-context)
+      - name: Testing
+        uses: engineerd/setup-kind@v0.5.0
+        with:
+          version: "v0.22.0"
+          skipClusterDeletion: true
+          name: "bootstrapcluster"
+          image: "kindest/node:v1.27.3"
+      - run: |
+          kubectl cluster-info
+          echo "current-context:" $(kubectl config current-context)
 
       - name: Test Bootstrap Installation
         uses: arduino/setup-task@v2
