@@ -19,7 +19,7 @@ func Installation() {
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
 	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
 
-	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 	helmchartManifests := filepath.Join(friggDir, vars.ClusterApiHelmChartProxyName)
 
 	cmd := exec.Command(kubectlPath, "--kubeconfig",
