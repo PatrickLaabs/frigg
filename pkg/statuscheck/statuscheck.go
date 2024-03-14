@@ -190,7 +190,6 @@ func checkCapiControllers(kubeconfigFlagPath string, deployments map[string][]st
 		panic(err.Error())
 	}
 
-	//namespace := "capi-system"
 	allAvailable := true
 	for namespace, namespaceDeployments := range deployments {
 		for _, deployment := range namespaceDeployments {
@@ -355,7 +354,7 @@ func checkCaaphControllers(kubeconfigFlagPath string, deployments []string, read
 		panic(err.Error())
 	}
 
-	namespace := "capi-system"
+	namespace := "caaph-system"
 	allAvailable := true
 	for _, deployment := range deployments {
 		available, _ := checkDeploymentCondition(clientset, namespace, deployment)
