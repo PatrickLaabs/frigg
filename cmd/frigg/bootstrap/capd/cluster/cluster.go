@@ -17,6 +17,7 @@ import (
 	"github.com/PatrickLaabs/frigg/pkg/kubeconfig"
 	"github.com/PatrickLaabs/frigg/pkg/postbootstrap"
 	"github.com/PatrickLaabs/frigg/pkg/sshkey"
+	"github.com/PatrickLaabs/frigg/pkg/statuscheck"
 	"github.com/PatrickLaabs/frigg/pkg/tmpl/clusterctlconfig"
 	"github.com/PatrickLaabs/frigg/pkg/tmpl/helmchartsproxies"
 	"github.com/PatrickLaabs/frigg/pkg/tmpl/kindconfig"
@@ -155,7 +156,6 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	helmchartsproxies.MgmtArgoApps()
 
 	// Generates a manifest for the management cluster, named frigg-mgmt-cluster
-	wait.Wait(10 * time.Second)
 	mgmtmanifestgen.Gen()
 
 	provider := cluster.NewProvider(
@@ -187,13 +187,15 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	reporender.FullStage()
 
 	// Installs capi components on the bootstrap cluster.
-	// clustername is bootstrapcluster
-	wait.Wait(10 * time.Second)
+	println(color.GreenString("Applying ClusterAPI and Cert-Manager Components and waiting for the 'Ready' condition.."))
 	clusterapi.ClusterAPI()
+	statuscheck.ConditionsCertManagers()
+	statuscheck.ConditionsCapiControllers()
+	statuscheck.ConditionsCapdControllers()
+	statuscheck.ConditionsCaaphControllers()
 
 	// Installs a CNI solution helm chart proxy to the bootstrapcluster
 	// This is needed, to make the worker nodes ready and complete the bootstrap deployment
-	wait.Wait(10 * time.Second)
 	cnibootstrap.Installation()
 
 	// Applies the frigg-mgmt-cluster manifest to the bootstrap cluster
@@ -216,22 +218,29 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 		fmt.Printf("Error on modification of mgmt clusters kubeconfig: %v\n", err)
 	}
 
-	// Installs the capi components to the frigg-mgmt-cluster
-	// This part may take a while.
-	wait.Wait(60 * time.Second)
-	clusterapi.ClusterAPIMgmt()
+	println(color.GreenString("Waiting for 'Ready' conditions for Tigera, CoreDNS and CNI.."))
+	statuscheck.ConditionTigerOperatorMgmt()
+	statuscheck.ConditionCoreDnsMgmt()
+	statuscheck.ConditionsCni()
 
 	// Creates the argo namespace on the Mgmt Cluster
 	clusterapi.CreateArgoNSMgmt()
 
-	//wait.Wait(5 * time.Second)
+	// Installs the capi components to the frigg-mgmt-cluster
+	// This part may take a while.
+	println(color.GreenString("Installation of ClusterAPI Componentes and waiting for the 'Ready' condition.."))
+	clusterapi.ClusterAPIMgmt()
+	statuscheck.ConditionsCertManagersMgmt()
+	statuscheck.ConditionsCapiControllersMgmt()
+	statuscheck.ConditionsCapdControllersMgmt()
+	statuscheck.ConditionsCaaphControllersMgmt()
+
 	// Github Token Secret deployment
 	clusterapi.ApplyGithubSecretMgmt()
 	// ArgoCD Default Login Secret deployment
 	clusterapi.ApplyArgoSecretMgmt()
 
 	// Installs the HelmChartProxies onto the mgmt-cluster
-	wait.Wait(10 * time.Second)
 	argocdWorkload.Installation()
 	cni.Installation()
 	mgmtArgocdApps.Installation()
