@@ -43,6 +43,10 @@ jobs:
 
       - name: Test Bootstrap Installation
         uses: arduino/setup-task@v2
+        with:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_MAIL: ${{ github.event.pusher.email }}
+          GITHUB_USERNAME: ${{ github.actor }}
       - run: |
           task test_bootstrap
 
