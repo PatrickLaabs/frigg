@@ -15,7 +15,7 @@ on:
 
 env:
   GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-  GITHUB_MAIL: ${{ github.event.pusher.email }}
+  GITHUB_MAIL: "${{ github.actor }}@users.noreply.github.com"
   GITHUB_USERNAME: ${{ github.actor }}
 
 permissions:
