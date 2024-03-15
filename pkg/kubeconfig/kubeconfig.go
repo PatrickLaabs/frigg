@@ -83,6 +83,40 @@ func RetrieveWorkloadKubeconfig() {
 	}
 }
 
+func RetrieveVclusterWorkloadKubeconfig() {
+	println(color.GreenString("Retrieving kubeconfig of workload-cluster"))
+
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+		return
+	}
+
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl")
+
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
+
+	cmd := exec.Command(clusterctlPath, "--kubeconfig",
+		kubeconfigFlagPath, "get", "kubeconfig", "workloadcluster",
+	)
+
+	// Capture the output of the command
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		println(color.RedString("Error running clusterctl: %v\n", err))
+		println(color.YellowString(string(output)))
+		return
+	}
+
+	err = os.WriteFile(friggDir+"/"+vars.WorkloadKubeconfigName, output, 0755)
+	if err != nil {
+		println(color.RedString("Error on writing kubeconfig file for mgmt cluster: %v\n", err))
+		return
+	}
+}
+
 // ModifyMgmtKubeconfig modifies the stored kubeconfig, so it's working on macOS
 func ModifyMgmtKubeconfig() error {
 	println(color.GreenString("Modifying the kubeconfig file of the mgmt cluster"))

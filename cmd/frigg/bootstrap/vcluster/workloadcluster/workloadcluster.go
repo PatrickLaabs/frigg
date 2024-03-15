@@ -29,23 +29,22 @@ func NewCommand() *cobra.Command {
 
 			// Applies the workload cluster manifest to the frigg-mgmt-cluster
 			wait.Wait(5 * time.Second)
-			clusterapi.KubectlApplyWorkload()
+			clusterapi.KubectlApplyVclusterWorkload()
 
 			// Retrieves the kubeconfig, like we did for the management cluster previously.
 			wait.Wait(10 * time.Second)
-			kubeconfig.RetrieveWorkloadKubeconfig()
+			kubeconfig.RetrieveVclusterWorkloadKubeconfig()
 
 			// Modifies the kubeconfig, same pattern applies like for the management cluster.
-			wait.Wait(5 * time.Second)
-			err := kubeconfig.ModifyWorkloadKubeconfig()
-			if err != nil {
-				fmt.Printf("Error on modifications of the workload cluster kubeconfig: %v\n", err)
-			}
+			//wait.Wait(5 * time.Second)
+			//err := kubeconfig.ModifyWorkloadKubeconfig()
+			//if err != nil {
+			//	fmt.Printf("Error on modifications of the workload cluster kubeconfig: %v\n", err)
+			//}
 
 			statuscheck.ConditionCniWorkload()
 
 			clusterapi.CreateArgoNSWorkload()
-			clusterapi.CreateVclusterNsMgmt()
 
 			fmt.Println("Workload Cluster has been successfully provisioned onto your management cluster!")
 			return nil

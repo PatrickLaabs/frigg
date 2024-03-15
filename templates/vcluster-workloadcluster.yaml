@@ -2,7 +2,7 @@ apiVersion: cluster.x-k8s.io/v1beta1
 kind: Cluster
 metadata:
   name: workloadcluster
-  namespace: vcluster
+  namespace: default
   labels:
     argocd-workloadclusters-clusters-Enabled: default
 spec:
@@ -19,7 +19,7 @@ apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
 kind: VCluster
 metadata:
   name: workloadcluster
-  namespace: vcluster
+  namespace: default
 spec:
   controlPlaneEndpoint:
     host: ""

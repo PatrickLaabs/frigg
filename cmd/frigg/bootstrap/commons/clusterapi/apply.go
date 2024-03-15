@@ -68,6 +68,35 @@ func KubectlApplyWorkload() {
 	}
 }
 
+func KubectlApplyVclusterWorkload() {
+	println(color.GreenString("Applying workload cluster manifest to the management cluster"))
+
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+		return
+	}
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
+	workloadcluster := filepath.Join(friggDir, vars.VclusterWorkloadManifest)
+
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
+		kubeconfigFlagPath, "apply",
+		"-f", workloadcluster,
+	)
+
+	// Capture the output of the command
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
+		return
+	}
+}
+
 func retrieveToken() (string, error) {
 	var token string
 
