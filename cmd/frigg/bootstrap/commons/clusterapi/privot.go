@@ -8,6 +8,8 @@ import (
 	"path/filepath"
 )
 
+// var clusterctl = "clusterctl" + consts.ClusterctlVersion
+
 func Pivot() {
 	println(color.GreenString("Moving clusterapi components from bootstrap to mgmt cluster.."))
 
@@ -19,7 +21,7 @@ func Pivot() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl")
+	clusterctlPath := filepath.Join(friggToolsDir, clusterctl)
 
 	bootstrapKubeconfig := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 	mgmtKubeconfig := filepath.Join(friggDir, vars.ManagementKubeconfigName)
