@@ -46,7 +46,7 @@ func GithubCli() {
 		operatingSystem = runtime.GOOS
 	}
 
-	if _, err := os.Stat(filepath.Join(toolsdir.FriggDir, "gh")); err != nil {
+	if _, err := os.Stat(filepath.Join(toolsdir.FriggDir, "gh_"+consts.GithubCliVersion)); err != nil {
 		if os.IsNotExist(err) {
 			println(color.YellowString("GH CLI does not exist inside tools dir. Downloading now.."))
 
@@ -72,7 +72,7 @@ func GithubCli() {
 }
 
 func Kubectl() {
-	if _, err := os.Stat(filepath.Join(toolsdir.FriggDir, "kubectl")); err != nil {
+	if _, err := os.Stat(filepath.Join(toolsdir.FriggDir, "kubectl_"+consts.KubectlVersion)); err != nil {
 		if os.IsNotExist(err) {
 			println(color.YellowString("Kubectl CLI does not exist inside tools dir. Downloading now.."))
 
@@ -102,7 +102,7 @@ func Kubectl() {
 }
 
 func Clusterctl() {
-	if _, err := os.Stat(filepath.Join(toolsdir.FriggDir, "clusterctl")); err != nil {
+	if _, err := os.Stat(filepath.Join(toolsdir.FriggDir, "clusterctl_"+consts.ClusterctlVersion)); err != nil {
 		if os.IsNotExist(err) {
 			println(color.YellowString("Clusterctl CLI does not exist inside tools dir. Downloading now.."))
 
