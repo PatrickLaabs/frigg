@@ -3,7 +3,7 @@ name: "PR Test Suite"
 on:
   push:
     branches:
-      - '70-*'
+      - '79-*'
   pull_request:
     types: [opened, reopened, edited]
   pull_request_target:
