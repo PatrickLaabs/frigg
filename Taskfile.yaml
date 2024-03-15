@@ -8,6 +8,7 @@ tasks:
   testsuite_capd_controller:
     cmds:
       - ./main version
+      - ./main prepare
       - ./main testsuite capd_controllertest
 
   destroy_testsuite:
