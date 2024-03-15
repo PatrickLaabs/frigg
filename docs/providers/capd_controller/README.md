@@ -17,11 +17,11 @@ export GITHUB_MAIL=
 
 Create a Management Cluster:
 
-`frigg bootstrap capd cluster`
+`frigg bootstrap capd-controller cluster`
 
 Create a Workload Cluster:
 
-`frigg bootstrap capd workloadcluster`
+`frigg bootstrap capd-controller workloadcluster`
 
 
 
