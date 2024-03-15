@@ -1,4 +1,4 @@
-package capd
+package capd_controller
 
 import (
 	"fmt"
@@ -23,13 +23,12 @@ func MakeReadme(filename string) {
 		"export GITHUB_TOKEN=" + newLine +
 		"export GITHUB_USERNAME=" + newLine +
 		"export GITHUB_MAIL=" + newLine +
-		"```" +
-		doubleNewLine +
+		"```" + doubleNewLine +
 		"## TL;DR:" + doubleNewLine +
 		"Create a Management Cluster:" + doubleNewLine +
-		"`frigg bootstrap capd cluster`" + doubleNewLine +
+		"`frigg bootstrap capd-controller cluster`" + doubleNewLine +
 		"Create a Workload Cluster:" + doubleNewLine +
-		"`frigg bootstrap capd workloadcluster`" +
+		"`frigg bootstrap capd-controller workloadcluster`" +
 		doubleNewLine
 	footer := "Updated on: " + date
 	data := fmt.Sprintf("%s\n\n%s\n\n%s", header, body, footer)

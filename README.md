@@ -42,14 +42,6 @@ Thank you very much, for supporting me 🚀
 I am currently working on a preparing step, so you don't have two worry.\
 But for now, the following needs to be done manually:
 
-#### Install the following tools:
-
-Just run:\
-`frigg prepare`
-
-All Tools we need, will be installed into the tools Directory under\
-`~/.frigg/tools`
-
 #### Get the *frigg* cli:
 Get the binary using go:
 ```
@@ -65,8 +57,16 @@ chmod +x frigg
 
 or download the binary at the releasepage:\
 [Frigg - Github Release Page](https://github.com/PatrickLaabs/frigg/releases)
- 
+
 Homebrew is on the way.
+
+#### Install the recommended tools:
+
+Just run:\
+`frigg prepare`
+
+All Tools we need, will be installed into the tools Directory under\
+`~/.frigg/tools`
 
 #### Start the deployment:
 
@@ -103,14 +103,22 @@ Available Commands:
 ```
 
 **Provision your first management cluster:**
-``` sh
+``` shell
 frigg bootstrap capd cluster
+```
+or - to use the ClusterAPI Controllers - run:
+```shell
+frigg bootstrap capd-controller cluster
 ```
 This might take a while, since we are doing some heavy lifting.
 
 **Provision your workload cluster ontop:**
 ``` sh
 frigg bootstrap capd workloadcluster
+
+or
+
+frigg bootstrap capd-controller workloadcluster
 ```
 
 After the provisioning of your management cluster is ready,\
