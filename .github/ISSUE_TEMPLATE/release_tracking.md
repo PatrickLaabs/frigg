@@ -19,4 +19,5 @@ assignees: ''
 * [ ] Update Versions referenced in the README.md
 * [ ] Test everything :) 
 * [ ] If everything is fine, push local changes to the prevs. created feature-branch
+* [ ] merge back to main
 * [ ] git tag x.x.x && git push --tags
