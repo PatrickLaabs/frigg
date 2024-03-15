@@ -1,0 +1,35 @@
+apiVersion: cluster.x-k8s.io/v1beta1
+kind: Cluster
+metadata:
+  name: workloadcluster
+  namespace: vcluster
+  labels:
+    argocd-workloadclusters-clusters-Enabled: default
+spec:
+  controlPlaneRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+    kind: VCluster
+    name: workloadcluster
+  infrastructureRef:
+    apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+    kind: VCluster
+    name: workloadcluster
+---
+apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
+kind: VCluster
+metadata:
+  name: workloadcluster
+  namespace: vcluster
+spec:
+  controlPlaneEndpoint:
+    host: ""
+    port: 0
+  helmRelease:
+    chart:
+      name: null
+      repo: null
+      version: null
+    values: |-
+      service:
+        type: NodePort
+  kubernetesVersion: 1.28.0

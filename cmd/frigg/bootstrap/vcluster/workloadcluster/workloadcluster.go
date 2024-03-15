@@ -20,12 +20,12 @@ func NewCommand() *cobra.Command {
 		Short: "deploy workload cluster",
 		Long:  "deploy workload cluster",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			println(color.GreenString("deploying workload cluster"))
+			println(color.GreenString("deploying a vcluster workload cluster"))
 
 			// Generates a workload-cluster manifest
 			// Modifies the manifest of the workload cluster, to add the helmchart labels to it
 			wait.Wait(5 * time.Second)
-			workloadmanifestgen.GenCapd()
+			workloadmanifestgen.GenVcluster()
 
 			// Applies the workload cluster manifest to the frigg-mgmt-cluster
 			wait.Wait(5 * time.Second)
@@ -45,6 +45,7 @@ func NewCommand() *cobra.Command {
 			statuscheck.ConditionCniWorkload()
 
 			clusterapi.CreateArgoNSWorkload()
+			clusterapi.CreateVclusterNsMgmt()
 
 			fmt.Println("Workload Cluster has been successfully provisioned onto your management cluster!")
 			return nil

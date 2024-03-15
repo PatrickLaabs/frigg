@@ -604,6 +604,32 @@ func CreateCaaphNsMgmt() {
 	}
 }
 
+func CreateVclusterNsMgmt() {
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+		return
+	}
+
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
+	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
+
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
+		kubeconfigFlagPath, "create", "namespace", "vcluster",
+	)
+
+	// Capture the output of the command
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
+		return
+	}
+}
+
 func CreateKubeadmBootstrapNsMgmt() {
 	homedir, err := os.UserHomeDir()
 	if err != nil {

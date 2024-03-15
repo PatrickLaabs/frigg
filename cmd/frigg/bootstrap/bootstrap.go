@@ -7,6 +7,7 @@ import (
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capv"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capz"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/harvester"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/vcluster"
 	"github.com/PatrickLaabs/frigg/pkg/errors"
 	"github.com/PatrickLaabs/frigg/pkg/log"
 	"github.com/spf13/cobra"
@@ -32,5 +33,6 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c.AddCommand(capz.NewCommand(logger, streams))
 	c.AddCommand(harvester.NewCommand(logger, streams))
 	c.AddCommand(capd_controller.NewCommand(logger, streams))
+	c.AddCommand(vcluster.NewCommand(logger, streams))
 	return c
 }
