@@ -18,7 +18,7 @@ func ClusterAPI() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl")
+	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl_"+consts.ClusterctlVersion)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 	clusterconfigPath := filepath.Join(friggDir, vars.ClusterctlConfigName)
@@ -53,7 +53,7 @@ func ClusterAPIMgmt() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl")
+	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl_"+consts.ClusterctlVersion)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 	clusterconfigPath := filepath.Join(friggDir, vars.ClusterctlConfigName)

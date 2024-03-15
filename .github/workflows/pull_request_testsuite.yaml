@@ -1,26 +1,29 @@
 name: "PR Test Suite"
 
+#on:
+#  push:
+#    branches:
+#      - '79-*'
+#  pull_request:
+#    types: [opened, reopened, edited]
+#  pull_request_target:
+#    types:
+#      - edited
+#      - labeled
+#      - reopened
+#      - synchronize
+
 on:
-  push:
-    branches:
-      - '79-*'
-  pull_request:
-    types: [opened, reopened, edited]
   pull_request_target:
-    types:
-      - edited
-      - labeled
-      - reopened
-      - synchronize
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  checks: write # Allow access to checks to write check runs.
 
 env:
   GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
   GITHUB_MAIL: "${{ github.actor }}@users.noreply.github.com"
   GITHUB_USERNAME: ${{ github.actor }}
-
-permissions:
-  contents: read
-  packages: write
 
 jobs:
   testsuite:

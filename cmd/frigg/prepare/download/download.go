@@ -14,30 +14,6 @@ func init() {
 	toolsdir.FriggWorkingDir()
 }
 
-var friggDir string
-
-//func FriggWorkingDir() {
-//	homedir, err := os.UserHomeDir()
-//	if err != nil {
-//		println(color.RedString("error on accessing home directory: %v\n", err))
-//	}
-//
-//	// Setting Tools directory
-//	friggDir = filepath.Join(homedir, vars.FriggDirName, vars.FriggTools)
-//
-//	// Check if directory exists and create it if not
-//	if _, err := os.Stat(friggDir); os.IsNotExist(err) {
-//		println(color.YellowString("Tools directory does not exists, Creating %s\n", friggDir))
-//		if err = os.MkdirAll(friggDir, 0755); err != nil {
-//			println(color.RedString("Error creating directory %s: %v\n", friggDir, err))
-//		}
-//	} else if err != nil {
-//		// Handle other potential errors during stat
-//		println(color.RedString("Error checking directory %s: %v\n", friggDir, err))
-//		os.Exit(1)
-//	}
-//}
-
 func GithubCli() {
 	var operatingSystem string
 	if runtime.GOOS == "darwin" {

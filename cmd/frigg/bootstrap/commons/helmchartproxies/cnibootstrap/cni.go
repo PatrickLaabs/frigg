@@ -1,6 +1,7 @@
 package cnibootstrap
 
 import (
+	"github.com/PatrickLaabs/frigg/pkg/consts"
 	"github.com/PatrickLaabs/frigg/pkg/vars"
 	"github.com/fatih/color"
 	"os"
@@ -16,7 +17,7 @@ func Installation() {
 	}
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, "kubectl_"+consts.KubectlVersion)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 	helmchartManifests := filepath.Join(friggDir, vars.CniName)

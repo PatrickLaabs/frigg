@@ -1,6 +1,7 @@
 package clusterapi
 
 import (
+	"github.com/PatrickLaabs/frigg/pkg/consts"
 	"github.com/PatrickLaabs/frigg/pkg/vars"
 	"github.com/fatih/color"
 	"os"
@@ -19,7 +20,7 @@ func Pivot() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl")
+	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl_"+consts.ClusterctlVersion)
 
 	bootstrapKubeconfig := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 	mgmtKubeconfig := filepath.Join(friggDir, vars.ManagementKubeconfigName)

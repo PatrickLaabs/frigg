@@ -2,6 +2,7 @@ package kubeconfig
 
 import (
 	"fmt"
+	"github.com/PatrickLaabs/frigg/pkg/consts"
 	"github.com/PatrickLaabs/frigg/pkg/vars"
 	"github.com/fatih/color"
 	"os"
@@ -25,7 +26,7 @@ func RetrieveMgmtKubeconfig() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl")
+	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl_"+consts.ClusterctlVersion)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
@@ -60,7 +61,7 @@ func RetrieveWorkloadKubeconfig() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl")
+	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl_"+consts.ClusterctlVersion)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 

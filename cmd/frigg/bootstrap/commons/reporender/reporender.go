@@ -2,6 +2,7 @@ package reporender
 
 import (
 	"fmt"
+	"github.com/PatrickLaabs/frigg/pkg/consts"
 	"github.com/PatrickLaabs/frigg/pkg/vars"
 	"github.com/PatrickLaabs/frigg/pkg/wait"
 	"github.com/fatih/color"
@@ -13,13 +14,6 @@ import (
 	"regexp"
 	"time"
 )
-
-// Renders the gitops Repo https://github.com/PatrickLaabs/argo-hub-template
-//
-// This Repo contains some placeholder strings.
-// To be more precise:
-// - GITHUB_USER
-// - GITHUB_MAIL
 
 // FullStage combines everything, that is needed, to fully prepare the gitops repo for the end-user
 func FullStage() {
@@ -94,7 +88,7 @@ func githubLogin() {
 	homedir, _ := os.UserHomeDir()
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	ghCliPath := filepath.Join(friggToolsDir, "gh")
+	ghCliPath := filepath.Join(friggToolsDir, "gh_"+consts.GithubCliVersion)
 
 	cmd := exec.Command(ghCliPath, "auth", "login")
 	fmt.Println(cmd)
@@ -114,7 +108,7 @@ func gitCreateFromTemplate() {
 	homedir, _ := os.UserHomeDir()
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	ghCliPath := filepath.Join(friggToolsDir, "gh")
+	ghCliPath := filepath.Join(friggToolsDir, "gh_"+consts.GithubCliVersion)
 
 	cmd := exec.Command(ghCliPath, "repo", "create",
 		targetRepoName, "--private",
@@ -136,7 +130,7 @@ func addSshPublickey() {
 	homedir, _ := os.UserHomeDir()
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	ghCliPath := filepath.Join(friggToolsDir, "gh")
+	ghCliPath := filepath.Join(friggToolsDir, "gh_"+consts.GithubCliVersion)
 	sshpublickeyPath := filepath.Join(friggDir, vars.PublickeyName)
 	localRepo := filepath.Join(friggDir, vars.RepoName)
 
