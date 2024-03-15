@@ -2,6 +2,7 @@ package kubeconfig
 
 import (
 	"fmt"
+	"github.com/PatrickLaabs/frigg/pkg/consts"
 	"github.com/PatrickLaabs/frigg/pkg/vars"
 	"github.com/fatih/color"
 	"os"
@@ -11,6 +12,8 @@ import (
 	"strconv"
 	"strings"
 )
+
+var clusterctl = "clusterctl" + consts.ClusterctlVersion
 
 // RetrieveMgmtKubeconfig retrieves of the newly provisioned mgmt-cluster via capd
 // and stores it to the work directory of frigg
@@ -25,7 +28,7 @@ func RetrieveMgmtKubeconfig() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl")
+	clusterctlPath := filepath.Join(friggToolsDir, clusterctl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
@@ -60,7 +63,7 @@ func RetrieveWorkloadKubeconfig() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	clusterctlPath := filepath.Join(friggToolsDir, "clusterctl")
+	clusterctlPath := filepath.Join(friggToolsDir, clusterctl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
