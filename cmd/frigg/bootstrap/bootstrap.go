@@ -3,7 +3,7 @@ package bootstrap
 import (
 	"github.com/PatrickLaabs/frigg/cmd"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd"
-	capd_controller "github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd-controller"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd-controller"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capv"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capz"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/harvester"
