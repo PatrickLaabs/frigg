@@ -5,11 +5,11 @@ tasks:
     cmds:
       - go build -o ../frigg main.go
 
-  test_bootstrap:
+  testsuite_capd_controller:
     cmds:
       - ./main version
-      - ./main bootstrap capd-controller cluster
+      - ./main testsuite capd_controllertest
 
-  destroy_bootstrap:
+  destroy_testsuite:
     cmds:
       - ./main delete clusters -A

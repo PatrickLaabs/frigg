@@ -20,6 +20,7 @@ package frigg
 import (
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/prepare"
+	"github.com/PatrickLaabs/frigg/cmd/frigg/testsuite"
 	"io"
 
 	"github.com/spf13/cobra"
@@ -78,6 +79,7 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c.AddCommand(version.NewCommand(logger, streams))
 	c.AddCommand(bootstrap.NewCommand(logger, streams))
 	c.AddCommand(prepare.NewCommand())
+	c.AddCommand(testsuite.NewCommand(logger, streams))
 	return c
 }
 
