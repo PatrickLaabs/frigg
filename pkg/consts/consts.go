@@ -1,11 +1,11 @@
 package consts
 
 // FriggVersion and VersionPreRelease constants are used to define the Version the Frigg CLI outputs on ./frigg version
-const FriggVersion = "1.0.3"
+const FriggVersion = "1.1.0"
 const VersionPreRelease = ""
 const GithubCliVersion = "2.45.0"
 const KubectlVersion = "1.29.2"
-const ClusterctlVersion = "1.6.2"
+const ClusterctlVersion = "1.6.3"
 const K9sVersion = "0.32.3"
 
 // KubeadmVersion , etc, Version for clusterctl bootstrapping
