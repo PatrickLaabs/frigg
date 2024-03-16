@@ -292,6 +292,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
 	//clusterapi.ApplyDockerInfraProvMgmt()
 	println(color.GreenString("Installation of the ClusterAPI Provider CAPD and waiting for the 'Ready' conditions.."))
+	clusterapi.ApplyDockerInfraProvMgmt()
 	clusterapi.ClusterAPIMgmt()
 	statuscheck.ConditionsCapdControllersMgmt()
 
