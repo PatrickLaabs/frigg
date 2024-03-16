@@ -19,3 +19,5 @@ const CoreProvControllerVersion = "v1.6.3"
 const KubeadmControllerVersion = "v1.6.3"
 const DockerInfraProvControllerVersion = "v1.6.3"
 const HelmAddonProvControllerVersion = "v0.1.1-alpha.1"
+
+const ClusterApiProviderHelmVersion = "0.9.0"
