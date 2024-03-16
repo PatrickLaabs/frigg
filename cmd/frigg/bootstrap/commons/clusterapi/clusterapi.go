@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 )
 
-var clusterctl = "clusterctl" + consts.ClusterctlVersion
+var clusterctl = "clusterctl_" + consts.ClusterctlVersion
 
 func ClusterAPI() {
 	homedir, err := os.UserHomeDir()

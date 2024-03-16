@@ -8,8 +8,6 @@ import (
 	"path/filepath"
 )
 
-// var clusterctl = "clusterctl" + consts.ClusterctlVersion
-
 func Pivot() {
 	println(color.GreenString("Moving clusterapi components from bootstrap to mgmt cluster.."))
 
