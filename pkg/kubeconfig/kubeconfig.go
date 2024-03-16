@@ -13,7 +13,7 @@ import (
 	"strings"
 )
 
-var clusterctl = "clusterctl" + consts.ClusterctlVersion
+var clusterctl = "clusterctl_" + consts.ClusterctlVersion
 
 // RetrieveMgmtKubeconfig retrieves of the newly provisioned mgmt-cluster via capd
 // and stores it to the work directory of frigg

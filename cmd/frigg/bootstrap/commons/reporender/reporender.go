@@ -15,7 +15,7 @@ import (
 	"time"
 )
 
-var gh = "gh" + consts.GithubCliVersion
+var gh = "gh_" + consts.GithubCliVersion
 
 // FullStage combines everything, that is needed, to fully prepare the gitops repo for the end-user
 func FullStage() {
