@@ -2,12 +2,15 @@ package clusterapi
 
 import (
 	"fmt"
+	"github.com/PatrickLaabs/frigg/pkg/consts"
 	"github.com/PatrickLaabs/frigg/pkg/vars"
 	"github.com/fatih/color"
 	"os"
 	"os/exec"
 	"path/filepath"
 )
+
+var kubectl = "kubectl_" + consts.KubectlVersion
 
 func KubectlApplyMgmt() {
 	println(color.GreenString("Applying Manifest to the cluster"))
@@ -19,7 +22,7 @@ func KubectlApplyMgmt() {
 	}
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 	mgmtcluster := filepath.Join(friggDir, vars.MgmtManifest)
@@ -49,7 +52,7 @@ func KubectlApplyWorkload() {
 	}
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 	workloadcluster := filepath.Join(friggDir, vars.WorkloadManifest)
@@ -127,7 +130,7 @@ func ApplyGithubSecretMgmt() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	fromLiteralString := "--from-literal=token=" + token
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
@@ -157,7 +160,7 @@ func ApplyArgoSecretMgmt() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
@@ -187,7 +190,7 @@ func CreateArgoNSMgmt() {
 	}
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	println(kubectlPath)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
@@ -216,7 +219,7 @@ func CreateArgoNSWorkload() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.WorkloadKubeconfigName)
 
@@ -242,7 +245,7 @@ func CreateCapiNs() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
@@ -268,7 +271,7 @@ func CreateCapdNs() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
@@ -294,7 +297,7 @@ func CreateCaaphNs() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
@@ -320,7 +323,7 @@ func CreateKubeadmBootstrapNs() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
@@ -346,7 +349,7 @@ func CreateKubeAdmControlPlaneNs() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
@@ -373,7 +376,7 @@ func ApplyCoreProvider() {
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
 	friggControllerDir := filepath.Join(friggDir, vars.ControllerDir)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
 	path := filepath.Join(friggControllerDir, vars.CoreProviderName)
@@ -401,7 +404,7 @@ func ApplyControlPlaneProv() {
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
 	friggControllerDir := filepath.Join(friggDir, vars.ControllerDir)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
 	path := filepath.Join(friggControllerDir, vars.ControlPlaneProvName)
@@ -429,7 +432,7 @@ func ApplyBootstrapProv() {
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
 	friggControllerDir := filepath.Join(friggDir, vars.ControllerDir)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
 	path := filepath.Join(friggControllerDir, vars.BootstrapProvName)
@@ -457,7 +460,7 @@ func ApplyDockerInfraProv() {
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
 	friggControllerDir := filepath.Join(friggDir, vars.ControllerDir)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
 	path := filepath.Join(friggControllerDir, vars.DockerInfraProvName)
@@ -485,7 +488,7 @@ func ApplyAddonHelmProv() {
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
 	friggControllerDir := filepath.Join(friggDir, vars.ControllerDir)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
 	path := filepath.Join(friggControllerDir, vars.HelmAddonProvName)
@@ -513,7 +516,7 @@ func ApplyCertManager() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
 	cmd := exec.Command(kubectlPath, "--kubeconfig",
@@ -539,7 +542,7 @@ func ApplyCapiOperator() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
 	cmd := exec.Command(kubectlPath, "--kubeconfig",
@@ -564,7 +567,7 @@ func CreateCapiNsMgmt() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
@@ -590,7 +593,7 @@ func CreateCapdNsMgmt() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
@@ -616,7 +619,7 @@ func CreateCaaphNsMgmt() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
@@ -668,7 +671,7 @@ func CreateKubeadmBootstrapNsMgmt() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
@@ -694,7 +697,7 @@ func CreateKubeAdmControlPlaneNsMgmt() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
@@ -721,7 +724,7 @@ func ApplyCoreProviderMgmt() {
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
 	friggControllerDir := filepath.Join(friggDir, vars.ControllerDir)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
 	path := filepath.Join(friggControllerDir, vars.CoreProviderName)
@@ -749,7 +752,7 @@ func ApplyControlPlaneProvMgmt() {
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
 	friggControllerDir := filepath.Join(friggDir, vars.ControllerDir)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
 	path := filepath.Join(friggControllerDir, vars.ControlPlaneProvName)
@@ -777,7 +780,7 @@ func ApplyBootstrapProvMgmt() {
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
 	friggControllerDir := filepath.Join(friggDir, vars.ControllerDir)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
 	path := filepath.Join(friggControllerDir, vars.BootstrapProvName)
@@ -805,7 +808,7 @@ func ApplyDockerInfraProvMgmt() {
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
 	friggControllerDir := filepath.Join(friggDir, vars.ControllerDir)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
 	path := filepath.Join(friggControllerDir, vars.DockerInfraProvName)
@@ -833,7 +836,7 @@ func ApplyAddonHelmProvMgmt() {
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
 	friggControllerDir := filepath.Join(friggDir, vars.ControllerDir)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
 	path := filepath.Join(friggControllerDir, vars.HelmAddonProvName)
@@ -861,7 +864,7 @@ func ApplyCertManagerMgmt() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
 	cmd := exec.Command(kubectlPath, "--kubeconfig",
@@ -887,7 +890,7 @@ func ApplyCapiOperatorMgmt() {
 
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	friggToolsDir := filepath.Join(friggDir, vars.FriggTools)
-	kubectlPath := filepath.Join(friggToolsDir, "kubectl")
+	kubectlPath := filepath.Join(friggToolsDir, kubectl)
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
 
 	cmd := exec.Command(kubectlPath, "--kubeconfig",
