@@ -2,7 +2,7 @@
 name: Bug report
 about: Tell us about a problem you are experiencing
 labels: bug
-title: :bug: bug:
+title: :bug bug:
 ---
 
 /kind bug
