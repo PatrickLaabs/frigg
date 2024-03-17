@@ -2,11 +2,11 @@ package workloadcluster
 
 import (
 	"fmt"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/clusterapi"
-	"github.com/PatrickLaabs/frigg/pkg/kubeconfig"
-	"github.com/PatrickLaabs/frigg/pkg/statuscheck"
-	"github.com/PatrickLaabs/frigg/pkg/tmpl/workloadmanifestgen"
-	"github.com/PatrickLaabs/frigg/pkg/wait"
+	"github.com/PatrickLaabs/frigg/internal/clusterapi"
+	"github.com/PatrickLaabs/frigg/internal/generate"
+	"github.com/PatrickLaabs/frigg/internal/kubeconfig"
+	"github.com/PatrickLaabs/frigg/internal/statuscheck"
+	"github.com/PatrickLaabs/frigg/internal/wait"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 	"time"
@@ -25,7 +25,7 @@ func NewCommand() *cobra.Command {
 			// Generates a workload-cluster manifest
 			// Modifies the manifest of the workload cluster, to add the helmchart labels to it
 			wait.Wait(5 * time.Second)
-			workloadmanifestgen.Gen()
+			generate.WorkloadManifest()
 
 			// Applies the workload cluster manifest to the frigg-mgmt-cluster
 			wait.Wait(5 * time.Second)

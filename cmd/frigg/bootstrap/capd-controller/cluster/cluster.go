@@ -2,31 +2,22 @@ package cluster
 
 import (
 	"fmt"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/clusterapi"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/argocdWorkload"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/cni"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/cnibootstrap"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/mgmtArgocdApps"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/mgmtArgocdEvents"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/mgmtArgocdRollouts"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/mgmtArgocdWorkflows"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/mgmtArgohub"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/helmchartproxies/mgmtVault"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/commons/reporender"
+	"github.com/PatrickLaabs/frigg/internal/capi_controller"
+	"github.com/PatrickLaabs/frigg/internal/clusterapi"
+	"github.com/PatrickLaabs/frigg/internal/directories"
+	"github.com/PatrickLaabs/frigg/internal/generate"
+	"github.com/PatrickLaabs/frigg/internal/helmchart"
+	"github.com/PatrickLaabs/frigg/internal/kubeconfig"
+	"github.com/PatrickLaabs/frigg/internal/postbootstrap"
+	"github.com/PatrickLaabs/frigg/internal/prepare"
+	"github.com/PatrickLaabs/frigg/internal/reporender"
 	"github.com/PatrickLaabs/frigg/internal/runtime"
-	"github.com/PatrickLaabs/frigg/pkg/capi_controller"
-	"github.com/PatrickLaabs/frigg/pkg/controllerdir"
-	"github.com/PatrickLaabs/frigg/pkg/kubeconfig"
-	"github.com/PatrickLaabs/frigg/pkg/postbootstrap"
-	"github.com/PatrickLaabs/frigg/pkg/sshkey"
-	"github.com/PatrickLaabs/frigg/pkg/statuscheck"
-	"github.com/PatrickLaabs/frigg/pkg/tmpl/helmchartsproxies"
-	"github.com/PatrickLaabs/frigg/pkg/tmpl/kindconfig"
-	"github.com/PatrickLaabs/frigg/pkg/tmpl/mgmtmanifestgen"
-	"github.com/PatrickLaabs/frigg/pkg/toolsdir"
-	"github.com/PatrickLaabs/frigg/pkg/vars"
-	"github.com/PatrickLaabs/frigg/pkg/wait"
-	"github.com/PatrickLaabs/frigg/pkg/workdir"
+	"github.com/PatrickLaabs/frigg/internal/sshkey"
+	"github.com/PatrickLaabs/frigg/internal/statuscheck"
+
+	"github.com/PatrickLaabs/frigg/internal/vars"
+	"github.com/PatrickLaabs/frigg/internal/wait"
+
 	"github.com/fatih/color"
 	"io"
 	"os"
@@ -135,20 +126,20 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 		os.Getenv("GITHUB_MAIL")
 	}
 
-	// Create working directory named .frigg inside the users homedirectory.
-	workdir.CreateDir()
+	// Creating Working, tools and controllers directories
+	directories.Create()
 
-	// Creates the Frigg Tools dir
-	toolsdir.FriggWorkingDir()
-
-	// Creates the Frigg controllers dir
-	controllerdir.FriggControllerDir()
+	// Preparing the CLIs for Frigg
+	prepare.Tools()
 
 	// Generating kind-config
-	kindconfig.KindConfigGen()
+	generate.KindConfigGen()
 
 	// Generating SSH Key pair
 	sshkey.KeypairGen()
+
+	// Generating clusterctl config
+	generate.ClusterctlConfig()
 
 	// Generates the Manifests for the ClusterAPI Controllers
 	println(color.GreenString("Generating CAPI Controller Manifests.."))
@@ -160,17 +151,17 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
 	// Generating HelmChartProxies
 	println(color.GreenString("Generating Helm Chart Proxy Manifests.."))
-	helmchartsproxies.Cni()
-	helmchartsproxies.Vault()
-	helmchartsproxies.ArgoCDWorkloadClusters()
-	helmchartsproxies.ArgoWorkflows()
-	helmchartsproxies.ArgoRollouts()
-	helmchartsproxies.ArgoEvents()
-	helmchartsproxies.MgmtArgoCD()
-	helmchartsproxies.MgmtArgoApps()
+	generate.Cni()
+	generate.Vault()
+	generate.ArgoCDWorkloadClusters()
+	generate.ArgoWorkflows()
+	generate.ArgoRollouts()
+	generate.ArgoEvents()
+	generate.MgmtArgoCD()
+	generate.MgmtArgoApps()
 
 	// Generates a manifest for the management cluster, named frigg-mgmt-cluster
-	mgmtmanifestgen.Gen()
+	generate.MgmtManifest()
 
 	provider := cluster.NewProvider(
 		cluster.ProviderWithLogger(logger),
@@ -222,6 +213,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
 	// Installs capi components on the bootstrap cluster.
 	println(color.YellowString("Applying ClusterAPI Controllers"))
+	wait.Wait(10 * time.Second)
 	clusterapi.ApplyCoreProvider()
 	clusterapi.ApplyBootstrapProv()
 	clusterapi.ApplyControlPlaneProv()
@@ -236,7 +228,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	// Installs a CNI solution helm chart proxy to the bootstrapcluster
 	// This is needed, to make the worker nodes ready and complete the bootstrap deployment
 	println(color.YellowString("Applying CNI"))
-	cnibootstrap.Installation()
+	helmchart.InstallOnBootstrap()
 
 	// Applies the frigg-mgmt-cluster manifest to the bootstrap cluster
 	// to create the first 'real' management cluster
@@ -306,14 +298,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	clusterapi.ApplyArgoSecretMgmt()
 
 	// Installs the HelmChartProxies onto the mgmt-cluster
-	argocdWorkload.Installation()
-	cni.Installation()
-	mgmtArgocdApps.Installation()
-	mgmtArgocdEvents.Installation()
-	mgmtArgocdRollouts.Installation()
-	mgmtArgocdWorkflows.Installation()
-	mgmtArgohub.Installation()
-	mgmtVault.Installation()
+	helmchart.InstallOnMgmt()
 
 	// Moves the capi components from the bootstrap cluster to the frigg-mgmt-cluster
 	wait.Wait(15 * time.Second)

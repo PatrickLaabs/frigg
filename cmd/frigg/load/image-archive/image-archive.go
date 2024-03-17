@@ -134,7 +134,7 @@ func loadImage(imageTarName string, node nodes.Node) error {
 	defer func(f *os.File) {
 		err := f.Close()
 		if err != nil {
-
+			return
 		}
 	}(f)
 	return nodeutils.LoadImageArchive(node, f)

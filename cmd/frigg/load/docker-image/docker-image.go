@@ -176,7 +176,7 @@ func runE(logger log.Logger, flags *flagpole, args []string) error {
 	defer func(path string) {
 		err := os.RemoveAll(path)
 		if err != nil {
-
+			return
 		}
 	}(dir)
 	imagesTarPath := filepath.Join(dir, "images.tar")
@@ -207,7 +207,7 @@ func loadImage(imageTarName string, node nodes.Node) error {
 	defer func(f *os.File) {
 		err := f.Close()
 		if err != nil {
-
+			return
 		}
 	}(f)
 	return nodeutils.LoadImageArchive(node, f)

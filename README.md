@@ -39,9 +39,6 @@ Thank you very much, for supporting me 🚀
 ## Usage
 ### Requirements:
 
-I am currently working on a preparing step, so you don't have two worry.\
-But for now, the following needs to be done manually:
-
 #### Get the *frigg* cli:
 Get the binary using go:
 ```
@@ -59,14 +56,6 @@ or download the binary at the releasepage:\
 [Frigg - Github Release Page](https://github.com/PatrickLaabs/frigg/releases)
 
 Homebrew is on the way.
-
-#### Install the recommended tools:
-
-Just run:\
-`frigg prepare`
-
-All Tools we need, will be installed into the tools Directory under\
-`~/.frigg/tools`
 
 #### Start the deployment:
 
