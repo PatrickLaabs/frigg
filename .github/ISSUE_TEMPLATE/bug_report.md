@@ -1,6 +1,7 @@
 ---
 name: Bug report
 about: Tell us about a problem you are experiencing
+labels: bug
 
 ---
 
@@ -19,11 +20,6 @@ about: Tell us about a problem you are experiencing
 
 **Environment:**
 
-- Cluster-api-provider-vsphere version:
-- Cluster-api-provider-azure version:
-- Cluster-api-provider-docker version:
-- Cluster-api-provider-harvester version:
-- Cluster-api-provider-proxmox version:
-- cluster-api-provider-vcluster version:
+- frigg version: (use: `frigg version`):
 - Kubernetes version: (use `kubectl version`): 
 - OS (e.g. from `/etc/os-release`): 

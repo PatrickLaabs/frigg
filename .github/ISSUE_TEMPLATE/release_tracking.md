@@ -2,9 +2,9 @@
 name: 🚋 Release cycle tracking
 about: Create a new release cycle tracking issue for a Frigg release
 about: "[Only for release team lead] Create an issue to track tasks for a Frigg release."
-title: Tasks for v<release-tag> release cycle
-labels: ''
-assignees: ''
+title: Tasks for <release-tag> release cycle
+labels: 'release'
+assignees: 'PatrickLaabs'
 
 ---
 
