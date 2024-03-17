@@ -25,7 +25,7 @@ func NewCommand() *cobra.Command {
 			// Generates a workload-cluster manifest
 			// Modifies the manifest of the workload cluster, to add the helmchart labels to it
 			wait.Wait(5 * time.Second)
-			workloadmanifestgen.Gen()
+			workloadmanifestgen.GenCapd()
 
 			// Applies the workload cluster manifest to the frigg-mgmt-cluster
 			wait.Wait(5 * time.Second)

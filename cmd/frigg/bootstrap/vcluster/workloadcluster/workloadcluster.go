@@ -20,27 +20,27 @@ func NewCommand() *cobra.Command {
 		Short: "deploy workload cluster",
 		Long:  "deploy workload cluster",
 		RunE: func(cmd *cobra.Command, args []string) error {
-			println(color.GreenString("deploying workload cluster"))
+			println(color.GreenString("deploying a vcluster workload cluster"))
 
 			// Generates a workload-cluster manifest
 			// Modifies the manifest of the workload cluster, to add the helmchart labels to it
 			wait.Wait(5 * time.Second)
-			workloadmanifestgen.GenCapd()
+			workloadmanifestgen.GenVcluster()
 
 			// Applies the workload cluster manifest to the frigg-mgmt-cluster
 			wait.Wait(5 * time.Second)
-			clusterapi.KubectlApplyWorkload()
+			clusterapi.KubectlApplyVclusterWorkload()
 
 			// Retrieves the kubeconfig, like we did for the management cluster previously.
 			wait.Wait(10 * time.Second)
-			kubeconfig.RetrieveWorkloadKubeconfig()
+			kubeconfig.RetrieveVclusterWorkloadKubeconfig()
 
 			// Modifies the kubeconfig, same pattern applies like for the management cluster.
-			wait.Wait(5 * time.Second)
-			err := kubeconfig.ModifyWorkloadKubeconfig()
-			if err != nil {
-				fmt.Printf("Error on modifications of the workload cluster kubeconfig: %v\n", err)
-			}
+			//wait.Wait(5 * time.Second)
+			//err := kubeconfig.ModifyWorkloadKubeconfig()
+			//if err != nil {
+			//	fmt.Printf("Error on modifications of the workload cluster kubeconfig: %v\n", err)
+			//}
 
 			statuscheck.ConditionCniWorkload()
 
