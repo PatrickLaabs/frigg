@@ -245,7 +245,7 @@ func (p *provider) CollectLogs(dir string, nodes []nodes.Node) error {
 			defer func(f *os.File) {
 				err := f.Close()
 				if err != nil {
-
+					return
 				}
 			}(f)
 			return cmd.SetStdout(f).SetStderr(f).Run()
@@ -281,7 +281,7 @@ func (p *provider) CollectLogs(dir string, nodes []nodes.Node) error {
 				defer func(f *os.File) {
 					err := f.Close()
 					if err != nil {
-
+						return
 					}
 				}(f)
 				return node.SerialLogs(f)
