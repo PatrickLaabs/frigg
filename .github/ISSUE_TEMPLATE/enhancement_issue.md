@@ -2,7 +2,7 @@
 name: Enhancements
 about: Tell us, what you'd like to be more enhanced, which is not a feature request.
 labels: enhancement
-title: :sparkles: enh:
+title: enh
 ---
 
 /kind enhancement
