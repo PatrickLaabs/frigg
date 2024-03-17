@@ -1,6 +1,7 @@
 ---
 name: Feature enhancement request
 about: Suggest an idea for this project
+labels: feature
 
 ---
 
@@ -9,18 +10,5 @@ about: Suggest an idea for this project
 **Describe the solution you'd like**
 [A clear and concise description of what you want to happen.]
 
-
 **Anything else you would like to add:**
 [Miscellaneous information that will assist in solving the issue.]
-
-
-**Environment:**
-
-- Cluster-api-provider-vsphere version:
-- Cluster-api-provider-azure version:
-- Cluster-api-provider-docker version:
-- Cluster-api-provider-harvester version:
-- Cluster-api-provider-proxmox version:
-- cluster-api-provider-vcluster version:
-- Kubernetes version: (use `kubectl version`): 
-- OS (e.g. from `/etc/os-release`): 
