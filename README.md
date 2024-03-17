@@ -45,11 +45,11 @@ But for now, the following needs to be done manually:
 #### Get the *frigg* cli:
 Get the binary using go:
 ```
-go install github.com/PatrickLaabs/frigg@1.1.1
+go install github.com/PatrickLaabs/frigg@1.1.2
 ```
 
 ```
-curl -L -o frigg.tar.gz https://github.com/PatrickLaabs/frigg/releases/download/1.1.1/frigg_1.1.1_darwin_arm64.tar.gz
+curl -L -o frigg.tar.gz https://github.com/PatrickLaabs/frigg/releases/download/1.1.2/frigg_1.1.2_darwin_arm64.tar.gz
 tar -xf frigg.tar.gz
 chmod +x frigg
 ./frigg version
