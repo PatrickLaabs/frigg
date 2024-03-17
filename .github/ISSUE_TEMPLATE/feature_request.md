@@ -2,7 +2,7 @@
 name: Feature enhancement request
 about: Suggest an idea for this project
 labels: feature
-title: :sparkles: feat:
+title: feat
 ---
 
 /kind feature
