@@ -115,13 +115,13 @@ func k9s() {
 			println(color.YellowString("K9s CLI does not exist inside tools dir. Downloading now.."))
 
 			src := "https://github.com/derailed/k9s/releases/download/v" + consts.K9sVersion + "/k9s_" + runtime.GOOS + "_" + runtime.GOARCH + ".tar.gz"
-			dst := filepath.Join(friggToolsDir, "k9s_"+consts.K9sVersion)
+			dst := filepath.Join(friggToolsDir, "k9s_"+consts.K9sVersion+"_dir")
 
 			if err := getter.GetAny(dst, src); err != nil {
 				println(color.RedString("error on downloading k9s cli: %v\n", err))
 			}
 
-			k9sSrcPath := filepath.Join(friggToolsDir, "k9s_"+consts.K9sVersion)
+			k9sSrcPath := filepath.Join(friggToolsDir, "k9s_"+consts.K9sVersion+"_dir"+"/k9s")
 			k9sDstPath := filepath.Join(friggToolsDir, "k9s_"+consts.K9sVersion)
 
 			if err := os.Link(k9sSrcPath, k9sDstPath); err != nil {

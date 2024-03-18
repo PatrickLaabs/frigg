@@ -131,7 +131,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	}
 
 	if flags.GitopsTemplateRepo == "" {
-		println(color.YellowString("No Gitops Template Repo specified, using default."))
+		println(color.YellowString("No Gitops Template Repo specified, using default: %s ", vars.FriggMgmtTemplateName))
 		flags.GitopsTemplateRepo = vars.FriggMgmtTemplateName
 	}
 
