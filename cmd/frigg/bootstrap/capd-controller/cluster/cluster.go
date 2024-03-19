@@ -35,12 +35,13 @@ import (
 )
 
 type flagpole struct {
-	Name       string
-	Config     string
-	ImageName  string
-	Retain     bool
-	Wait       time.Duration
-	Kubeconfig string
+	Name               string
+	Config             string
+	ImageName          string
+	Retain             bool
+	Wait               time.Duration
+	Kubeconfig         string
+	GitopsTemplateRepo string
 }
 
 // NewCommand returns a new cobra.Command for cluster creation
@@ -100,6 +101,12 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 		kubeconfigFlagPath,
 		"sets kubeconfig path instead of $KUBECONFIG or $HOME/.kube/config",
 	)
+	c.Flags().StringVar(
+		&flags.GitopsTemplateRepo,
+		"gitops-template-repo",
+		"",
+		"add your custom gitops repo template url, like <ORG>/<REPONAME> or <USERNAME>/<REPONAME>",
+	)
 	return c
 }
 
@@ -124,6 +131,11 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 		os.Exit(1)
 	} else {
 		os.Getenv("GITHUB_MAIL")
+	}
+
+	if flags.GitopsTemplateRepo == "" {
+		println(color.YellowString("No Gitops Template Repo specified, using default: %s ", vars.FriggMgmtTemplateName))
+		flags.GitopsTemplateRepo = vars.FriggMgmtTemplateName
 	}
 
 	// Creating Working, tools and controllers directories
@@ -157,6 +169,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	generate.ArgoWorkflows()
 	generate.ArgoRollouts()
 	generate.ArgoEvents()
+	generate.MgmtClusterApiOperator()
 	generate.MgmtArgoCD()
 	generate.MgmtArgoApps()
 
@@ -189,7 +202,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	}
 
 	// Rendering gitops repo
-	reporender.FullStage()
+	reporender.FullStage(flags.GitopsTemplateRepo)
 
 	// Creating Namespaces
 	println(color.GreenString("Creating Namespaces.."))

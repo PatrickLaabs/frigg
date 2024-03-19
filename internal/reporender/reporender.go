@@ -27,7 +27,7 @@ var (
 )
 
 // FullStage combines everything, that is needed, to fully prepare the gitops repo for the end-user
-func FullStage() {
+func FullStage(GitopsTemplate string) {
 	println(color.GreenString("Rendering the gitops template repo"))
 
 	username, err := retrieveGithubUserEnv()
@@ -41,7 +41,7 @@ func FullStage() {
 	}
 
 	githubLogin()
-	gitCreateFromTemplate()
+	gitCreateFromTemplate(GitopsTemplate)
 	wait.Wait(5 * time.Second)
 	gitClone()
 	err = replaceStrings(localRepoStoragePath, username, usermail)
@@ -86,13 +86,12 @@ func retrieveGithubUserMailEnv() (string, error) {
 func githubLogin() {
 	println(color.GreenString("Loggin in to Github with your provided Github Token"))
 
-	cmd := exec.Command(ghCliPath, "auth", "login")
-	fmt.Println(cmd)
+	_ = exec.Command(ghCliPath, "auth", "login")
 }
 
 // gitCreateFromTemplate creates a repository based from the template repo 'argo-hub-template'
-func gitCreateFromTemplate() {
-	println(color.GreenString("Creating Argohub Repo out of Template Repo"))
+func gitCreateFromTemplate(GitopsTemplate string) {
+	println(color.GreenString("Creating Frigg Mgmt GitOps Repo out of Template Repo"))
 
 	username, err := retrieveGithubUserEnv()
 	if err != nil {
@@ -103,7 +102,8 @@ func gitCreateFromTemplate() {
 
 	cmd := exec.Command(ghCliPath, "repo", "create",
 		targetRepoName, "--private",
-		vars.FriggMgmtTemplateName,
+		//"--template="+vars.FriggMgmtTemplateName,
+		"--template="+GitopsTemplate,
 	)
 
 	output, err := cmd.CombinedOutput()
@@ -146,7 +146,6 @@ func gitClone() {
 		println(color.RedString("Error retrieving github username: %v\n", err))
 	}
 
-	// git@github.com:PatrickLaabs/argo-hub.git
 	repoUrl := "git@github.com:" + username + "/" + vars.RepoName + ".git"
 
 	_, err = git.PlainClone(localRepoStoragePath, false, &git.CloneOptions{
@@ -177,7 +176,7 @@ func replaceStrings(dirPath string, username string, usermail string) error {
 		reGhUrl := regexp.MustCompile(`PLACEHOLDER`)
 		reGhMail := regexp.MustCompile(`GITHUB_MAIL`)
 
-		url := "git@github.com:" + username + "/" + vars.FriggMgmtGitOpsName
+		url := "git@github.com:" + username + "/" + vars.RepoName + ".git"
 
 		// Replace GITHUB_USER and GITHUB_MAIL
 		newdata := replaceInString(data, reGhUrl, url)
