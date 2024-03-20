@@ -27,7 +27,7 @@ var (
 )
 
 // FullStage combines everything, that is needed, to fully prepare the gitops repo for the end-user
-func FullStage(GitopsTemplate string) {
+func FullStage(GitopsTemplate string, gitopsWorkloadTemplate string) {
 	println(color.GreenString("Rendering the gitops template repo"))
 
 	username, err := retrieveGithubUserEnv()
@@ -44,7 +44,7 @@ func FullStage(GitopsTemplate string) {
 	gitCreateFromTemplate(GitopsTemplate)
 	wait.Wait(5 * time.Second)
 	gitClone()
-	err = replaceStrings(localRepoStoragePath, username, usermail)
+	err = replaceStrings(localRepoStoragePath, username, usermail, gitopsWorkloadTemplate)
 	if err != nil {
 		return
 	}
@@ -102,7 +102,6 @@ func gitCreateFromTemplate(GitopsTemplate string) {
 
 	cmd := exec.Command(ghCliPath, "repo", "create",
 		targetRepoName, "--private",
-		//"--template="+vars.FriggMgmtTemplateName,
 		"--template="+GitopsTemplate,
 	)
 
@@ -158,7 +157,7 @@ func gitClone() {
 }
 
 // replaceStrings replaces the Placeholder strings inside all files in the gitops repo
-func replaceStrings(dirPath string, username string, usermail string) error {
+func replaceStrings(dirPath string, username string, usermail string, gitopsWorkloadTemplate string) error {
 	err := filepath.Walk(dirPath, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
 			println(color.RedString("Error on filepath walking: %v\n", err))
@@ -175,6 +174,7 @@ func replaceStrings(dirPath string, username string, usermail string) error {
 		reGhUser := regexp.MustCompile(`GITHUB_USERNAME`)
 		reGhUrl := regexp.MustCompile(`PLACEHOLDER`)
 		reGhMail := regexp.MustCompile(`GITHUB_MAIL`)
+		reGitopsTemplate := regexp.MustCompile(`GITOPS_TEMPLATE_REPO`)
 
 		url := "git@github.com:" + username + "/" + vars.RepoName + ".git"
 
@@ -182,6 +182,7 @@ func replaceStrings(dirPath string, username string, usermail string) error {
 		newdata := replaceInString(data, reGhUrl, url)
 		newdata = replaceInString(newdata, reGhUser, username)
 		newdata = replaceInString(newdata, reGhMail, usermail)
+		newdata = replaceInString(newdata, reGitopsTemplate, gitopsWorkloadTemplate)
 
 		// Open the file for writing and replace content
 		file, err := os.OpenFile(path, os.O_WRONLY|os.O_TRUNC, 0644) // Adjust permissions as needed
