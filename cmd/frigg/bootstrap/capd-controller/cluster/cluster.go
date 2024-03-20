@@ -35,13 +35,14 @@ import (
 )
 
 type flagpole struct {
-	Name               string
-	Config             string
-	ImageName          string
-	Retain             bool
-	Wait               time.Duration
-	Kubeconfig         string
-	GitopsTemplateRepo string
+	Name                   string
+	Config                 string
+	ImageName              string
+	Retain                 bool
+	Wait                   time.Duration
+	Kubeconfig             string
+	GitopsTemplateRepo     string
+	GitopsWorkloadTemplate string
 }
 
 // NewCommand returns a new cobra.Command for cluster creation
@@ -107,6 +108,12 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 		"",
 		"add your custom gitops repo template url, like <ORG>/<REPONAME> or <USERNAME>/<REPONAME>",
 	)
+	c.Flags().StringVar(
+		&flags.GitopsWorkloadTemplate,
+		"gitops-workload-template-repo",
+		"",
+		"add your custom gitops repo template url, like <ORG>/<REPONAME> or <USERNAME>/<REPONAME>",
+	)
 	return c
 }
 
@@ -136,6 +143,11 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	if flags.GitopsTemplateRepo == "" {
 		println(color.YellowString("No Gitops Template Repo specified, using default: %s ", vars.FriggMgmtTemplateName))
 		flags.GitopsTemplateRepo = vars.FriggMgmtTemplateName
+	}
+
+	if flags.GitopsWorkloadTemplate == "" {
+		println(color.YellowString("No Gitops Template Repo specified, using default: %s ", vars.FriggWorkloadTemplateName))
+		flags.GitopsWorkloadTemplate = vars.FriggWorkloadTemplateName
 	}
 
 	// Creating Working, tools and controllers directories
@@ -202,7 +214,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	}
 
 	// Rendering gitops repo
-	reporender.FullStage(flags.GitopsTemplateRepo)
+	reporender.FullStage(flags.GitopsTemplateRepo, flags.GitopsWorkloadTemplate)
 
 	// Creating Namespaces
 	println(color.GreenString("Creating Namespaces.."))
