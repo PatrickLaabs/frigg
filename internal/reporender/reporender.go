@@ -53,6 +53,33 @@ func FullStage(GitopsTemplate string, gitopsWorkloadTemplate string) {
 	gitPush()
 }
 
+// RenderCustomWorkloadRepo combines everything, that is needed, to fully prepare the gitops repo for the end-user
+func RenderCustomWorkloadRepo(GitopsTemplate string, gitopsWorkloadTemplate string) {
+	println(color.GreenString("Creating your custom workload cluster gitops repo"))
+
+	username, err := retrieveGithubUserEnv()
+	if err != nil {
+		println(color.RedString("Error retrieving username: %v\n", err))
+	}
+
+	usermail, err := retrieveGithubUserMailEnv()
+	if err != nil {
+		println(color.RedString("Error retrieving mail: %v\n", err))
+	}
+
+	githubLogin()
+	gitCreateFromTemplate(GitopsTemplate)
+	wait.Wait(5 * time.Second)
+	gitClone()
+	err = replaceStrings(localRepoStoragePath, username, usermail, gitopsWorkloadTemplate)
+	if err != nil {
+		return
+	}
+	addSshPublickey()
+	gitCommit()
+	gitPush()
+}
+
 // retrieveGithubUserEnv retrieves and reads the os.Env variables needed for further preperation
 func retrieveGithubUserEnv() (string, error) {
 	// Get GITHUB_USERNAME environment var
@@ -89,7 +116,7 @@ func githubLogin() {
 	_ = exec.Command(ghCliPath, "auth", "login")
 }
 
-// gitCreateFromTemplate creates a repository based from the template repo 'argo-hub-template'
+// gitCreateFromTemplate creates a repository based from the template repo 'frigg-mgmt-template'
 func gitCreateFromTemplate(GitopsTemplate string) {
 	println(color.GreenString("Creating Frigg Mgmt GitOps Repo out of Template Repo"))
 

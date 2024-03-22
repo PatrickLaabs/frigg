@@ -16,7 +16,7 @@ var (
 	friggToolsDir = filepath.Join(friggDir, vars.FriggTools)
 )
 
-func githubCli() {
+func GithubCli() {
 	var operatingSystem string
 	if runtime.GOOS == "darwin" {
 		operatingSystem = "macOS"
@@ -141,7 +141,7 @@ func k9s() {
 
 // Tools downloads the cli tools needed for frigg to operate correctly.
 func Tools() {
-	githubCli()
+	GithubCli()
 	kubectl()
 	clusterctl()
 	k9s()
