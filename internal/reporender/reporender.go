@@ -351,3 +351,26 @@ func gitPush() {
 		println(color.RedString("Error on pushing: %v\n", err))
 	}
 }
+
+//// markAsTemplateWorkload marks the newly generated Repo as a GitHub Repo Template
+//func markAsTemplateWorkload(desiredName string) {
+//	println(color.GreenString("Creating Frigg Mgmt GitOps Repo out of Template Repo"))
+//
+//	username, err := retrieveGithubUserEnv()
+//	if err != nil {
+//		println(color.RedString("Error retrieving token: %v\n", err))
+//	}
+//
+//	targetRepoName := username + "/" + vars.RepoName
+//
+//	cmd := exec.Command(ghCliPath, "repo", "edit",
+//		"--template",
+//	)
+//
+//	output, err := cmd.CombinedOutput()
+//	if err != nil {
+//		println(color.YellowString(string(output)))
+//		return
+//	}
+//	println(color.GreenString(string(output)))
+//}

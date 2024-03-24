@@ -24,7 +24,7 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 			return errors.New("Subcommand is required")
 		},
 	}
-	c.AddCommand(mgmt_cluster.NewCommand(logger, streams))
+	c.AddCommand(mgmt_cluster.NewCommand())
 	c.AddCommand(workload_cluster.NewCommand())
 	return c
 }

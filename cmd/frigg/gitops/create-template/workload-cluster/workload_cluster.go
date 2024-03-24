@@ -2,30 +2,15 @@ package workload_cluster
 
 import (
 	"github.com/PatrickLaabs/frigg/internal/cli"
-	"github.com/PatrickLaabs/frigg/internal/consts"
 	"github.com/PatrickLaabs/frigg/internal/reporender"
-	"github.com/PatrickLaabs/frigg/internal/vars"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 	"os"
-	"path/filepath"
 )
 
 type flagpole struct {
 	DesiredRepoName string
 }
-
-var (
-	gh                     = "gh_" + consts.GithubCliVersion
-	homedir, _             = os.UserHomeDir()
-	friggDir               = filepath.Join(homedir, vars.FriggDirName)
-	friggToolsDir          = filepath.Join(friggDir, vars.FriggTools)
-	ghCliPath              = filepath.Join(friggToolsDir, gh)
-	sshpublickeyPath       = filepath.Join(friggDir, vars.PublickeyName)
-	localRepo              = filepath.Join(friggDir, vars.RepoName)
-	localRepoStoragePath   = filepath.Join(friggDir, vars.RepoName)
-	gitopsWorkloadTemplate = vars.FriggWorkloadTemplateName
-)
 
 // NewCommand returns a new cobra.Command for cluster creation
 func NewCommand() *cobra.Command {
