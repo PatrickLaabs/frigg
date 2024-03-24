@@ -25,6 +25,6 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 		},
 	}
 	c.AddCommand(mgmt_cluster.NewCommand(logger, streams))
-	c.AddCommand(workload_cluster.NewCommand(logger, streams))
+	c.AddCommand(workload_cluster.NewCommand())
 	return c
 }
