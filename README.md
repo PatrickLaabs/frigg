@@ -29,17 +29,11 @@ repository for each of them, where you are able to add more applications deploym
 ## Quick overview of Frigg()
 ![Friggs Overview](assets/Frigg_Overview.png)
 
-## Support
-
-You like the project, and want to support further development?
-Glad to hear!
-
-<a href="https://www.buymeacoffee.com/patricklaabs" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
-
-Thank you very much, for supporting me 🚀
-
 ## Usage
 ### Requirements:
+
+- Docker Desktop / Engine\
+  (Podman (is currently not yet fully supported))
 
 #### Get the *frigg* cli:
 Get the binary using go:
@@ -152,3 +146,12 @@ This simple Tool will be used by ArgoCD Workflows to operate various things insi
 ### Sample-Application
 An example application deployment for your workload clusters.\
 [sample-application](https://github.com/PatrickLaabs/sample-application)
+
+## Support
+
+You like the project, and want to support further development?
+Glad to hear!
+
+<a href="https://www.buymeacoffee.com/patricklaabs" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-orange.png" alt="Buy Me A Coffee" height="41" width="174"></a>
+
+Thank you very much, for supporting me 🚀
