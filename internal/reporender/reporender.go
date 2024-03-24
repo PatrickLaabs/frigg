@@ -53,6 +53,20 @@ func FullStage(GitopsTemplate string, gitopsWorkloadTemplate string) {
 	gitPush()
 }
 
+// WorkloadRepo creates a gitops template repo used for workload clusters
+func WorkloadRepo(desiredName string) {
+	println(color.GreenString("Rendering the gitops template repo for workload clusters"))
+	githubLogin()
+	gitCreateFromTemplateWorkloadClusters(desiredName)
+}
+
+// MgmtRepo creates a gitops template repo used for mgmt clusters
+func MgmtRepo(desiredName string) {
+	println(color.GreenString("Rendering the gitops template repo for mgmt clusters"))
+	githubLogin()
+	gitCreateFromTemplateMgmtClusters(desiredName)
+}
+
 // retrieveGithubUserEnv retrieves and reads the os.Env variables needed for further preperation
 func retrieveGithubUserEnv() (string, error) {
 	// Get GITHUB_USERNAME environment var
@@ -89,7 +103,7 @@ func githubLogin() {
 	_ = exec.Command(ghCliPath, "auth", "login")
 }
 
-// gitCreateFromTemplate creates a repository based from the template repo 'argo-hub-template'
+// gitCreateFromTemplate creates a repository based from the template repo 'frigg-mgmt-template'
 func gitCreateFromTemplate(GitopsTemplate string) {
 	println(color.GreenString("Creating Frigg Mgmt GitOps Repo out of Template Repo"))
 
@@ -103,6 +117,54 @@ func gitCreateFromTemplate(GitopsTemplate string) {
 	cmd := exec.Command(ghCliPath, "repo", "create",
 		targetRepoName, "--private",
 		"--template="+GitopsTemplate,
+	)
+
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		println(color.YellowString(string(output)))
+		return
+	}
+	println(color.GreenString(string(output)))
+}
+
+// gitCreateFromTemplateWorkloadClusters creates a repository based from the template repo 'frigg-mgmt-template'
+func gitCreateFromTemplateWorkloadClusters(desiredName string) {
+	println(color.GreenString("Creating Frigg Mgmt GitOps Repo out of Template Repo"))
+
+	username, err := retrieveGithubUserEnv()
+	if err != nil {
+		println(color.RedString("Error retrieving token: %v\n", err))
+	}
+
+	targetRepoName := username + "/" + desiredName
+
+	cmd := exec.Command(ghCliPath, "repo", "create",
+		targetRepoName, "--private",
+		"--template=PatrickLaabs/friggs-workload-repo-template",
+	)
+
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		println(color.YellowString(string(output)))
+		return
+	}
+	println(color.GreenString(string(output)))
+}
+
+// gitCreateFromTemplateMgmtClusters creates a repository based from the template repo 'frigg-mgmt-template'
+func gitCreateFromTemplateMgmtClusters(desiredName string) {
+	println(color.GreenString("Creating Frigg Mgmt GitOps Repo out of Template Repo"))
+
+	username, err := retrieveGithubUserEnv()
+	if err != nil {
+		println(color.RedString("Error retrieving token: %v\n", err))
+	}
+
+	targetRepoName := username + "/" + desiredName
+
+	cmd := exec.Command(ghCliPath, "repo", "create",
+		targetRepoName, "--private",
+		"--template=PatrickLaabs/friggs-mgmt-repo-template",
 	)
 
 	output, err := cmd.CombinedOutput()
@@ -289,3 +351,26 @@ func gitPush() {
 		println(color.RedString("Error on pushing: %v\n", err))
 	}
 }
+
+//// markAsTemplateWorkload marks the newly generated Repo as a GitHub Repo Template
+//func markAsTemplateWorkload(desiredName string) {
+//	println(color.GreenString("Creating Frigg Mgmt GitOps Repo out of Template Repo"))
+//
+//	username, err := retrieveGithubUserEnv()
+//	if err != nil {
+//		println(color.RedString("Error retrieving token: %v\n", err))
+//	}
+//
+//	targetRepoName := username + "/" + vars.RepoName
+//
+//	cmd := exec.Command(ghCliPath, "repo", "edit",
+//		"--template",
+//	)
+//
+//	output, err := cmd.CombinedOutput()
+//	if err != nil {
+//		println(color.YellowString(string(output)))
+//		return
+//	}
+//	println(color.GreenString(string(output)))
+//}
