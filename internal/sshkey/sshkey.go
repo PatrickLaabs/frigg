@@ -13,8 +13,6 @@ import (
 )
 
 func KeypairGen() {
-	println(color.GreenString("Generating the ssh key pair"))
-
 	homedir, err := os.UserHomeDir()
 	if err != nil {
 		println(color.RedString("Error on accessing the working directory: %v\n", err))
@@ -26,30 +24,36 @@ func KeypairGen() {
 	savePrivateFileTo := filepath.Join(friggDir, vars.PrivatekeyName)
 	bitSize := 4096
 
-	privateKey, err := generatePrivateKey(bitSize)
-	if err != nil {
-		println(color.RedString("error on private key generating: %v\n", err))
-	}
+	// Checks if the private and public key already exists
+	if _, err := os.Stat(savePrivateFileTo); os.IsNotExist(err) {
+		privateKey, err := generatePrivateKey(bitSize)
+		if err != nil {
+			println(color.RedString("error on private key generating: %v\n", err))
+		}
 
-	publicKeyBytes, err := generatePublicKey(&privateKey.PublicKey)
-	if err != nil {
-		println(color.RedString("error on public key generating: %v\n", err))
-	}
+		publicKeyBytes, err := generatePublicKey(&privateKey.PublicKey)
+		if err != nil {
+			println(color.RedString("error on public key generating: %v\n", err))
+		}
 
-	privateKeyBytes := encodePrivateKeyToPEM(privateKey)
+		privateKeyBytes := encodePrivateKeyToPEM(privateKey)
 
-	err = writeKeyToFile(privateKeyBytes, savePrivateFileTo)
-	if err != nil {
-		println(color.RedString("error on writing private key: %v\n", err))
-	}
+		err = writeKeyToFile(privateKeyBytes, savePrivateFileTo)
+		if err != nil {
+			println(color.RedString("error on writing private key: %v\n", err))
+		}
 
-	err = writeKeyToFile(publicKeyBytes, savePublicFileTo)
-	if err != nil {
-		println(color.RedString("error on writing public key: %v\n", err))
+		err = writeKeyToFile(publicKeyBytes, savePublicFileTo)
+		if err != nil {
+			println(color.RedString("error on writing public key: %v\n", err))
+		}
+
+	} else {
+		println(color.RedString("private key already exists"))
 	}
 }
 
-// generatePrivateKey creates a RSA Private Key of specified byte size
+// generatePrivateKey creates an RSA Private Key of specified byte size
 func generatePrivateKey(bitSize int) (*rsa.PrivateKey, error) {
 	// Private Key generation
 	privateKey, err := rsa.GenerateKey(rand.Reader, bitSize)

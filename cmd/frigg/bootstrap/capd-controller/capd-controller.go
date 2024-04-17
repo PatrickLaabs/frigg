@@ -3,7 +3,6 @@ package capd_controller
 import (
 	"github.com/PatrickLaabs/frigg/cmd"
 	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd-controller/cluster"
-	"github.com/PatrickLaabs/frigg/cmd/frigg/bootstrap/capd-controller/workloadcluster"
 	"github.com/PatrickLaabs/frigg/pkg/errors"
 	"github.com/PatrickLaabs/frigg/pkg/log"
 	"github.com/spf13/cobra"
@@ -25,6 +24,5 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 		},
 	}
 	c.AddCommand(cluster.NewCommand(logger, streams))
-	c.AddCommand(workloadcluster.NewCommand())
 	return c
 }

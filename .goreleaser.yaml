@@ -12,12 +12,3 @@ universal_binaries:
     ids:
       - build1
       - build2
-brews:
-  - name: frigg
-    homepage: "https://github.com/PatrickLaabs/frigg"
-    repository:
-      owner: PatrickLaabs
-      name: frigg
-    commit_author:
-      name: PatrickLaabs
-      email: patrick.laabs@me.com

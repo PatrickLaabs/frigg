@@ -25,22 +25,25 @@ func NewCommand() *cobra.Command {
 			// Generates a workload-cluster manifest
 			// Modifies the manifest of the workload cluster, to add the helmchart labels to it
 			wait.Wait(5 * time.Second)
-			generate.WorkloadManifest()
+			generate.VclusterWorkloadManifest()
 
 			// Applies the workload cluster manifest to the frigg-mgmt-cluster
 			wait.Wait(5 * time.Second)
-			clusterapi.KubectlApplyWorkload()
+			clusterapi.KubectlApplyVclusterWorkload()
 
 			// Retrieves the kubeconfig, like we did for the management cluster previously.
 			wait.Wait(10 * time.Second)
-			kubeconfig.RetrieveWorkloadKubeconfig()
+			kubeconfig.RetrieveVclusterWorkloadKubeconfig()
 
+			// k -n vcluster get secrets vc-vcluster --template={{.data.config}} | base64 -D > vcluster.kubeconfig
 			// Modifies the kubeconfig, same pattern applies like for the management cluster.
 			wait.Wait(5 * time.Second)
-			err := kubeconfig.ModifyWorkloadKubeconfig()
+			err := kubeconfig.ModifyVclusterWorkloadKubeconfig()
 			if err != nil {
 				fmt.Printf("Error on modifications of the workload cluster kubeconfig: %v\n", err)
 			}
+
+			// Applying an Ingress Resource to access the local vcluster
 
 			statuscheck.ConditionCniWorkload()
 

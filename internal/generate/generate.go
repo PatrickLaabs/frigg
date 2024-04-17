@@ -325,6 +325,21 @@ func WorkloadManifest() {
 	}
 }
 
+// VclusterWorkloadManifest curls the template manifest for a vcluster workload cluster and stores it to the frigg working dir.
+func VclusterWorkloadManifest() {
+	outputPath := filepath.Join(friggDir, vars.VclusterManifest)
+
+	cmd := exec.Command("curl", "-L", "-o", outputPath,
+		vars.CurlVclusterManifest,
+	)
+
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		println(color.YellowString(string(output)))
+		return
+	}
+}
+
 // MgmtManifest curls the template manifest for a capd mgmt cluster and stores it to the frigg working dir.
 func MgmtManifest() {
 	println(color.YellowString("Getting Management Clusters Manifest from Github"))
@@ -1304,7 +1319,7 @@ func MgmtClusterApiOperator() {
 core: "capi-system:` + consts.ClusterApiVersion + `"
 bootstrap: "capi-system:` + consts.KubeadmVersion + `"
 controlPlane: "capi-system:` + consts.KubeadmVersion + `"
-infrastructure: "capd-system:` + consts.DockerInfraVersion + `"
+infrastructure: "capd-system:` + consts.DockerInfraVersion + `;default:` + consts.VClusterInfraVersion + `"
 addon: "capi-system:` + consts.CaaphVersion + `"
 manager.featureGates:
   MachinePool: true

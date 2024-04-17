@@ -342,6 +342,82 @@ func ConditionsCapdControllersMgmt() {
 	}
 }
 
+// checkVclusterControllers checks the ClusterAPI Vcluster Provider conditions
+func checkVclusterControllers(kubeconfigFlagPath string, deployments []string, readyChan chan bool) {
+	config, err := clientcmd.BuildConfigFromFlags("", kubeconfigFlagPath)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	clientset, err := kubernetes.NewForConfig(config)
+	if err != nil {
+		panic(err.Error())
+	}
+
+	namespace := "cluster-api-provider-vcluster-system"
+	allAvailable := true
+	for _, deployment := range deployments {
+		available, _ := checkDeploymentCondition(clientset, namespace, deployment)
+		if available {
+		} else {
+			allAvailable = false
+		}
+	}
+	if allAvailable {
+		readyChan <- true
+	}
+}
+
+// ConditionsVclusterControllers checks the deployment state on the bootstrap cluster
+func ConditionsVclusterControllers() {
+	deployments := []string{"cluster-api-provider-vcluster-controller-manager"}
+	readyChan := make(chan bool) // Create a channel for readiness signal
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+		return
+	}
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
+
+	for {
+		go checkVclusterControllers(kubeconfigFlagPath, deployments, readyChan)
+
+		// Wait for readiness signal or timeout
+		select {
+		case <-readyChan:
+			fmt.Println("Vcluster Controller deployments are available!")
+			return // Exit the loop
+		case <-time.After(5 * time.Second):
+		}
+	}
+}
+
+// ConditionsVclusterControllersMgmt checks the deployment state on the bootstrap cluster
+func ConditionsVclusterControllersMgmt() {
+	deployments := []string{"cluster-api-provider-vcluster-controller-manager"}
+	readyChan := make(chan bool) // Create a channel for readiness signal
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("Error on accessing the working directory: %v\n", err))
+		return
+	}
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
+
+	for {
+		go checkVclusterControllers(kubeconfigFlagPath, deployments, readyChan)
+
+		// Wait for readiness signal or timeout
+		select {
+		case <-readyChan:
+			fmt.Println("Vcluster Controller deployments are available!")
+			return // Exit the loop
+		case <-time.After(5 * time.Second):
+		}
+	}
+}
+
 // checkCaaphControllers checks the ClusterAPI Helm Addon Controller conditions
 func checkCaaphControllers(kubeconfigFlagPath string, deployments []string, readyChan chan bool) {
 	config, err := clientcmd.BuildConfigFromFlags("", kubeconfigFlagPath)
