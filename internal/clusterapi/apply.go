@@ -176,6 +176,70 @@ func CreateCapdNs() {
 	}
 }
 
+func CreateVclusterProvNs() {
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
+
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
+		kubeconfigFlagPath, "create", "namespace", "cluster-api-provider-vcluster-system",
+	)
+
+	// Capture the output of the command
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
+		return
+	}
+}
+
+func CreateVclusterNs() {
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
+
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
+		kubeconfigFlagPath, "create", "namespace", "vcluster",
+	)
+
+	// Capture the output of the command
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
+		return
+	}
+}
+
+func CreateVclusterProvNsMgmt() {
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
+
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
+		kubeconfigFlagPath, "create", "namespace", "cluster-api-provider-vcluster-system",
+	)
+
+	// Capture the output of the command
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
+		return
+	}
+}
+
+func CreateVclusterNsMgmt() {
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
+
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
+		kubeconfigFlagPath, "create", "namespace", "vcluster",
+	)
+
+	// Capture the output of the command
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
+		return
+	}
+}
+
 func CreateCaaphNs() {
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
@@ -282,6 +346,42 @@ func ApplyDockerInfraProv() {
 	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
 
 	path := filepath.Join(friggControllerDir, vars.DockerInfraProvName)
+
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
+		kubeconfigFlagPath, "apply", "-f", path,
+	)
+
+	// Capture the output of the command
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
+		return
+	}
+}
+
+func VclusterInfraProv() {
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.BootstrapkubeconfigName)
+
+	path := filepath.Join(friggControllerDir, vars.VclusterProvName)
+
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
+		kubeconfigFlagPath, "apply", "-f", path,
+	)
+
+	// Capture the output of the command
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
+		return
+	}
+}
+
+func VclusterInfraProvMgmt() {
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
+
+	path := filepath.Join(friggControllerDir, vars.VclusterProvName)
 
 	cmd := exec.Command(kubectlPath, "--kubeconfig",
 		kubeconfigFlagPath, "apply", "-f", path,

@@ -27,6 +27,20 @@ type CapiController struct {
 	} `yaml:"spec"`
 }
 
+type VclusterController struct {
+	APIVersion string `yaml:"apiVersion"`
+	Kind       string `yaml:"kind"`
+	Metadata   struct {
+		Name      string `yaml:"name"`
+		Namespace string `yaml:"namespace"`
+	} `yaml:"metadata"`
+	Spec struct {
+		Version string `yaml:"version"`
+		Manager struct {
+		} `yaml:"manager"`
+	} `yaml:"spec"`
+}
+
 func CoreProviderGen() {
 	data := &CapiController{
 		APIVersion: "operator.cluster.x-k8s.io/v1alpha2",
@@ -356,6 +370,53 @@ func AddonHelmProviderGen() {
 	friggDir := filepath.Join(homedir, vars.FriggDirName)
 	controllerDir := filepath.Join(friggDir, vars.ControllerDir)
 	newFilePath := filepath.Join(controllerDir, vars.HelmAddonProvName)
+
+	// Prepend "---" to the YAML data
+	yamlData = append([]byte("---\n"), yamlData...)
+
+	// Write to file
+	err = os.WriteFile(newFilePath, yamlData, 0644)
+	if err != nil {
+		println(color.RedString("error on writing Infra provider yaml: %v\n", err))
+	}
+}
+
+func VclusterProviderGen() {
+	data := &VclusterController{
+		APIVersion: "operator.cluster.x-k8s.io/v1alpha2",
+		Kind:       "InfrastructureProvider",
+		Metadata: struct {
+			Name      string `yaml:"name"`
+			Namespace string `yaml:"namespace"`
+		}{
+			Name:      "vcluster",
+			Namespace: "cluster-api-provider-vcluster-system",
+		},
+		Spec: struct {
+			Version string `yaml:"version"`
+			Manager struct {
+			} `yaml:"manager"`
+		}{
+			Version: consts.VclusterProvControllerVersion,
+			Manager: struct {
+			}{},
+		},
+	}
+
+	// Marshal to YAML
+	yamlData, err := yaml.Marshal(data)
+	if err != nil {
+		println(color.RedString("error on marshaling data to yaml: %v\n", err))
+	}
+
+	homedir, err := os.UserHomeDir()
+	if err != nil {
+		println(color.RedString("error on accessing home directory: %v\n", err))
+	}
+
+	friggDir := filepath.Join(homedir, vars.FriggDirName)
+	controllerDir := filepath.Join(friggDir, vars.ControllerDir)
+	newFilePath := filepath.Join(controllerDir, vars.VclusterProvName)
 
 	// Prepend "---" to the YAML data
 	yamlData = append([]byte("---\n"), yamlData...)

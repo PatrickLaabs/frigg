@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/PatrickLaabs/frigg/internal/capi_controller"
 	"github.com/PatrickLaabs/frigg/internal/clusterapi"
+	"github.com/PatrickLaabs/frigg/internal/consts"
 	"github.com/PatrickLaabs/frigg/internal/directories"
 	"github.com/PatrickLaabs/frigg/internal/generate"
 	"github.com/PatrickLaabs/frigg/internal/helmchart"
@@ -81,7 +82,7 @@ func NewCommand(logger log.Logger, streams cmd.IOStreams) *cobra.Command {
 	c.Flags().StringVar(
 		&flags.ImageName,
 		"image",
-		"",
+		"kindest/node:"+consts.KubernetesVersion,
 		"node docker image to use for booting the cluster",
 	)
 	c.Flags().BoolVar(
@@ -172,6 +173,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	capi_controller.CoreProviderGen()
 	capi_controller.DockerInfraProviderGen()
 	capi_controller.AddonHelmProviderGen()
+	capi_controller.VclusterProviderGen()
 
 	// Generating HelmChartProxies
 	println(color.GreenString("Generating Helm Chart Proxy Manifests.."))
@@ -223,6 +225,8 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	clusterapi.CreateCaaphNs()
 	clusterapi.CreateKubeadmBootstrapNs()
 	clusterapi.CreateKubeAdmControlPlaneNs()
+	clusterapi.CreateVclusterProvNs()
+	clusterapi.CreateVclusterNs()
 
 	// Installing CertManager
 	println(color.YellowString("Applying CertManager"))
@@ -245,6 +249,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	statuscheck.ConditionsCapiControllers()
 
 	clusterapi.ApplyDockerInfraProv()
+	clusterapi.VclusterInfraProv()
 	statuscheck.ConditionsCapdControllers()
 
 	clusterapi.ApplyAddonHelmProv()
@@ -285,6 +290,8 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	clusterapi.CreateCapiNsMgmt()
 	clusterapi.CreateCapdNsMgmt()
 	clusterapi.CreateCaaphNsMgmt()
+	clusterapi.CreateVclusterProvNsMgmt()
+	clusterapi.CreateVclusterNsMgmt()
 	clusterapi.CreateKubeadmBootstrapNsMgmt()
 	clusterapi.CreateKubeAdmControlPlaneNsMgmt()
 
@@ -310,6 +317,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 	//clusterapi.ApplyDockerInfraProvMgmt()
 	println(color.GreenString("Installation of the ClusterAPI Provider CAPD and waiting for the 'Ready' conditions.."))
 	clusterapi.ApplyDockerInfraProvMgmt()
+	clusterapi.VclusterInfraProvMgmt()
 	clusterapi.ClusterAPIMgmt()
 	statuscheck.ConditionsCapdControllersMgmt()
 
