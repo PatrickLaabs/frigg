@@ -17,7 +17,7 @@ require (
 	github.com/spf13/pflag v1.0.5
 	golang.org/x/crypto v0.22.0
 	gopkg.in/yaml.v3 v3.0.1
-	k8s.io/apimachinery v0.29.3
+	k8s.io/apimachinery v0.30.0
 	k8s.io/client-go v0.29.3
 	sigs.k8s.io/yaml v1.4.0
 )
