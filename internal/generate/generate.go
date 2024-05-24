@@ -2,14 +2,15 @@ package generate
 
 import (
 	"fmt"
-	"github.com/PatrickLaabs/frigg/internal/consts"
-	"github.com/PatrickLaabs/frigg/internal/vars"
-	"github.com/fatih/color"
-	"gopkg.in/yaml.v3"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
+
+	"github.com/PatrickLaabs/frigg/internal/consts"
+	"github.com/PatrickLaabs/frigg/internal/vars"
+	"github.com/fatih/color"
+	"gopkg.in/yaml.v3"
 )
 
 var (
@@ -1193,7 +1194,43 @@ func MgmtArgoCD() {
   name: server
 crds:
   keep: false
+repoServer:
+   extraContainers:
+     - name: cdk8s
+       command:
+         - "/var/run/argocd/argocd-cmp-server"
+       image: ghcr.io/patricklaabs/argocd-cmp-container:1.1.0
+       securityContext:
+         runAsNonRoot: true
+         runAsUser: 999
+       volumeMounts:
+         - mountPath: /var/run/argocd
+           name: var-files
+         - mountPath: /home/argocd/cmp-server/plugins
+           name: plugins
+         - mountPath: /home/argocd/cmp-server/config/plugin.yaml
+           name: argocd-cmp-cm
+           subPath: cdk8s.yaml
+         - mountPath: /.cache
+           name: cache-dir
+   volumes:
+     - name: argocd-cmp-cm
+       configMap:
+         name: argocd-cmp-cm
+     - name: cache-dir
+       emptyDir: {}
 configs:
+  cmp:
+    create: true
+    plugins:
+      cdk8s:
+        init:
+          command: ["sh", "-c"]
+          args:
+            - /usr/local/bin/cdk8s synth
+        generate:
+          command: ["sh", "-c"]
+          args: ["cat dist/*"]
   params:
     server.insecure: true
   ssh:
