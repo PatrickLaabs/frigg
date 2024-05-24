@@ -266,7 +266,7 @@ func runE(logger log.Logger, streams cmd.IOStreams, flags *flagpole) error {
 
 	// Retrieves the kubeconfig for the frigg-mgmt-cluster from the bootstrap cluster
 	// so that we can later on use the kubeconfig to target the correct cluster for deployments.
-	wait.Wait(2 * time.Second)
+	wait.Wait(10 * time.Second)
 	kubeconfig.RetrieveMgmtKubeconfig()
 
 	// Modifes the kubeconfig, to let us interact with the newly created kubernetes cluster.
