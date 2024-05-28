@@ -651,3 +651,24 @@ func ApplyCapiOperatorMgmt() {
 		return
 	}
 }
+
+// KubectlApplyVclusterWorkload todo
+func KubectlApplyVclusterWorkload() {
+	println(color.GreenString("Applying workload cluster manifest to the management cluster"))
+
+	kubeconfigFlagPath := filepath.Join(friggDir, vars.ManagementKubeconfigName)
+	workloadcluster := filepath.Join(friggDir, vars.WorkloadManifest)
+
+	cmd := exec.Command(kubectlPath, "--kubeconfig",
+		kubeconfigFlagPath, "apply",
+		"-f", workloadcluster,
+	)
+
+	// Capture the output of the command
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		println(color.RedString("Error running kubectl: %v\n", err))
+		println(color.YellowString(string(output)))
+		return
+	}
+}
