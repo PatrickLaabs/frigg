@@ -6,7 +6,7 @@ require (
 	github.com/BurntSushi/toml v1.4.0
 	github.com/alessio/shellescape v1.4.2
 	github.com/evanphx/json-patch/v5 v5.9.0
-	github.com/fatih/color v1.16.0
+	github.com/fatih/color v1.17.0
 	github.com/go-git/go-git/v5 v5.12.0
 	github.com/google/safetext v0.0.0-20240104143208-7a7d9b3d812f
 	github.com/hashicorp/go-getter v1.7.4
