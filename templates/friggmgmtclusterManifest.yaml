@@ -345,7 +345,7 @@ spec:
     - name: podSecurityStandard
       value:
         audit: restricted
-        enabled: true
+        enabled: false
         enforce: baseline
         warn: restricted
     version: v1.29.2

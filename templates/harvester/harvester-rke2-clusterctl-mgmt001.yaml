@@ -117,7 +117,7 @@ spec:
       memory: 2Gi
       networks:
       - default/untagged
-      sshKeyPair: caphv-sshkey
+      sshKeyPair: caph-sshkey
       sshUser: ubuntu
       volumes:
       - bootOrder: 0
@@ -137,7 +137,7 @@ spec:
       memory: 2Gi
       networks:
       - default/untagged
-      sshKeyPair: caphv-sshkey
+      sshKeyPair: caph-sshkey
       sshUser: ubuntu
       volumes:
       - bootOrder: 0

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: mgmtclusters
+  name: example-rk
 ---
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: Cluster
@@ -10,23 +10,23 @@ metadata:
     ccm: external
     cni: external
     csi: external
-  name: mgmt000
-  namespace: mgmtclusters
+  name: test-rk
+  namespace: example-rk
 spec:
   controlPlaneRef:
     apiVersion: controlplane.cluster.x-k8s.io/v1beta1
     kind: RKE2ControlPlane
-    name: mgmt000-control-plane
+    name: test-rk-control-plane
   infrastructureRef:
     apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
     kind: HarvesterCluster
-    name: mgmt000-hv
+    name: test-rk-hv
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
 kind: HarvesterCluster
 metadata:
-  name: mgmt000-hv
-  namespace: mgmtclusters
+  name: test-rk-hv
+  namespace: example-rk
 spec:
   identitySecret:
     name: hv-identity-secret
@@ -43,24 +43,24 @@ spec:
 ---
 apiVersion: v1
 data:
-  kubeconfig: asdf
+  kubeconfig: YXBpVmVyc2lvbjogdjEKY2x1c3RlcnM6Ci0gY2x1c3RlcjoKICAgIGNlcnRpZmljYXRlLWF1dGhvcml0eS1kYXRhOiBMUzB0TFMxQ1JVZEpUaUJEUlZKVVNVWkpRMEZVUlMwdExTMHRDazFKU1VKbGFrTkRRVklyWjBGM1NVSkJaMGxDUVVSQlMwSm5aM0ZvYTJwUFVGRlJSRUZxUVd0TlUwbDNTVUZaUkZaUlVVUkVRbXg1WVRKVmVVeFlUbXdLWTI1YWJHTnBNV3BaVlVGNFRtcGpNRTFFVVhoTmVsa3pUVUkwV0VSVVNYcE5SRVY0VDBSRmVFMXFhM2xPTVc5WVJGUk5lazFFUlhoT1ZFVjRUV3ByZVFwT01XOTNTa1JGYVUxRFFVZEJNVlZGUVhkM1dtTnRkR3hOYVRGNldsaEtNbHBZU1hSWk1rWkJUVlJaTTA1RVFUQk5WRTB5VG5wQ1drMUNUVWRDZVhGSENsTk5ORGxCWjBWSFEwTnhSMU5OTkRsQmQwVklRVEJKUVVKTlVWUlJSM0pEZDB4clIwUjJUMWg1VDFaamJtaFpSMHN6V0d4TlNUUkVOVGREU21OWWRuUUtjMDU2Tm1OSFZsTTBTbVYxV1RNeldrMDNkM0pUUjNkT01tcHhaMmh6ZW5sa1puUm5Ua0pxWjJkUU5HRmFTMWRxVVdwQ1FVMUJORWRCTVZWa1JIZEZRZ292ZDFGRlFYZEpRM0JFUVZCQ1owNVdTRkpOUWtGbU9FVkNWRUZFUVZGSUwwMUNNRWRCTVZWa1JHZFJWMEpDVkhWWE0wSkpkR1E0T0hVMk0zQlNiRU5TQ25sbFJXRlZZbTV5WlZSQlMwSm5aM0ZvYTJwUFVGRlJSRUZuVGtwQlJFSkhRV2xGUVhJeE0xQmthVlJ2Y0habVYyRjRjVEJpVW10ME1TdEhWVEl2VkVNS1ZsRkpWbXczT1dkWlIwMVdNV00wUTBsUlEzQXpiRFl2UkhWNlN5dFNkVWM1TVhKek5EVnpSMWh5TXpGS1Mwa3dTbE56YjBvNFZrVklNRU5RUTJjOVBRb3RMUzB0TFVWT1JDQkRSVkpVU1VaSlEwRlVSUzB0TFMwdENnPT0KICAgIHNlcnZlcjogaHR0cHM6Ly8xOTIuMTY4LjEuMTYxOjY0NDMKICBuYW1lOiBkZWZhdWx0CmNvbnRleHRzOgotIGNvbnRleHQ6CiAgICBjbHVzdGVyOiBkZWZhdWx0CiAgICB1c2VyOiBkZWZhdWx0CiAgbmFtZTogZGVmYXVsdApjdXJyZW50LWNvbnRleHQ6IGRlZmF1bHQKa2luZDogQ29uZmlnCnByZWZlcmVuY2VzOiB7fQp1c2VyczoKLSBuYW1lOiBkZWZhdWx0CiAgdXNlcjoKICAgIGNsaWVudC1jZXJ0aWZpY2F0ZS1kYXRhOiBMUzB0TFMxQ1JVZEpUaUJEUlZKVVNVWkpRMEZVUlMwdExTMHRDazFKU1VKclZFTkRRVlJwWjBGM1NVSkJaMGxKU21oMWNEbDVha2RuU21OM1EyZFpTVXR2V2tsNmFqQkZRWGRKZDBwRVJXbE5RMEZIUVRGVlJVRjNkMW9LWTIxMGJFMXBNV3BpUjJ4c1ltNVJkRmt5UmtGTlZGa3pUa1JCTUUxVVRUSk9la0ZsUm5jd2VVMTZRWGhOVkdkNFRWUkpOVTFxWkdGR2R6QjVUa1JCZUFwTlZHZDRUVlJKTlUxcVpHRk5SRUY0Um5wQlZrSm5UbFpDUVc5VVJHNU9OV016VW14aVZIQjBXVmhPTUZwWVNucE5VbFYzUlhkWlJGWlJVVVJGZDNoNkNtVllUakJhVnpBMldWZFNkR0ZYTkhkWFZFRlVRbWRqY1docmFrOVFVVWxDUW1kbmNXaHJhazlRVVUxQ1FuZE9RMEZCVkZrNVNHTlNTRzR3V2tjdmVVUUtSRlZOTVZaT09IUXhVVlpoUTAxRWRFVnROVWxXUVRGNGNtazRlR3BIV2pad01reHBkVlJIWjJaS1UxQlBMME5xUVcxT1NFNTVjVmRISzJ4SFdGZFliUXBoZVRoU2IzcG1RVzh3WjNkU2FrRlBRbWRPVmtoUk9FSkJaamhGUWtGTlEwSmhRWGRGZDFsRVZsSXdiRUpCZDNkRFoxbEpTM2RaUWtKUlZVaEJkMGwzQ2toM1dVUldVakJxUWtKbmQwWnZRVlYyWlVrMmMyWkdjMEpTZVdvemVUTnlXVlpIU0cxUVRrVXdVMk4zUTJkWlNVdHZXa2w2YWpCRlFYZEpSRkozUVhjS1VrRkpaMlpYUlVOQldsWmhSRGRGUWtwaFVqbFhUV1ZQVmpKeFFYZFBUMHgzY2k4d1ZWcEtOSFpqTTA0clduTkRTVVZLVkhnMFdEWnNhbFJWYzNGNmN3cHZRVTU1TTFSUWMyRXlaMU53VDNWSGIyWjBhR051Y0RoT05UQjBDaTB0TFMwdFJVNUVJRU5GVWxSSlJrbERRVlJGTFMwdExTMEtMUzB0TFMxQ1JVZEpUaUJEUlZKVVNVWkpRMEZVUlMwdExTMHRDazFKU1VKbGFrTkRRVklyWjBGM1NVSkJaMGxDUVVSQlMwSm5aM0ZvYTJwUFVGRlJSRUZxUVd0TlUwbDNTVUZaUkZaUlVVUkVRbXg1WVRKVmVVeFhUbk1LWVZkV2RXUkRNV3BaVlVGNFRtcGpNRTFFVVhoTmVsa3pUVUkwV0VSVVNYcE5SRVY0VDBSRmVFMXFhM2xPTVc5WVJGUk5lazFFUlhoT1ZFVjRUV3ByZVFwT01XOTNTa1JGYVUxRFFVZEJNVlZGUVhkM1dtTnRkR3hOYVRGcVlrZHNiR0p1VVhSWk1rWkJUVlJaTTA1RVFUQk5WRTB5VG5wQ1drMUNUVWRDZVhGSENsTk5ORGxCWjBWSFEwTnhSMU5OTkRsQmQwVklRVEJKUVVKTVdtWldRV0ZwUTNGdmRVVmpZVVp2WTJ4UFNHNXVUM0JzTUhoYVMyVnlVMUZ1VTJNM1ZHTUthRmR6TDBGTFluazRLekYxWTBkcldIZ3dSMWRWTVRCUFNISmlUbmxJTUVSNlJscGhiR0ZVWVUxSmVVSnplbmxxVVdwQ1FVMUJORWRCTVZWa1JIZEZRZ292ZDFGRlFYZEpRM0JFUVZCQ1owNVdTRkpOUWtGbU9FVkNWRUZFUVZGSUwwMUNNRWRCTVZWa1JHZFJWMEpDVXprMGFuRjRPRmQzUmtoTFVHWk1aWFJvQ2xWWlpWazRNRlJTU25wQlMwSm5aM0ZvYTJwUFVGRlJSRUZuVGtwQlJFSkhRV2xGUVhoTlVHMU9MMk5WYkVrdmRXSTJPV05xTVd0RGMzcHhZbFJzZGxNS1NXbEhlSFpLUkd4SFJuVTRRMFJGUTBsUlJHMHllVEE1ZEZJNFJsQkdVV3h0UW5KeFFWSkVXRXRGVDFGMGMzRk5PWGhUYUVWcE1qWkdlblJCYkZFOVBRb3RMUzB0TFVWT1JDQkRSVkpVU1VaSlEwRlVSUzB0TFMwdENnPT0KICAgIGNsaWVudC1rZXktZGF0YTogTFMwdExTMUNSVWRKVGlCRlF5QlFVa2xXUVZSRklFdEZXUzB0TFMwdENrMUlZME5CVVVWRlNVdGtSak5XVjJkdFNVeERlRlJ6U0VwU2NYWXpSbmRuWXl0U05rTlRNSHBxT0dOaWNIaE9NSHBVT0RKdlFXOUhRME54UjFOTk5Ea0tRWGRGU0c5VlVVUlJaMEZGTWxCU00wVlNOVGxIVW5ZNFozY3hSRTVXVkdaTVpGVkdWMmRxUVRkU1NuVlRSbEZPWTJFMGRrMVplRzFsY1dScE5ISnJlQXB2U0hsVmFucDJkMjkzU21wU2VtTnhiR2gyY0ZKc01XdzFiWE4yUldGTk0zZEJQVDBLTFMwdExTMUZUa1FnUlVNZ1VGSkpWa0ZVUlNCTFJWa3RMUzB0TFFvPQo=
 kind: Secret
 metadata:
   name: hv-identity-secret
-  namespace: mgmtclusters
+  namespace: example-rk
 ---
 apiVersion: controlplane.cluster.x-k8s.io/v1alpha1
 kind: RKE2ControlPlane
 metadata:
-  name: mgmt000-control-plane
-  namespace: mgmtclusters
+  name: test-rk-control-plane
+  namespace: example-rk
 spec:
   agentConfig:
     version: v1.26.6+rke2r1
   infrastructureRef:
     apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
     kind: HarvesterMachineTemplate
-    name: mgmt000-cp-machine
+    name: test-rk-cp-machine
     namespace: mgmtclusters
   replicas: 1
   serverConfig:
@@ -70,8 +70,8 @@ spec:
 apiVersion: bootstrap.cluster.x-k8s.io/v1alpha1
 kind: RKE2ConfigTemplate
 metadata:
-  name: mgmt000-worker
-  namespace: mgmtclusters
+  name: test-rk-worker
+  namespace: example-rk
 spec:
   template:
     spec:
@@ -81,35 +81,35 @@ spec:
 apiVersion: cluster.x-k8s.io/v1beta1
 kind: MachineDeployment
 metadata:
-  name: mgmt000-workers
-  namespace: mgmtclusters
+  name: test-rk-workers
+  namespace: example-rk
 spec:
-  clusterName: mgmt000
+  clusterName: test-rk
   replicas: 1
   selector:
     matchLabels:
-      cluster.x-k8s.io/cluster-name: mgmt000
+      cluster.x-k8s.io/cluster-name: test-rk
   template:
     spec:
       bootstrap:
         configRef:
           apiVersion: bootstrap.cluster.x-k8s.io/v1beta1
           kind: RKE2ConfigTemplate
-          name: mgmt000-worker
+          name: test-rk-worker
           namespace: mgmtclusters
-      clusterName: mgmt000
+      clusterName: test-rk
       infrastructureRef:
         apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
         kind: HarvesterMachineTemplate
-        name: mgmt000-wk-machine
+        name: test-rk-wk-machine
         namespace: mgmtclusters
       version: v1.26.6
 ---
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
 kind: HarvesterMachineTemplate
 metadata:
-  name: mgmt000-wk-machine
-  namespace: mgmtclusters
+  name: test-rk-wk-machine
+  namespace: example-rk
 spec:
   template:
     spec:
@@ -117,7 +117,7 @@ spec:
       memory: 4Gi
       networks:
       - default/untagged
-      sshKeyPair: caphv-sshkey
+      sshKeyPair: caph-sshkey
       sshUser: ubuntu
       volumes:
       - bootOrder: 0
@@ -128,8 +128,8 @@ spec:
 apiVersion: infrastructure.cluster.x-k8s.io/v1alpha1
 kind: HarvesterMachineTemplate
 metadata:
-  name: mgmt000-cp-machine
-  namespace: mgmtclusters
+  name: test-rk-cp-machine
+  namespace: example-rk
 spec:
   template:
     spec:
@@ -137,7 +137,7 @@ spec:
       memory: 8Gi
       networks:
       - default/untagged
-      sshKeyPair: caphv-sshkey
+      sshKeyPair: caph-sshkey
       sshUser: ubuntu
       volumes:
       - bootOrder: 0
@@ -149,7 +149,7 @@ apiVersion: addons.cluster.x-k8s.io/v1beta1
 kind: ClusterResourceSet
 metadata:
   name: crs-harvester-ccm
-  namespace: mgmtclusters
+  namespace: example-rk
 spec:
   clusterSelector:
     matchLabels:
@@ -163,7 +163,7 @@ apiVersion: addons.cluster.x-k8s.io/v1beta1
 kind: ClusterResourceSet
 metadata:
   name: crs-harvester-csi
-  namespace: mgmtclusters
+  namespace: example-rk
 spec:
   clusterSelector:
     matchLabels:
@@ -177,7 +177,7 @@ apiVersion: addons.cluster.x-k8s.io/v1beta1
 kind: ClusterResourceSet
 metadata:
   name: crs-calico-chart-config
-  namespace: mgmtclusters
+  namespace: example-rk
 spec:
   clusterSelector:
     matchLabels:
@@ -450,7 +450,7 @@ data:
 kind: ConfigMap
 metadata:
   name: cloud-controller-manager-addon
-  namespace: mgmtclusters
+  namespace: example-rk
 ---
 apiVersion: v1
 data:
@@ -572,7 +572,7 @@ data:
 kind: ConfigMap
 metadata:
   name: harvester-csi-driver-addon
-  namespace: mgmtclusters
+  namespace: example-rk
 ---
 apiVersion: v1
 data:
@@ -599,4 +599,4 @@ data:
 kind: ConfigMap
 metadata:
   name: calico-helm-config
-  namespace: mgmtclusters
+  namespace: example-rk
