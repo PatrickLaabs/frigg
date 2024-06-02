@@ -334,7 +334,7 @@ spec:
     class: quick-start
     controlPlane:
       metadata: {}
-      replicas: 1
+      replicas: 3
     variables:
     - name: imageRepository
       value: ""
@@ -353,8 +353,8 @@ spec:
       machineDeployments:
       - class: default-worker
         name: md-0
-        replicas: 1
+        replicas: 3
       machinePools:
       - class: default-worker
         name: mp-0
-        replicas: 1
+        replicas: 3
