@@ -1,3 +1,6 @@
+# ARCHIVED
+Frigg will be refactored and moves into a new home: [eros](https://github.com/PatrickLaabs/eros)
+
 # Frigg
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/PatrickLaabs/frigg.svg)](https://pkg.go.dev/github.com/PatrickLaabs/frigg)
